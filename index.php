@@ -80,13 +80,15 @@
     </script>
     <div class="coluna_central">
         <div class="container_login_cadastro">
-            <button onclick="mostrarModal();">Criar conta</button>
-            <button onclick="chamarFbLogin();">Entrar com o facebook</button>
-            <button style="color: #00CC7A;">Entrar</button>
-            <form class="container_form_login">
-                <input type="email" name="emailEntrar" placeholder="email" required>
-                <input type="password" name="senhaEntrar" placeholder="senha" required>
-            </form>
+            <div class="subcontainer_login_cadastro">
+                <form class="container_form_login">
+                    <input type="email" name="emailEntrar" placeholder="email" required>
+                    <input type="password" name="senhaEntrar" placeholder="senha" required>
+                </form>
+                <button style="color: #00CC7A;">Entrar</button>
+                <button onclick="chamarFbLogin();">Entrar com o facebook</button>
+                <button onclick="mostrarModal();">Criar conta</button>
+            </div>
         </div>
         <div class="container_form_busca">
             <form method="post">
@@ -96,7 +98,7 @@
             <br>
             <a href="pages/teste.php">Página de teste</a>
         </div>
-        <p class="rodape">LE16 project. Day 9, working...</p>
+        <p class="rodape">LE16 project. Day 10, working...</p>
     </div>
     <!--
     DIV COM EFEITO MODAL, contém o formulário para criar conta
