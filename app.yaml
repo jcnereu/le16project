@@ -1,0 +1,42 @@
+runtime: php55
+api_version: 1
+# Referência em: https://cloud.google.com/appengine/docs/standard/php/config/appref
+
+# Aparentemente, o app.yaml é o novo config.inc.php
+
+error_handlers:
+- file: default_error.html
+
+handlers:
+#*********************************************************************************#
+#                                       CSS                                       #
+#*********************************************************************************#
+- url: /stylesheets
+  static_dir: stylesheets
+#*********************************************************************************#
+#                                   Páginas PHP                                   #
+#*********************************************************************************#
+# As classes (exemplo.class.php) não precisam ser declaradas aqui!
+# Home, destino após o login
+- url: /pages/home.php
+  script: pages/home.php
+# Página de teste
+- url: /pages/teste.php
+  script: pages/teste.php
+  
+- url: /config/conn/read.class.php
+  script: config/conn/read.class.php
+  
+# Index
+- url: /.*
+  script: index.php
+#*********************************************************************************#
+#                                 Banco de dados                                  #
+#*********************************************************************************#
+# DEFINIÇÕES DO BANCO DE DADOS TRANFERIDAS PARA: config/loadConn.inc.php
+#env_variables:
+  # Replace project, instance, database, user and password with the values obtained
+  # when configuring your Cloud SQL instance.
+  #MYSQL_DSN: mysql:unix_socket=/cloudsql/le16project:us-central1:le16project-db1;dbname=teste
+  #MYSQL_USER: root
+  #MYSQL_PASSWORD: a4010b3010c2010d1
