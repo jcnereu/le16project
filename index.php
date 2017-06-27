@@ -84,8 +84,9 @@
                 <form class="container_form_login">
                     <input type="email" name="emailEntrar" placeholder="email" required>
                     <input type="password" name="senhaEntrar" placeholder="senha" required>
+                    <input type="submit" name="Entrar" value="Entrar">
                 </form>
-                <button style="color: #00CC7A;">Entrar</button>
+                <!--<button style="color: #00CC7A;">Entrar</button>-->
                 <button onclick="chamarFbLogin();">Entrar com o facebook</button>
                 <button onclick="mostrarModal();">Criar conta</button>
             </div>
@@ -98,7 +99,7 @@
             <br>
             <a href="pages/teste.php">Página de teste</a>
         </div>
-        <p class="rodape">LE16 project. Day 10, working...</p>
+        <p class="rodape">LE16 project. Day 11, 1 skip, working...</p>
     </div>
     <!--
     DIV COM EFEITO MODAL, contém o formulário para criar conta

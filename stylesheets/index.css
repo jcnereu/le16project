@@ -10,11 +10,11 @@ body {
 }
 /* Links para login e cadastro. No canto superior direito. */
 .container_login_cadastro {
-    width: 100%; height: 30px; clear: right;
+    width: 100%; clear: right;
 }
-.subcontainer_login_cadastro{float: right; clear: left;} /* Apenas para inverter a sequencia de declaração dos elementos (navegação com Tab)*/
+.subcontainer_login_cadastro {float: right; width: 100%;/*clear: left;*/} /* Apenas para inverter a sequencia de declaração dos elementos (navegação com Tab)*/
 .container_login_cadastro button {
-    float: left;
+    /*float: left;*/ display: inline-block;
     margin: 5px 1px;
     border: none;
     color: #428BDD;
@@ -24,21 +24,33 @@ body {
     cursor: pointer;
     text-decoration: underline;
 }
-.container_form_login {float: left;}
+/*.container_form_login {float: left;}*/
 .container_form_login input[type=email] {
-    width: 125px; margin-right: 6px; padding: 4px;
+    /*float: left;*/ display: inline-block;
+    width: 44%; margin-right: 1%; padding: 2%;
     border: 1px solid #00CC7A; border-radius: 3px;
 }
 .container_form_login input[type=password] {
-    width: 110px; margin-right: 4px; padding: 4px;
+    /*float: left;*/ display: inline-block;
+    width: 44%; padding: 2%;
     border: 1px solid #00CC7A; border-radius: 3px;
+}
+.container_login_cadastro input[type=submit]{
+    /*float: left;*/ display: inline-block;
+    width: 99%; padding: 2%; margin-top: 2%;
+    background-color: #00CC7A; color: white;
+    border: none; border-radius: 4px;
+}
+.container_login_cadastro input[type=submit]:hover {
+    cursor: pointer;
+    background-color: #00B36B;
 }
 /* Formulário com o input de texto para busca*/
 .container_form_busca {
     width: 100%; height: 60%;
 }
 .container_form_busca form {
-    margin-top: 20%;
+    padding-top: 40%;
 }
 .caixa_texto_busca {
     width: 90%;
@@ -101,8 +113,44 @@ body {
 /**************************************************************************************************/
 /*                                      LAYOUT RESPONSIVO                                         */
 /**************************************************************************************************/
-@media screen and (min-width: 780px) {
+@media screen and (min-width: 768px) {
     /* Reconfigurando a largura da coluna central*/
     .coluna_central {width: 90%; margin: auto;}
     .caixa_texto_busca {width: 50%;}
+}
+
+@media screen and (min-width: 580px) {
+    .subcontainer_login_cadastro {float: right; width: auto; clear: left;} /* Apenas para inverter a sequencia de declaração dos elementos (navegação com Tab)*/
+    .container_login_cadastro button {
+        float: left;
+        margin: 5px 1px;
+        border: none;
+        color: #428BDD;
+        background-color: #f9f9f9;
+    }
+    .container_form_login {float: left;}
+    .container_form_login input[type=email] {
+        float: left; /*display: inline-block;*/
+        width: 130px; margin-right: 6px; padding: 4px;
+        border: 1px solid #00CC7A; border-radius: 3px;
+    }
+    .container_form_login input[type=password] {
+        float: left; /*display: inline-block;*/
+        width: 130px; margin-right: 6px; padding: 4px;
+        border: 1px solid #00CC7A; border-radius: 3px;
+    }
+    .container_login_cadastro input[type=submit]{
+        float: left; /*display: inline-block;*/
+        width: 50px; padding: 6px; margin-top: 0; /*margin: 5px 1px;*/
+        background-color: #f9f9f9; color: #00CC79;
+        border: none; border-radius: 4px;
+    }
+    .container_login_cadastro input[type=submit]:hover {
+        cursor: pointer;
+        background-color: #eee;
+    }
+    /* Altura da barra de busca*/
+    .container_form_busca form {
+        padding-top: 250px;
+    }
 }
