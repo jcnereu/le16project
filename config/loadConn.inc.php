@@ -8,12 +8,12 @@ define('DB1_DSN','mysql:unix_socket=/cloudsql/le16project:us-central1:le16projec
 define('DB1_USER','root');
 define('DB1_PASSWORD','a4010b3010c2010d1');
 // Carregando a classe para conexão com o banco de dados
-require('conn/conn.class.php');
+require_once 'conn/conn.class.php';
 // Carregando a classe de leitura no banco de dados
-require('conn/read.class.php');
+require_once 'conn/read.class.php';
 // Carregando a classe de inserção no banco de dados
-require('conn/create.class.php');
+require_once 'conn/create.class.php';
 // Carregando a classe de atualização no banco de dados
-require('conn/update.class.php');
+require_once 'conn/update.class.php';
 // Carregando a classe de exclusão no banco de dados
-require('conn/delete.class.php');
+require_once 'conn/delete.class.php';

@@ -1,7 +1,7 @@
 <?php
 /**
  * Description of conn:
- * Cria e retorna um objeto PDO para interação com o banco de dados
+ * Cria e retorna um objeto PDO para interação com o banco de dados teste na instÂncia le16project-db1
  * @author JoaoCarlosNereu
  */
 class conn {

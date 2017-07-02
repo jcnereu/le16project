@@ -18,6 +18,9 @@ handlers:
 #*********************************************************************************#
 # As classes (exemplo.class.php) não precisam ser declaradas aqui!
 # Home, destino após o login
+- url: /(.+)\.php
+  script: \1.php
+  
 - url: /pages/home.php
   script: pages/home.php
 # Página de teste

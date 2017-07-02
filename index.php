@@ -1,3 +1,32 @@
+<?php
+    /*
+     * AÇÃO DO FORMULÁRIO DE LOGIN
+     */
+    // Pegando os dados do formulário (qualquer um) se algum submit for clicado
+    $dadosFormulario = filter_input_array(INPUT_POST,FILTER_DEFAULT);
+    // Se o usuário clicar em "Entrar"
+    if(isset($dadosFormulario['entrar'])){
+        // Carregando a classe de login
+        require_once 'config/models/login.class.php';
+        // Criando um objeto login e fazendo o login
+        $log = new login();
+        if($log->fazerLogin($dadosFormulario['emailEntrar'],$dadosFormulario['senhaEntrar'])){
+            header('Location: pages/home.php', true, 301); //NÃO FUNCIONA
+            //Gambiarra copiada de: https://stackoverflow.com/questions/1571973/best-way-redirect-reload-pages-in-php
+            // Redirecionado com JS
+            
+            //echo '<script type="text/javascript">';
+            //echo 'window.location.assign("pages/home.php");';
+            //echo '</script>';
+            //$DadosUsuario = $_SESSION['DadosUsuario'];//Aloca todos os dados da sessão na variável $DadosUsuario
+            //echo 'DEPOIS DA SESSION<br>';
+            //var_dump($DadosUsuario);
+        } else {
+            echo 'DADOS INVÁLIDOS.';
+            //Pegar mensagens de erro do método fazerLogin
+        }
+    }
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -81,12 +110,11 @@
     <div class="coluna_central">
         <div class="container_login_cadastro">
             <div class="subcontainer_login_cadastro">
-                <form class="container_form_login">
+                <form class="container_form_login" method="post">
                     <input type="email" name="emailEntrar" placeholder="email" required>
                     <input type="password" name="senhaEntrar" placeholder="senha" required>
-                    <input type="submit" name="Entrar" value="Entrar">
+                    <input type="submit" name="entrar" value="Entrar">
                 </form>
-                <!--<button style="color: #00CC7A;">Entrar</button>-->
                 <button onclick="chamarFbLogin();">Entrar com o facebook</button>
                 <button onclick="mostrarModal();">Criar conta</button>
             </div>
@@ -99,7 +127,7 @@
             <br>
             <a href="pages/teste.php">Página de teste</a>
         </div>
-        <p class="rodape">LE16 project. Day 11, 1 skip, working...</p>
+        <p class="rodape">LE16 project. Day 16, 2 skips, working...</p>
     </div>
     <!--
     DIV COM EFEITO MODAL, contém o formulário para criar conta

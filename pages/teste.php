@@ -1,3 +1,13 @@
+<?php
+    $bool = session_start();
+    var_dump($bool);
+    // Checar login
+    if(empty($_SESSION['dadosUsuario'])):
+        echo 'Sessão do usuário não encontrada.<br>';
+    else:
+        var_dump($_SESSION['dadosUsuario']);
+    endif;
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -11,7 +21,7 @@
     $resultado = 0;
     if(isset($dadosFormulario['somar'])){
         // Carregando a classe de teste
-        require('../config/teste/teste.class.php');
+        require_once '../config/teste/teste.class.php';
         $var = new teste();
         $resultado = $var->somar($dadosFormulario['num1'],$dadosFormulario['num2']);
     }
@@ -23,7 +33,7 @@
         // Pegando o nome informado no formulário
         $nomeFormulario = $dadosFormulario['busca'];
         // Carregando as classes para interação com o banco de dados
-        require('../config/loadConn.inc.php');
+        require_once '../config/loadConn.inc.php';
         // Fazendo a busca
         $busca = new read();
         $busca->fazerBusca('SELECT * FROM usuarios WHERE nome = :nome',"nome={$nomeFormulario}");
@@ -37,7 +47,7 @@
     $contaResultados = '';
     if(isset($dadosFormulario['contar'])){
         // Carregando as classes para interação com o banco de dados
-        require('../config/loadConn.inc.php');
+        require_once '../config/loadConn.inc.php';
         // Fazendo a busca
         $busca = new read();
         $busca->fazerBusca('SELECT * FROM usuarios');
@@ -53,7 +63,7 @@
         $cursoFormulario = $dadosFormulario['curso'];
         $pesquisaFormulario = $dadosFormulario['pesquisa'];
         // Carregando as classes para interação com o banco de dados
-        require('../config/loadConn.inc.php');
+        require_once '../config/loadConn.inc.php';
         // Fazendo a inserção
         $insercao = new create();
         $insercao->fazerInsercao('usuarios',array('nome'=>$nomeFormulario,'curso'=>$cursoFormulario,'pesquisa'=>$pesquisaFormulario));
@@ -68,7 +78,7 @@
             $cursoFormulario = $dadosFormulario['curso'];
             $pesquisaFormulario = $dadosFormulario['pesquisa'];
             // Carregando as classes para interação com o banco de dados
-            require('../config/loadConn.inc.php');
+            require_once '../config/loadConn.inc.php';
             // Fazendo a atualização
             $atualizacao = new update();
             $atualizacao->fazerAtualizacao('usuarios',array('curso'=>'dummy','pesquisa'=>'dummy'),"id={$dadosFormulario['idAtualizacao']}","curso={$cursoFormulario}&pesquisa={$pesquisaFormulario}");
@@ -84,7 +94,7 @@
     if(isset($dadosFormulario['excluir'])){
         if(!empty($dadosFormulario['idExclusao'])){
             // Carregando as classes para interação com o banco de dados
-            require('../config/loadConn.inc.php');
+            require_once '../config/loadConn.inc.php';
             // Fazendo a exclusão
             $exclusao = new delete();
             $exclusao->fazerExclusao('usuarios',"id = :id","id={$dadosFormulario['idExclusao']}");
@@ -98,6 +108,12 @@
     }
   ?>
   <body>
+    <script>
+        /* EXEMPLO DE REDIRECIONAMENTO COM JS*/
+        function voltar() {
+            window.location.assign("../index.php");
+        }
+    </script>
     <h1>Página de teste.</h1>
     <h2>Chamada de classes e métdos</h2>
     <form method="post">
@@ -126,6 +142,7 @@
     <p>Último ID inserido: <?php echo $resultadoInsercao;?></p>
     <p>Status atualização: <?php echo $msgAtualizacao;?></p>
     <p>Status exclusão: <?php echo $msgExclusao;?></p>
-    <a href="../index.php">index</a>
+    <a href="../index.php">index (link)</a>
+    <button onclick="voltar();">index (botão com redir JS)</button>
   </body>
 </html>
