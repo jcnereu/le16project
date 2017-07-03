@@ -13,7 +13,9 @@ class login {
     private $senha;
     private $nome;
     private $id;
-    
+    private $mensagem;
+
+
     public function fazerLogin($email,$senha) {
         $this->emailForm = (String) strip_tags(trim($email));
         $this->senhaForm = (String) strip_tags(trim($senha));
@@ -23,12 +25,12 @@ class login {
                 return true;
             }
             else {
-                echo 'SENHA INVÁLIDA.';
+                $this->mensagem = ['Senha inválida.',MSG_ALERT];
                 return false;
             }
         }
         else {
-            echo 'EMAIL NÃO ENCONTRADO';
+            $this->mensagem = ['Email não encontrado.',MSG_ALERT];
             return false;
         }
         
@@ -40,6 +42,10 @@ class login {
         else:
             return true;
         endif;
+    }
+    
+    public function pegarMensagem() {
+        return $this->mensagem;
     }
     
     //MÉTODOS PRIVADOS

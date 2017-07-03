@@ -13,6 +13,7 @@
   <head>
     <meta charset="UTF-8">
     <title>LE16</title>
+    <link type="text/css" rel="stylesheet" href="../stylesheets/index.css"/>
   </head>
   <?php
     // Pegando os dados do formulário se algum submit for clicado
@@ -106,6 +107,19 @@
     } else {
         $msgExclusao = '';
     }
+    //TESTES COM AS MENSSAGENS DO SISTEMA
+    if(isset($dadosFormulario['msg'])){
+        require_once '../config/loadMsg.inc.php';
+        if($dadosFormulario['msg']=='Infor'){
+            $msgTeste = ['Mensagem de <b>Informação</b> padrão para teste.',MSG_INFOR];
+        } elseif($dadosFormulario['msg']=='Accept'){
+            $msgTeste = ['Mensagem de <b>Notificação de aceite</b> para teste.',MSG_ACCEPT];
+        } elseif($dadosFormulario['msg']=='Alert'){
+            $msgTeste = ['Mensagem de <b>Alerta</b> para teste.',MSG_ALERT];
+        } elseif($dadosFormulario['msg']=='Error'){
+            $msgTeste = ['Mensagem de <b>Erro</b> padrão para teste.',MSG_ERROR];
+        }
+    }
   ?>
   <body>
     <script>
@@ -142,6 +156,19 @@
     <p>Último ID inserido: <?php echo $resultadoInsercao;?></p>
     <p>Status atualização: <?php echo $msgAtualizacao;?></p>
     <p>Status exclusão: <?php echo $msgExclusao;?></p>
+    <h2>Mensagens do sistema</h2>
+    <?php
+        if(isset($msgTeste)){
+            msgSistema($msgTeste[0],$msgTeste[1]);
+        }
+    ?>
+    <br>
+    <form method="post">
+        <input type="submit" name="msg" value="Infor">
+        <input type="submit" name="msg" value="Accept">
+        <input type="submit" name="msg" value="Alert">
+        <input type="submit" name="msg" value="Error">
+    </form>
     <a href="../index.php">index (link)</a>
     <button onclick="voltar();">index (botão com redir JS)</button>
   </body>

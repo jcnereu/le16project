@@ -110,6 +110,14 @@ body {
 .modal_body {
     padding: 2px 16px;
 }
+/* Mensagens do sistema */
+.caixa_msg_sistema {float: left; width: 250px; margin-right: 5px; padding: 5px 10px; border-radius: 4px; font-size: 14px;}
+.botao_fechar_msg_sistema {float: right; color: white; font-size: 22px;}
+.botao_fechar_msg_sistema:hover {color: #000; cursor: pointer;}
+.msg_infor {background-color: #1A62F2; color: white;}
+.msg_accept {background-color: #00B36B; color: white;}
+.msg_alert {background-color: #F9B01D; color: white;}
+.msg_error {background-color: #F2371A; color: white;}
 /**************************************************************************************************/
 /*                                      LAYOUT RESPONSIVO                                         */
 /**************************************************************************************************/
