@@ -1,7 +1,19 @@
 <?php
+    // VERIFICANDO A SESSÃO
     $bool = session_start();
+    // ATALHO PARA A HOME (Deve ser aqui por causa do header)
+    $atalho = filter_input(INPUT_GET,'atalho',FILTER_DEFAULT);
+    if(isset($atalho)){
+        if($atalho=='home'){
+            if(!session_id()){
+                session_start();
+            }
+            $_SESSION['dadosUsuario'] = array('id'=>1000,'email'=>'$teste@teste.com','senha'=>'12345','nome'=>'Teste');
+        }
+        header('Location: home.php', true, 301);
+    }
+    // Voltando a verificação da sessão
     var_dump($bool);
-    // Checar login
     if(empty($_SESSION['dadosUsuario'])):
         echo 'Sessão do usuário não encontrada.<br>';
     else:
@@ -129,6 +141,10 @@
         }
     </script>
     <h1>Página de teste.</h1>
+    <h2>Atalhos</h2>
+    <ul>
+        <a href="teste.php?atalho=home">Home (com sessão Teste, id 1000)</a>
+    </ul>
     <h2>Chamada de classes e métdos</h2>
     <form method="post">
         Numero 1<input type="text" name="num1"><br>

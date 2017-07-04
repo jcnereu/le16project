@@ -14,11 +14,10 @@
     //Verifica a url e se estiver escrito 'logout' armazena o conteúdo (booleano) na variável logout
     $logout = filter_input(INPUT_GET,'logout',FILTER_VALIDATE_BOOLEAN);
     //Se o usuário clicar em sair
-    if($logout):
+    if($logout){
         unset($_SESSION['dadosUsuario']);//Encerra a sessão
-        //header('location: ../index.php?exe=logout');//Redireciona para a página Login/Cadastro
         header('Location: ../index.php');//Redireciona para a página Login/Cadastro
-    endif;
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,6 +70,9 @@
         }
         // Função chamada quando o usuário clica em logout
         function logout(){
+            // Verfificar se o usuário está logado pelo fb
+            // Se estiver sair com o fb
+            // Se não, fazer logout normal
             FB.logout(function(response) {
                window.location.assign("../index.php");
             });

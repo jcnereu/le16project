@@ -13,21 +13,15 @@
         // Criando um objeto login e fazendo o login
         $log = new login();
         if($log->fazerLogin($dadosFormulario['emailEntrar'],$dadosFormulario['senhaEntrar'])){
-            header('Location: pages/home.php', true, 301); //NÃO FUNCIONA
-            //Gambiarra copiada de: https://stackoverflow.com/questions/1571973/best-way-redirect-reload-pages-in-php
+            header('Location: pages/home.php', true, 301);
             // Redirecionado com JS
-            
             //echo '<script type="text/javascript">';
             //echo 'window.location.assign("pages/home.php");';
             //echo '</script>';
-            //$DadosUsuario = $_SESSION['DadosUsuario'];//Aloca todos os dados da sessão na variável $DadosUsuario
-            //echo 'DEPOIS DA SESSION<br>';
-            //var_dump($DadosUsuario);
+            //Gambiarra copiada de: https://stackoverflow.com/questions/1571973/best-way-redirect-reload-pages-in-php
         } else {
             // Pegando a menssagem de erro
             $msgErroLogin = [$log->pegarMensagem()[0],$log->pegarMensagem()[1]];
-            //$msgTeste = $log->pegarMensagem();
-            //var_dump($log);
         }
     }
 ?>
