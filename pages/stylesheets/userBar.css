@@ -1,0 +1,61 @@
+/* O SIMPLES É O MAIS DIFÍCIL */
+
+/**************************************************************************************************/
+/*                                              MENU                                              */
+/**************************************************************************************************/
+/* Div geral para conter todos elemntos do menu */
+.barra_usuario_menu {
+    float: right; margin: 4px;
+}
+.barra_usuario_menu_botao { /* Não é possível usar apenas apenas o button, pq é preciso uma classe para ocultar o menu*/
+    width: 32px; height: 32px;
+    margin-top: 4px;
+    cursor: pointer;
+    background: #ccc url(backgrounds/menu_icon.png) center no-repeat;
+    border: none;
+    border-radius: 50%;
+}
+.barra_usuario_menu_botao:hover {
+    background-color: #aaa;
+}
+.barra_usuario_menu_conteudo { /* Não é possível usar somente a ul, pq é preciso uma classe na função mostrarMenu()*/
+    display: none;
+    position: absolute; /* Para que seja posicionado em relação a div barra_usuario_container*/
+    margin-top: 5px;
+    overflow: auto;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
+    right: 0; /* Para que a caixa de opções do menu abra para a esquerda */
+    /*z-index: 2; /*Para que o contúdo do menu fique em promeiro plano (A frente da lista de notificações nivel 1) */
+}
+.barra_usuario_menu a {
+    min-width: 140px;
+    padding: 8px;
+    color: black;
+    text-decoration: none;
+    display: block; /*Para que os links figuem alinhados verticalmente*/
+}
+.barra_usuario_menu a:hover {
+    background: #ddd;
+}
+.barra_usuario_menu_mostrar_conteudo {
+    display: block;
+}
+/**************************************************************************************************/
+/*                                      MENSAGEM DE OLÁ                                           */
+/**************************************************************************************************/
+/* Container da mensagem */
+.barra_usuario_ola_container {
+    float: right;
+    margin: 14px 10px 0 0;
+}
+/**************************************************************************************************/
+/*                                      LAYOUT RESPONSIVO                                         */
+/**************************************************************************************************/
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 580px) {
+
+}

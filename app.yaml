@@ -1,9 +1,7 @@
 runtime: php55
 api_version: 1
 # Referência em: https://cloud.google.com/appengine/docs/standard/php/config/appref
-
 # Aparentemente, o app.yaml é o novo config.inc.php
-
 error_handlers:
 - file: default_error.html
 
@@ -13,23 +11,29 @@ handlers:
 #*********************************************************************************#
 - url: /stylesheets
   static_dir: stylesheets
+- url: /pages/stylesheets
+  static_dir: pages/stylesheets
+- url: /pages/stylesheets/backgrounds
+  static_dir: pages/stylesheets/backgrounds
 #*********************************************************************************#
 #                                   Páginas PHP                                   #
 #*********************************************************************************#
 # As classes (exemplo.class.php) não precisam ser declaradas aqui!
-# Home, destino após o login
+# Expressão regular para scripts PHP
 - url: /(.+)\.php
   script: \1.php
-  
+# Home, destino após o login
 - url: /pages/home.php
   script: pages/home.php
+# Script para iniciar a sessão e tratar login/logout
+- url: /pages/loadSession.php
+  script: pages/loadSession.php
+  # Script com a barra do usuário
+- url: /pages/userBar.php
+  script: pages/userBar.php
 # Página de teste
 - url: /pages/teste.php
   script: pages/teste.php
-  
-- url: /config/conn/read.class.php
-  script: config/conn/read.class.php
-  
 # Index
 - url: /.*
   script: index.php

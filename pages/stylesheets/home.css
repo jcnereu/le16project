@@ -1,0 +1,49 @@
+/* O SIMPLES É O MAIS DIFÍCIL */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+}
+/**************************************************************************************************/
+/*                                       BARRA DO USUÁRIO                                         */
+/**************************************************************************************************/
+/* Divisão do layout geral para conter a barra do usuário */
+.coluna_superior {
+    position: fixed; /* Para não descer com a barra de rolagem*/
+    width: 100%;
+    height: 48px;
+    z-index: 1; /* Necessário para que os elementos pertencentes a barra do usuário, mas exibidos fora dela (menu e resultado das buscas) fiquem em primeiro plano */
+    background-color: #e5e5e5; /*Cor da barra do usuário*/
+}
+/* Div para conter os elementos da barra do usuário*/
+.barra_usuario_container {
+    position: relative; /*Para que a div com o conteúdo do menu seja peosicionada em relação a essa div*/
+    width: 100%;
+}
+/**************************************************************************************************/
+/*                                        CORPO DA PÁGINA                                         */
+/**************************************************************************************************/
+/* Divisão do layout geral para conter o restante do conteúdo da página*/
+.coluna_central {
+    position: relative;
+    top: 48px;/*Desconto para não sobrepor a barra do usuário*/
+    /*margin-left: 0%; /*Layout responsivo: Começa da largura total da tela*/
+    width: 100%;
+    height: 100%;
+    /*float: left;/*Necessário para não sobrepor com a barra do usuário (Não sei explicar, mas sem isso ocorre esse bug de grandes proporções)*/
+}
+/**************************************************************************************************/
+/*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
+/**************************************************************************************************/
+@media screen and (min-width: 580px) {
+
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 1140px) {
+    .barra_usuario_container {width: 80%; margin: auto;}
+    .coluna_central{width: 80%; margin: auto;}
+}

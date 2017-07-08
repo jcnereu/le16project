@@ -29,7 +29,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>LE16</title>
+        <title>le16</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="stylesheets/index.css">
     </head>
@@ -132,7 +132,7 @@
                 <br>
                 <a href="pages/teste.php">Página de teste</a>
             </div>
-            <p class="rodape">LE16 project. Day 16, 2 skips, working...</p>
+            <p class="rodape">LE16 project. Day 19, 2 skips, working...</p>
         </div>
         <!--
         DIV COM EFEITO MODAL, contém o formulário para criar conta
