@@ -3,7 +3,16 @@
  - Barra do Usuário presente em todas as páginas após o Login;
  - Pega os dados de sessão do script loadSession.php carregado no início de todas as páginas.
 -->
-
+<?php
+    /*
+     Código para tratar a submissão do botão "Novo" ba barra do usuário
+     */
+    // Pegando os dados do formulário se algum submit for clicado
+    $dadosFormulario = filter_input_array(INPUT_POST,FILTER_DEFAULT);
+    if(isset($dadosFormulario['novoEspaco'])){
+        echo 'Clicou em Novo!';
+    }
+?>
 <div class="coluna_superior">
     <div class="barra_usuario_container">
         <div class="barra_usuario_menu">
@@ -11,11 +20,17 @@
             <ul class="barra_usuario_menu_conteudo" id="barra_usuario_menu_conteudo">
                 <a href="">Perfil</a>
                 <a href="">Conta</a>
-                <a href="">Sair</a>
+                <a onclick="fazerLogout();">Sair</a>
             </ul>
         </div>
         <div class="barra_usuario_ola_container">
             <p>Olá <?php echo $dadosUsuario['nome'];?></p>
+        </div>
+        <div class="barra_usuario_busca_container">
+            <form method="post">
+                <div class="bu_caixa_texto"><input type="text"></div>
+                <div class="bu_botao_novo"><input type="submit" name="novoEspaco" value="Novo"></div>
+            </form>
         </div>
     </div>
 </div>
@@ -26,6 +41,21 @@
     /* Mostra/oculta o conteúdo do menu ao clicar no botão do menu */
     function mostrarMenu() {
         document.getElementById("barra_usuario_menu_conteudo").classList.toggle("barra_usuario_menu_mostrar_conteudo");
+    }
+    /**/
+    function fazerLogout() {
+        /* INCLUIR O LOGOUT DE USUÁRIOS LOGADOS PELO FB
+        if (FB.getLoginStatus().status==='connected') {
+            window.location.assign("home.php?fb=true");
+        
+            // Função chamada quando um usuário logado pelo FB clicar em sair
+            FB.logout(function(response) {
+                window.location.assign("../index.php");
+            });
+        
+        }
+        */
+        window.location.assign("home.php?logout=true");
     }
     /* Para ocultar o conteúdo do meno ao clicar fora */
     window.onclick = function(event) {

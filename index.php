@@ -75,7 +75,10 @@
             // Função chamada caso o status seja 'connected'
             function redirecionarUsuario() {
                 console.log('Carregando suas informações... ');
-                window.location.assign("pages/home.php");
+                /*
+                 * O redirecionamento a baixo está comentado enquanto o Login pelo FB não está associado a uma sessão
+                 */
+                //window.location.assign("pages/home.php");
             }
             // Função chamada quando o usuário clicar no link (é um botão) "Entrar com o facebook"
             function chamarFbLogin() {
@@ -132,7 +135,7 @@
                 <br>
                 <a href="pages/teste.php">Página de teste</a>
             </div>
-            <p class="rodape">LE16 project. Day 19, 2 skips, working...</p>
+            <p class="rodape">LE16 project. Day 22, 3 skips, working...</p>
         </div>
         <!--
         DIV COM EFEITO MODAL, contém o formulário para criar conta

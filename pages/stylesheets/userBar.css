@@ -37,6 +37,7 @@
 }
 .barra_usuario_menu a:hover {
     background: #ddd;
+    cursor: pointer;
 }
 .barra_usuario_menu_mostrar_conteudo {
     display: block;
@@ -50,10 +51,40 @@
     margin: 14px 10px 0 0;
 }
 /**************************************************************************************************/
+/*                                      MENSAGEM DE OLÁ                                           */
+/**************************************************************************************************/
+.barra_usuario_busca_container {
+    /*float: left;*/
+    margin: 8px 10px 0 0;
+}
+.bu_caixa_texto {
+    display: inline-block;
+    width: 180px;
+    margin-right: 20px;
+}
+.bu_botao_novo {
+    display: inline-block;
+    
+}
+.barra_usuario_busca_container input[type=text] {
+    width: 100%;
+    padding: 12px 10px;
+    margin-bottom: 5px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.barra_usuario_busca_container input[type=submit] {
+    padding: 10px;
+    font-size: 15px;
+}
+/**************************************************************************************************/
 /*                                      LAYOUT RESPONSIVO                                         */
 /**************************************************************************************************/
 @media screen and (min-width: 768px) {
-
+    .bu_caixa_texto {
+        width: 50%;
+    }
 }
 
 @media screen and (min-width: 580px) {

@@ -54,79 +54,25 @@
                     document.getElementById('olaUsuario').innerHTML = 'Bem vindo, ' + response.name + '!';
                 });
             }
-            // Função chamada quando o usuário clica em logout
-            function logout(){
-                // Verfificar se o usuário está logado pelo fb
-                // Se estiver sair com o fb
-                // Se não, fazer logout normal
-                FB.logout(function(response) {
-                   window.location.assign("../index.php");
-                });
-            }
         </script>
         <?php include_once 'userBar.php';?>
         <div class="coluna_central">
-            Bem vindo à Home.
-            <div id="olaUsuario"></div>
-            <div id="alertaLogin"></div>
-            <!--<p>Olá <b><\?php echo $dadosUsuario['nome']; ?></b></p>-->
-            <br>
-            <button onclick="logout();">Sair do fb</button>
-            <a href="home.php?logout=true">Sair</a>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
-            Conteúdo
-            <br>
-            <br>
+            <div class="coluna_central_c1">
+                <div>
+                    Espaço em lista
+                </div>
+            </div>
+            <div class="coluna_central_c2">
+                <div>
+                    Espaço aberto
+                    <br>
+                    <br>
+                    conteúdo
+                    <br>
+                    <br>
+                    conteúdo
+                </div>
+            </div>
         </div>
     </body>
 </html>
