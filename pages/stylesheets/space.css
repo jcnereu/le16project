@@ -1,0 +1,84 @@
+/* O SIMPLES É O MAIS DIFÍCIL */
+
+/* Sub página contida na Home*/
+
+/**************************************************************************************************/
+/*                            ESPAÇO ATIVO (ocupra a coluna c2)                                   */
+/**************************************************************************************************/
+/* Container geral*/
+.espaco_container {
+    width: 100%;
+    background-color: #d5d5d5;
+}
+/* Cabeçálio */
+.espaco_cabecalio {
+    width: 94%;
+    padding: 4px 1%;
+    margin: auto;
+    margin-top: 4px;
+    border: 1px solid black;
+}
+.espaco_btn_sair {
+    float: right;
+}
+.espaco_btn_sair:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+/* Área de exibição da comversa */
+.espaco_mensagens_container {
+    width: 96%;
+    height: 200px;
+    margin: auto;
+    margin-top: 4px;
+    border: 1px solid black;
+    background-color: #eee;
+}
+/* Mensagens individuais exibinas na área da conversa */
+.espaco_moldura_mensagem {
+    float: right;
+    margin: 5px;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color: #2554ED;
+    box-shadow: 2px 2px 1px #aaa;
+}
+/* Área onde o usuário digita e envia as suas mensagens*/
+.espaco_area_texto {
+    /* O height é controlado pela proproedade 'rows'  na tag textarea */
+    width: 96%;
+    margin: auto;
+    margin-top: 4px;
+    border: 1px solid black;
+}
+.espaco_area_texto textarea {
+    width: 96%;
+    margin: 4px 1%;
+    padding: 1%;
+}
+.espaco_area_texto_comandos {
+    width: 96%;
+    margin: 2px 1%;
+    padding: 0 1px 4px 1px;;
+}
+.espaco_area_texto_comandos input[type=submit] {
+    padding: 3px;
+    border: none;
+    background-color: #f9f9f9;
+}
+/**************************************************************************************************/
+/*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
+/**************************************************************************************************/
+@media screen and (min-width: 580px) {
+    
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 1140px) {
+
+}

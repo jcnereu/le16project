@@ -28,10 +28,19 @@ handlers:
 # Script para iniciar a sessão e tratar login/logout
 - url: /pages/loadSession.php
   script: pages/loadSession.php
-  # Script com a barra do usuário
+# Script com a barra do usuário
 - url: /pages/userBar.php
   script: pages/userBar.php
-# Página de teste
+# Script com o espaço ativo
+- url: /pages/space.php
+  script: pages/space.php
+# AJAX para fechar um espaço
+- url: /config/ajax/fecharEspaco.php
+  script: config/ajax/fecharEspaco.php
+# Página de teste *****###### TESTE
+- url: /pages/testeAjax.php
+  script: pages/testeAjax.php
+# Página de teste *****###### TESTE
 - url: /pages/teste.php
   script: pages/teste.php
 # Index

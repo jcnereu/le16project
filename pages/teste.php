@@ -187,5 +187,29 @@
     </form>
     <a href="../index.php">index (link)</a>
     <button onclick="voltar();">index (botão com redir JS)</button>
+    <h2>AJAX</h2>
+    <button onclick="testeAjax();">teste</button>
+    <div id="divAjax"></div>
+    <script>
+        function testeAjax() {
+        //window.location.assign('teste.php?testeAjax=true');
+        // AJAX para fechar o espaço
+        document.getElementById("divAjax").innerHTML = 'deve fazer isso';
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                /*Recebe a string true manda ver*/
+                if (this.responseText==='true') {
+                    document.getElementById("divAjax").innerHTML = 'Solicitação assíncrona.';
+                    
+                }
+            }
+        };
+        //xmlhttp.open("GET", "../config/ajax/fecharEspaco.php?q=" + idEspaco, true);
+        xmlhttp.open("GET", 'testeAjax.php', true);
+        xmlhttp.send();
+    }
+    </script>
+    
   </body>
 </html>

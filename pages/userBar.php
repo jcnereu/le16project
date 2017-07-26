@@ -3,16 +3,7 @@
  - Barra do Usuário presente em todas as páginas após o Login;
  - Pega os dados de sessão do script loadSession.php carregado no início de todas as páginas.
 -->
-<?php
-    /*
-     Código para tratar a submissão do botão "Novo" ba barra do usuário
-     */
-    // Pegando os dados do formulário se algum submit for clicado
-    $dadosFormulario = filter_input_array(INPUT_POST,FILTER_DEFAULT);
-    if(isset($dadosFormulario['novoEspaco'])){
-        echo 'Clicou em Novo!';
-    }
-?>
+
 <div class="coluna_superior">
     <div class="barra_usuario_container">
         <div class="barra_usuario_menu">
@@ -28,8 +19,12 @@
         </div>
         <div class="barra_usuario_busca_container">
             <form method="post">
-                <div class="bu_caixa_texto"><input type="text"></div>
+                <div class="bu_caixa_texto"><input type="text" name="nomeEspaco"></div>
                 <div class="bu_botao_novo"><input type="submit" name="novoEspaco" value="Novo"></div>
+                <!-- 
+                O processamento PHP do formulário é feito na home, pois é preciso usar o header
+                e a barra do usuário é carregada na home, depois de saídas HTML 
+                -->
             </form>
         </div>
     </div>

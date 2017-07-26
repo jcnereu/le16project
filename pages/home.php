@@ -1,6 +1,40 @@
 <?php
     // Carregando o script para iniciar a sessão e tratar login/logout
     require_once 'loadSession.php';
+    // Pegando os dados do formulário se algum submit for clicado
+    $dadosFormulario = filter_input_array(INPUT_POST,FILTER_DEFAULT);
+    /******************************************************************
+     Código para tratar a submissão do botão "Novo" na barra do usuário
+     ******************************************************************/
+    if(isset($dadosFormulario['novoEspaco'])){
+        //echo 'Recebido: '.$dadosFormulario['nomeEspaco'];
+        require_once '../config/models/space.class.php';// Saindo da home
+        $espaco = new space();
+        if($espaco->alocarEspaco($dadosFormulario['nomeEspaco'])){
+            $idEspaco = $espaco->pegarIDespaco();
+            //echo ' Why so serious?';
+            //var_dump($idEspaco);
+            header("Location: home.php?ss=sp&ids={$idEspaco}");
+        }
+        // Direcionar com o ID
+        // Não excluir uma linha do banco quando sair o útimo usuário
+        // Setar o status=vazio, para poder reaproveitar a linha e o ID
+        // Só deve-se criar uma nova linha quando não tiverem status vazios 
+        
+        
+    }
+    /******************************************************************
+     Código para tratar as mensagens da área de conversa em um espaço
+     ******************************************************************/
+    if(isset($dadosFormulario['enviarMensagem'])){
+        if(!empty($dadosFormulario['textoMensagem'])){
+            include_once '../config/models/message.class.php';
+            $mensagem = new message();
+            $mensagem->publicarTexto($dadosFormulario['textoMensagem']);
+            $mensagemFormatada = $mensagem->pegarMensagem();
+            //var_dump($mensagemFormatada);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,6 +45,7 @@
         <link type="text/css" rel="stylesheet" href="stylesheets/reset.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/home.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/userBar.css">
+        <link type="text/css" rel="stylesheet" href="stylesheets/space.css">
     </head>
     <body>
         <script>
@@ -59,18 +94,24 @@
         <div class="coluna_central">
             <div class="coluna_central_c1">
                 <div>
-                    Espaço em lista
+                    c1
                 </div>
             </div>
             <div class="coluna_central_c2">
+                <?php
+                    $sessao = filter_input(INPUT_GET,'ss',FILTER_DEFAULT);// ss->sessão
+                    if(empty($sessao)){
+                            echo '<div>Nenhum espaço aberto.</div>';
+                    } else {
+                        if($sessao=='ns'){
+                            echo '<div>Vago</div>';
+                        } elseif($sessao=='sp') {
+                            include_once 'space.php';
+                        }
+                    }
+                ?>
                 <div>
-                    Espaço aberto
-                    <br>
-                    <br>
-                    conteúdo
-                    <br>
-                    <br>
-                    conteúdo
+                    c2
                 </div>
             </div>
         </div>

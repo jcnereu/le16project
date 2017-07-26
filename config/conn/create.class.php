@@ -34,6 +34,18 @@ class create extends conn{
         return $this->resultado;
     }
     
+    /**
+     * <b>retornaResultado</b> Retorna TRUE ou FALSE
+     * @return Bool : TRUE se a inserção foi bem sicedida ou FALSE caso contrário
+     */
+    public function retornaResultado() {
+        if(!empty($this->resultado)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     // MÉTODOS PRIVADOS
     
     private function montarQuery() {
