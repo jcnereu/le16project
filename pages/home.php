@@ -12,15 +12,11 @@
         $espaco = new space();
         if($espaco->alocarEspaco($dadosFormulario['nomeEspaco'])){
             $idEspaco = $espaco->pegarIDespaco();
-            //echo ' Why so serious?';
-            //var_dump($idEspaco);
+            /*
+             * Verificar uma forma segura de redirecionar, sem informar o ID na url
+             */
             header("Location: home.php?ss=sp&ids={$idEspaco}");
-        }
-        // Direcionar com o ID
-        // Não excluir uma linha do banco quando sair o útimo usuário
-        // Setar o status=vazio, para poder reaproveitar a linha e o ID
-        // Só deve-se criar uma nova linha quando não tiverem status vazios 
-        
+        }        
         
     }
     /******************************************************************

@@ -16,7 +16,7 @@ class space {
 
 
     public function alocarEspaco($name) {
-        $this->name = $name;
+        $this->name = (String) strip_tags(trim($name));
         require_once '../config/loadConn.inc.php';// Saindo da home
         if($this->procurarVaga()) {
             if($this->reciclarVaga()){

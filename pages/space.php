@@ -3,6 +3,10 @@
     require_once '../config/models/space.class.php';// Saindo da home
     $espaco = new space();
     $nomeEspaco = $espaco->pegarNomeEspaco($idEspaco);
+    
+    //PAROU AQUI: Implementar as funções de registro de usuário no espaço ao entrar pela busca em=sch
+    // Implementar  ocódigo para somente o último usuário ao sair fechar limpar o espaço
+    
 ?>
 <div class="espaco_container">
     <div class="espaco_cabecalio">

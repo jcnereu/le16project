@@ -1,6 +1,10 @@
 <?php
 
-$idEspaco = $_REQUEST['q'];
+/**
+ * Verificar a segurança de se usar o GET para isso
+ */
+
+$idEspaco = $_GET['q'];
 
 require_once '../models/space.class.php';// Saindo daqui mesmo
 $espaco = new space();

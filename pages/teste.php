@@ -132,6 +132,21 @@
             $msgTeste = ['Mensagem de <b>Erro</b> padrão para teste.',MSG_ERROR];
         }
     }
+    // TESTE DA FUNÇÃO EXPLODE
+    $strTeste = 'change'; //we all wanna change the world';
+    $arrayTeste = explode(' ', $strTeste);
+    var_dump($arrayTeste);
+    $cont = 0;
+    $queryTeste = 'SELECT * FROM ';
+    foreach ($arrayTeste as $substr) {
+        $cont = $cont + 1;
+        $num = (String) $cont;
+        $queryTeste = $queryTeste . "substr{$num}: ". $substr . ' ';
+    }
+    echo $queryTeste;
+    //$strTeste = "bv1=we&bv2=all&bv3=wanna";
+    //parse_str($strTeste,$arrayTeste);
+    //var_dump($arrayTeste);
   ?>
   <body>
     <script>
@@ -188,25 +203,21 @@
     <a href="../index.php">index (link)</a>
     <button onclick="voltar();">index (botão com redir JS)</button>
     <h2>AJAX</h2>
-    <button onclick="testeAjax();">teste</button>
+    <input type="text" onkeyup="testeAjax(this.value);">
     <div id="divAjax"></div>
     <script>
-        function testeAjax() {
+        function testeAjax(str) {
         //window.location.assign('teste.php?testeAjax=true');
         // AJAX para fechar o espaço
         document.getElementById("divAjax").innerHTML = 'deve fazer isso';
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                /*Recebe a string true manda ver*/
-                if (this.responseText==='true') {
-                    document.getElementById("divAjax").innerHTML = 'Solicitação assíncrona.';
-                    
-                }
+                    document.getElementById("divAjax").innerHTML = this.responseText;
             }
         };
         //xmlhttp.open("GET", "../config/ajax/fecharEspaco.php?q=" + idEspaco, true);
-        xmlhttp.open("GET", 'testeAjax.php', true);
+        xmlhttp.open("GET", 'testeAjax.php?q='+str, true);
         xmlhttp.send();
     }
     </script>

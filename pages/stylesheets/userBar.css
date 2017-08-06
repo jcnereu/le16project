@@ -51,7 +51,7 @@
     margin: 14px 10px 0 0;
 }
 /**************************************************************************************************/
-/*                                      MENSAGEM DE OLÁ                                           */
+/*                                             BUSCA                                              */
 /**************************************************************************************************/
 .barra_usuario_busca_container {
     /*float: left;*/
@@ -77,6 +77,37 @@
 .barra_usuario_busca_container input[type=submit] {
     padding: 10px;
     font-size: 15px;
+}
+/*Div para exibir os resultados da busca. Tem um JS para ser mostrada e escondida e as dimensões são ajustadas para cada tamanho de tela*/
+.resultado_busca {
+    display: none;
+    width: 50%; height: 300px;
+    position: absolute;
+    overflow: auto;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /*Pra criar a sombra ao redor da caixa de opções do menu*/
+    left: 0; /*Para que abra para a direita*/
+    z-index: 1; /*Para que o contúdo do menu fique em promeiro plano*/
+}
+.resultado_busca_item_container {
+    clear: left;
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    /*margin: auto;*/
+    border-bottom: 1px solid #ccc;
+}
+.resultado_busca_item_container:hover{background-color: #eee;}
+.resultado_busca_item_bloco_esquerdo {
+    float: left;
+    padding: 4px;
+    color: #333;
+}
+.resultado_busca_item_bloco_direito {
+    float: right;
+    padding: 4px;
+    color: #555;
+    font-size: 22px;
 }
 /**************************************************************************************************/
 /*                                      LAYOUT RESPONSIVO                                         */

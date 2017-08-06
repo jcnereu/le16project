@@ -17,3 +17,5 @@ require_once 'conn/create.class.php';
 require_once 'conn/update.class.php';
 // Carregando a classe de exclusão no banco de dados
 require_once 'conn/delete.class.php';
+// Carregando a classe de exclusão no banco de dados
+require_once 'conn/readLike.class.php';
