@@ -133,20 +133,39 @@
         }
     }
     // TESTE DA FUNÇÃO EXPLODE
-    $strTeste = 'change'; //we all wanna change the world';
-    $arrayTeste = explode(' ', $strTeste);
-    var_dump($arrayTeste);
-    $cont = 0;
-    $queryTeste = 'SELECT * FROM ';
-    foreach ($arrayTeste as $substr) {
-        $cont = $cont + 1;
-        $num = (String) $cont;
-        $queryTeste = $queryTeste . "substr{$num}: ". $substr . ' ';
-    }
-    echo $queryTeste;
+    //$strTeste = 'change'; //we all wanna change the world';
+    //$arrayTeste = explode(' ', $strTeste);
+    //var_dump($arrayTeste);
+    //$cont = 0;
+    //$queryTeste = 'SELECT * FROM ';
+    //foreach ($arrayTeste as $substr) {
+    //    $cont = $cont + 1;
+    //    $num = (String) $cont;
+    //    $queryTeste = $queryTeste . "substr{$num}: ". $substr . ' ';
+    //}
+    //echo $queryTeste;
     //$strTeste = "bv1=we&bv2=all&bv3=wanna";
     //parse_str($strTeste,$arrayTeste);
     //var_dump($arrayTeste);
+
+    // TESTE DO MÉTODO procurarVagaUsuario
+    require_once '../config/loadConn.inc.php';
+    $idTeste = 1;
+    $buscaSpace = new read();
+    $buscaSpace->fazerBusca('SELECT nusers FROM spaces WHERE id = :bv',"bv={$idTeste}");
+    var_dump($buscaSpace->retornaResultado());
+    //$buscaSpace->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$idTeste}");
+    //var_dump($buscaSpace->retornaResultado());
+    //echo '<br>foreach: <br>';
+    //foreach ($buscaSpace->retornaResultado()[0] as $coluna => $space) {
+    //    echo 'coluna: <br>';var_dump($coluna);
+    //    echo 'espaco: <br>';var_dump($espaco);
+    //    if($space=='0'){
+    //        $userAvailableColumn = $coluna;
+    //        $vaga = true;
+    //    }
+    //}
+    //echo '<br>Coluna disponível = ' . $userAvailableColumn;
   ?>
   <body>
     <script>

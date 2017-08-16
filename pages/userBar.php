@@ -16,6 +16,8 @@
         </div>
         <div class="barra_usuario_ola_container">
             <p>Olá <?php echo $dadosUsuario['nome'];?></p>
+            <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID do usuário-->
+            <input type="text" value="<?php echo $dadosUsuario['id']; ?>" id="id_invisivel_usuario" style="display: none;">
         </div>
         <div class="barra_usuario_busca_container">
             <form method="post">
@@ -35,7 +37,7 @@
 -->
 <script>
     
-    // PAROU AQUI: IMPLEMENTAR O AJAX PARA FAZER A BUSCA DINÂMICA ENQUANTO O USUÁRIO DIGITA
+    // 
     function buscarSugestao(str) {
         /*Condição para abrir e fechar a div de exibição dos resultados*/
         if(str.length > 1){
@@ -56,6 +58,21 @@
             xmlhttp.open("GET", "../config/ajax/userBarSearch.php?q=" + str, true);
             xmlhttp.send();
         }
+    }
+    
+    function registrarEntradaUsuario(idEspaco){
+        var idUsuario = document.getElementById("id_invisivel_usuario").value;
+        // AJAX para registrar a entrada do usuário
+        var xmlregistro = new XMLHttpRequest();
+            xmlregistro.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if(this.responseText==='true'){
+                        window.location.assign('home.php?ss=sp&ids='+idEspaco);
+                    }// Se o registro não for bem sucedido: Não fazer nada por enquanto
+                }
+            };
+            xmlregistro.open("GET", "../config/ajax/userSpaceCheckin.php?ide="+idEspaco+"&idu="+idUsuario, true);
+            xmlregistro.send();
     }
     /* Mostra/oculta o conteúdo do menu ao clicar no botão do menu */
     function mostrarMenu() {

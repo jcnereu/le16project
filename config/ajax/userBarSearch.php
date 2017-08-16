@@ -45,12 +45,18 @@ if(strlen($string)>1){ // Mínimo de letras para fazer a busca (Para não estres
 
                 // Criando o HTML/CSS para exibir cada resultado da busca
                 $resultado = $resultado . 
-                '<a href="home.php?ss=sp&id=' .$espaco['id']. '&em=sch">' .
-                    '<div class="resultado_busca_item_container">' .
+                //'<a href="home.php?ss=sp&ids=' .$espaco['id']. '&em=sch">' .
+                    /*
+                     * Estrutura da função JS para fazer o registro de entrada do usuário ao clicar no espaço pelo resultado
+                     * da busca na barra do usuário (via AJAX, se o registro for bem sucedido redireciona via JS para o espaço)
+                    */
+                    '<div class="resultado_busca_item_container" '. 
+                    "onclick=\"registrarEntradaUsuario({$espaco['id']})\"" .
+                    ' >' .
                         '<p class="resultado_busca_item_bloco_esquerdo">' . $espaco['name'] . '</p>' .
                         '<p class="resultado_busca_item_bloco_direito">' . $espaco['nusers'] . '</p>' .
-                    '</div>' .
-                '</a>';
+                    '</div>';// .
+                //'</a>';
         endforeach;
         //$resultado = 'Algum resultado.';
     else:

@@ -1,13 +1,4 @@
-<?php
-    $idEspaco = filter_input(INPUT_GET,'ids',FILTER_DEFAULT);
-    require_once '../config/models/space.class.php';// Saindo da home
-    $espaco = new space();
-    $nomeEspaco = $espaco->pegarNomeEspaco($idEspaco);
-    
-    //PAROU AQUI: Implementar as funções de registro de usuário no espaço ao entrar pela busca em=sch
-    // Implementar  ocódigo para somente o último usuário ao sair fechar limpar o espaço
-    
-?>
+<!-- O script PHP para validar e pegar os dados do espaço estão no começo da home.php, pois precisa usar o header() -->
 <div class="espaco_container">
     <div class="espaco_cabecalio">
         <span onclick="sairEspaco(<?php echo $idEspaco; ?>);" class="espaco_btn_sair">sair</span>
@@ -20,10 +11,6 @@
             if(isset($mensagemFormatada)){
                 echo $mensagemFormatada;
             }
-            require_once '../config/loadConn.inc.php';// Saindo da home
-            $teste = new read();
-            $teste->fazerBusca('SELECT * FROM spaces WHERE id = :bv', "bv={$idEspaco}");
-            echo $teste->retornaResultado()[0];
         ?>
     </div>
     <div class="espaco_area_texto">
@@ -41,19 +28,26 @@
 <script>
     // Se o usuário clicar em sair no canto superio direito do espaço ativo
     function sairEspaco(idEspaco) {
-        //window.location.assign("home.php?idteste=" + idEspaco);
+        //Pegando o id do usuário em um campo invisível na barra do usuário;
+        var idUsuario = document.getElementById("id_invisivel_usuario").value;
+        //Pegando o id do próximo espaço em um campo invisível na home;
+        var idProximoEspaco = document.getElementById("id_invisivel_proximo_espaco").value;
         // AJAX para fechar o espaço
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState === 4 && this.status === 200) {
                 /*Recebe a string true manda ver*/
                 if (this.responseText==='true') {
-                    window.location.assign("home.php?ss=ns");
+                    if (idProximoEspaco!==0){
+                        window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
+                    } else {
+                        window.location.assign("home.php?ss=ns");
+                    }
                 }
             }
         };
         //xmlhttp.open("GET", "../config/ajax/fecharEspaco.php?q=" + idEspaco, true);
-        xmlhttp.open("GET", '../config/ajax/fecharEspaco.php?q=' + idEspaco, true);
+        xmlhttp.open("GET", '../config/ajax/userSpaceCheckout.php?ide='+idEspaco+'&idu='+idUsuario, true);
         xmlhttp.send();
     }
 </script>

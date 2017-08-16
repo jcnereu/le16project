@@ -97,7 +97,7 @@
     /*margin: auto;*/
     border-bottom: 1px solid #ccc;
 }
-.resultado_busca_item_container:hover{background-color: #eee;}
+.resultado_busca_item_container:hover{background-color: #eee; cursor: pointer;}
 .resultado_busca_item_bloco_esquerdo {
     float: left;
     padding: 4px;

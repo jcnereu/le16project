@@ -135,7 +135,7 @@
                 <br>
                 <a href="pages/teste.php">Página de teste</a>
             </div>
-            <p class="rodape">LE16 project. Day 33, 12 skips, working...</p>
+            <p class="rodape">LE16 project. Day 42, 12 skips, working...</p>
         </div>
         <!--
         DIV COM EFEITO MODAL, contém o formulário para criar conta
