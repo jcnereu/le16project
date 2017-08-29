@@ -34,9 +34,7 @@
             header("Location: home.php?ss=ns");// Acrescentar uma mensagem específica informando que o suário tentou uma operação não permitida (tentar acessar um espaço pela url)
         }
     }
-    
-    //PAROU AQUI: Apagar o espaço 29 da userspaces com id=1 e ver se o bug persiste
-    
+    //##----$nomeEspaco ='Testes CSS do espaço aberto'; //##
     /******************************************************************
      Código para tratar as mensagens da área de conversa em um espaço
      ******************************************************************/
@@ -62,67 +60,36 @@
         <link type="text/css" rel="stylesheet" href="stylesheets/space.css">
     </head>
     <body>
-        <script>
-            // Carregando o SDK do FB parte 1
-            window.fbAsyncInit = function() {
-                FB.init({
-                  appId      : '309116939544130',
-                  cookie     : true,
-                  xfbml      : true,
-                  version    : 'v2.8'
-                });
-                FB.AppEvents.logPageView();
-                // Função para verificar o status do login ao carregar a página
-                FB.getLoginStatus(function(response) {
-                    statusChangeCallback(response);
-                });
-            };
-            // Carregando o SDK do FB parte 2
-            (function(d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-            // Função chamada para tratar a resposta da verificação do status
-            function statusChangeCallback(response) {
-                if (response.status === 'connected') {
-                    // Logged into your app and Facebook.
-                    //document.getElementById("botaoSair").style.display = "block";
-                    olaUsuario();
-                } else {
-                    // Ação provisória. Prever situação em que o usuário está logado com uma conta independente do FB.
-                    document.getElementById('alertaLogin').innerHTML = 'Usuário não logado pelo FB';
-                }
-            }
-            // Função chamada caso o status seja 'connected'
-            function olaUsuario() {
-                //Função para pegar o nome do usuáio no FB. Deve ser utilizada na home.
-                FB.api('/me', function(response) {
-                    document.getElementById('olaUsuario').innerHTML = 'Bem vindo, ' + response.name + '!';
-                });
-            }
-        </script>
         <?php include_once 'userBar.php';?>
         <div class="coluna_central">
             <div class="coluna_central_c1">
-                <div>
+                <div class="c1_lista_espacos">
                     <?php
+                        //##----Para testes CSS
                         $proximoEspaco = 0;
                         $idEspaco = filter_input(INPUT_GET,'ids',FILTER_DEFAULT);
                         include_once '../config/loadConn.inc.php';
                         $buscaLista = new read();
                         $buscaLista->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$dadosUsuario['id']}");
                         if($buscaLista->contaResultados()>0){
+                            //##----$teste_css = array('s1'=>'teste de espaço','s2'=>'estilo do espaço','s3'=>'because the wind');
                             foreach($buscaLista->retornaResultado()[0] as $coluna => $espaco){
+                            //##----foreach($teste_css as $coluna => $titulo){
                                 if($coluna!='id' && $espaco!=0 && $espaco!=$idEspaco){
-                                    echo '<a href="home.php?ss=sp&ids=' .$espaco. '">espaço: '. $espaco.'</a><br>';
-                                    // Pegando o último espaço listado (primeiro aberto). Para pegar o útimo espaço aberto pelo usuário deve-se implementar algum algoritmo simples aqui mesmo.
+                                    $buscaLista->fazerBusca('SELECT name FROM spaces WHERE id = :bv',"bv={$espaco}");
+                                    echo '<a href="home.php?ss=sp&ids=' .$espaco. '" class="c1_lista_espaco_container_individual">'
+                                            //##----echo '<a href="" class="c1_lista_espaco_container_individual">' . $titulo . '</a>';
+                                            .$buscaLista->retornaResultado()[0]['name']
+                                            .'</a>';
+                                    // Pegando o último espaço listado (primeiro aberto). Para pegar o útimo espaço aberto (primeiro na lista) pelo usuário deve-se implementar algum algoritmo simples aqui mesmo.
                                     $proximoEspaco = $espaco;
                                 }
+                            //##----}
                             }
                         }
+                        
+                        // PAROU AQUI: Pensar no layout quando apenas um espaço está berto.
+                        
                     ?>
                 </div>
                 <!-- O campo abaixo é invisível. Criado apenas para serivir o JS chamado ao fechar um espaço-->
@@ -132,18 +99,15 @@
                 <?php
                     $sessao = filter_input(INPUT_GET,'ss',FILTER_DEFAULT);// ss->sessão
                     if(empty($sessao)){
-                            echo '<div>Nenhum espaço aberto.</div>';
+                            echo '<div class="c2_msg">Nenhum espaço aberto.</div>';
                     } else {
                         if($sessao=='ns'){
-                            echo '<div>Vago</div>';
-                        } elseif($sessao=='sp') {
+                            echo '<div class="c2_msg">Nenhum espaço aberto.</div>';
+                        }elseif($sessao=='sp'){
                             include_once 'space.php';
                         }
                     }
                 ?>
-                <div>
-                    c2
-                </div>
             </div>
         </div>
     </body>

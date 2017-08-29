@@ -149,11 +149,11 @@
     //var_dump($arrayTeste);
 
     // TESTE DO MÉTODO procurarVagaUsuario
-    require_once '../config/loadConn.inc.php';
-    $idTeste = 1;
-    $buscaSpace = new read();
-    $buscaSpace->fazerBusca('SELECT nusers FROM spaces WHERE id = :bv',"bv={$idTeste}");
-    var_dump($buscaSpace->retornaResultado());
+    //require_once '../config/loadConn.inc.php';
+    //$idTeste = 1;
+    //$buscaSpace = new read();
+    //$buscaSpace->fazerBusca('SELECT nusers FROM spaces WHERE id = :bv',"bv={$idTeste}");
+    //var_dump($buscaSpace->retornaResultado());
     //$buscaSpace->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$idTeste}");
     //var_dump($buscaSpace->retornaResultado());
     //echo '<br>foreach: <br>';
@@ -221,24 +221,38 @@
     </form>
     <a href="../index.php">index (link)</a>
     <button onclick="voltar();">index (botão com redir JS)</button>
-    <h2>AJAX</h2>
+    <h2>AJAX (get)</h2>
     <input type="text" onkeyup="testeAjax(this.value);">
     <div id="divAjax"></div>
+    <h2>AJAX (post)</h2>
+    <input type="text" onkeyup="testeAjaxPost(this.value);">
+    <div id="divAjaxPost"></div>
     <script>
         function testeAjax(str) {
-        //window.location.assign('teste.php?testeAjax=true');
-        // AJAX para fechar o espaço
-        document.getElementById("divAjax").innerHTML = 'deve fazer isso';
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("divAjax").innerHTML = this.responseText;
-            }
-        };
-        //xmlhttp.open("GET", "../config/ajax/fecharEspaco.php?q=" + idEspaco, true);
-        xmlhttp.open("GET", 'testeAjax.php?q='+str, true);
-        xmlhttp.send();
-    }
+            document.getElementById("divAjax").innerHTML = 'deve fazer isso';
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("divAjax").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", 'testeAjax.php?q='+str, true);
+            xmlhttp.send();
+        }
+        // AJAX com dados enviados por POST
+        function testeAjaxPost(str) {
+            document.getElementById("divAjaxPost").innerHTML = 'deve fazer isso';
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("divAjaxPost").innerHTML = this.responseText;
+                }
+            };
+            formulario = new FormData(); /*Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)*/
+            formulario.append('testeForm',str);/* Adiciona a variável 'testeForm' como se um campo type=text (nesse caso) tivesse sido preenchido com avariável*/
+            xmlhttp.open("POST", 'testeAjaxPost.php', true); /*Chama o script 'testeAjaxPost'*/
+            xmlhttp.send(formulario); /*Equivalente a clicar em um submit e enviar o formulário*/
+        }
     </script>
     
   </body>

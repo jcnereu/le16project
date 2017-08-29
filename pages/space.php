@@ -15,13 +15,11 @@
     </div>
     <div class="espaco_area_texto">
         <form method="post">
-            <textarea rows="6" name="textoMensagem"></textarea>
-            <div class="espaco_area_texto_comandos">
-                <input type="submit" name="enviarMensagem" value="Enviar">
+            <input type="text" name="textoMensagem" class="area_texto_item">
+            <input type="submit" name="enviarMensagem" value="Enviar" class="area_texto_item">
                 <!-- 
                     O PROCESSAMENTO DO BOTÃO ENVIAR É FEITO NO home.php (NO TOPO DO SCRIPT)
                 -->
-            </div>
         </form>
     </div>
 </div>

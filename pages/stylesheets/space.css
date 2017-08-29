@@ -8,15 +8,18 @@
 /* Container geral*/
 .espaco_container {
     width: 100%;
-    background-color: #d5d5d5;
+    /*background-color: #d5d5d5; /*Para ver a área total do espaço*/
 }
 /* Cabeçálio */
 .espaco_cabecalio {
-    width: 94%;
-    padding: 4px 1%;
+    width: 96%;
+    padding: 12px 1%;
     margin: auto;
-    margin-top: 4px;
+    margin-top: 2px;
     border: 1px solid black;
+    border-radius: 4px;
+    font-weight: 700;
+    color: #333;
 }
 .espaco_btn_sair {
     float: right;
@@ -28,16 +31,18 @@
 /* Área de exibição da comversa */
 .espaco_mensagens_container {
     width: 96%;
-    height: 200px;
+    height: 300px;
+    padding: 12px 1%;
     margin: auto;
     margin-top: 4px;
-    border: 1px solid black;
+    border: 1px solid #666;
+    border-radius: 4px;
     background-color: #eee;
 }
 /* Mensagens individuais exibinas na área da conversa */
 .espaco_moldura_mensagem {
     float: right;
-    margin: 5px;
+    margin: 1px;
     padding: 8px;
     border: none;
     border-radius: 6px;
@@ -47,26 +52,28 @@
 }
 /* Área onde o usuário digita e envia as suas mensagens*/
 .espaco_area_texto {
-    /* O height é controlado pela proproedade 'rows'  na tag textarea */
-    width: 96%;
+    width: 98%;
     margin: auto;
     margin-top: 4px;
-    border: 1px solid black;
+    height: 40px;
+    /*border: 1px solid black;
+    border-radius: 4px;*/
 }
-.espaco_area_texto textarea {
-    width: 96%;
-    margin: 4px 1%;
-    padding: 1%;
+.espaco_area_texto input[type=text] {
+    width: 75%;
+    padding: 12px;
+    border: solid 1px #aaa;
+    border-radius: 4px;
+    margin-right: 4px; /*Para o botão Enviar não ficar encostado*/
 }
-.espaco_area_texto_comandos {
-    width: 96%;
-    margin: 2px 1%;
-    padding: 0 1px 4px 1px;;
+.espaco_area_texto input[type=submit] {
+    width: 20%;
+    padding: 12px;
+    border: solid 1px #aaa;
+    border-radius: 4px;
 }
-.espaco_area_texto_comandos input[type=submit] {
-    padding: 3px;
-    border: none;
-    background-color: #f9f9f9;
+.area_texto_item {
+    float: left;
 }
 /**************************************************************************************************/
 /*                                AJUSTES DO LAYOUT RESPONSIVO                                    */

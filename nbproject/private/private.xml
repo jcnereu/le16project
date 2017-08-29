@@ -3,17 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/config/ajax/userSpaceCheckout.php</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/index.php</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/app.yaml</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/stylesheets/index.css</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/config/ajax/userBarSearch.php</file>
-            <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/pages/stylesheets/userBar.css</file>
+            <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/config/ajax/registerAndSession.php</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/pages/space.php</file>
+            <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/config/models/login.class.php</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/pages/home.php</file>
-            <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/config/ajax/userSpaceCheckin.php</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/pages/userBar.php</file>
-            <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/config/models/space.class.php</file>
+            <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/pages/loadSession.php</file>
             <file>file:/C:/Project/AppData/Local/Google/Cloud%20SDK/le16project/pages/teste.php</file>
         </group>
     </open-files>

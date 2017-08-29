@@ -1,30 +1,3 @@
-<?php
-    /*
-     * AÇÃO DO FORMULÁRIO DE LOGIN
-     */
-    // Pegando os dados do formulário (qualquer um) se algum submit for clicado
-    $dadosFormulario = filter_input_array(INPUT_POST,FILTER_DEFAULT);
-    // Se o usuário clicar em "Entrar"
-    if(isset($dadosFormulario['entrar'])){
-        // Carregando a função de mensagem (Se ocorrer algum erro)
-        require_once 'config/loadMsg.inc.php';
-        // Carregando a classe de login
-        require_once 'config/models/login.class.php';
-        // Criando um objeto login e fazendo o login
-        $log = new login();
-        if($log->fazerLogin($dadosFormulario['emailEntrar'],$dadosFormulario['senhaEntrar'])){
-            header('Location: pages/home.php', true, 301);
-            // Redirecionado com JS
-            //echo '<script type="text/javascript">';
-            //echo 'window.location.assign("pages/home.php");';
-            //echo '</script>';
-            //Gambiarra copiada de: https://stackoverflow.com/questions/1571973/best-way-redirect-reload-pages-in-php
-        } else {
-            // Pegando a menssagem de erro
-            $msgErroLogin = [$log->pegarMensagem()[0],$log->pegarMensagem()[1]];
-        }
-    }
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,97 +7,10 @@
         <link type="text/css" rel="stylesheet" href="stylesheets/index.css">
     </head>
     <body>
-        <script>
-            /*
-             * LINK PARA ENTRAR COM O FACEBOOK
-             */
-            // Carregando o SDK do FB parte 1
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId      : '309116939544130',
-                    cookie     : true,
-                    xfbml      : true,
-                    version    : 'v2.8'
-                });
-                FB.AppEvents.logPageView();
-                // Função para verificar o status do login no FB ao carregar a página
-                FB.getLoginStatus(function(response) {
-                    statusChangeCallback(response);
-                });
-            };
-            // Carregando o SDK do FB parte 2
-            (function(d, s, id){
-                  var js, fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) {return;}
-                  js = d.createElement(s); js.id = id;
-                  js.src = "//connect.facebook.net/en_US/sdk.js";
-                  fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-            // Função chamada para tratar a resposta da verificação do status
-            function statusChangeCallback(response) {
-                if (response.status === 'connected') {
-                    // Logged into your app and Facebook.
-                    //document.getElementById("botaoSair").style.display = "block";
-                    redirecionarUsuario();
-                } else {
-                    // The person is not logged into your app or we are unable to tell.
-                    // Ação provisória
-                    document.getElementById('msgLogin').innerHTML = 'Faça login para participar.';
-                }
-            }
-            // Função chamada caso o status seja 'connected'
-            function redirecionarUsuario() {
-                console.log('Carregando suas informações... ');
-                /*
-                 * O redirecionamento a baixo está comentado enquanto o Login pelo FB não está associado a uma sessão
-                 */
-                //window.location.assign("pages/home.php");
-            }
-            // Função chamada quando o usuário clicar no link (é um botão) "Entrar com o facebook"
-            function chamarFbLogin() {
-                FB.login(function(response) {
-                    statusChangeCallback(response);
-                });
-            }
-            /*
-             * CAIXA DE CRIAÇÃO DE CONTA (efeito modal)
-             */
-            // Se o usuário cliar no link (botão) criar conta
-            function mostrarModal() {
-                document.getElementById('modalBackground').style.display = "block";
-            }
-            // Se o usuário clicar no botão para fechar a criação de conta
-            function fecharModal() {
-                document.getElementById('modalBackground').style.display = "none";
-            }
-            // Se o usuário clicar fora da div de criação de conta
-            window.onclick = function(event) {
-                if (event.target == document.getElementById('modalBackground')) {
-                    modalBackground.style.display = "none";
-                }
-            };
-            // Se o usuário clicar em "Criar conta" e estiver tudo ok
-            function msgEmailConfirmacao() {
-                document.getElementById("modalBody").innerHTML = 'Olá "nome"! Enviamos um email de confirmação para "email informado". Agora basta acessar seu email, clicar no link "CONFIRMAR" e voltar aqui para entrar com a sua conta.';
-            }
-        </script>
         <div class="coluna_central">
             <div class="container_login_cadastro">
                 <div class="subcontainer_login_cadastro">
-                    <?php
-                        if(isset($msgErroLogin)){
-                           msgSistema($msgErroLogin[0],$msgErroLogin[1]);
-                        }
-                        //require_once 'config/loadMsg.inc.php';
-                        //msgSistema('Teste mensagem',MSG_ALERT);
-                    ?>
-                    <form class="container_form_login" method="post">
-                        <input type="email" name="emailEntrar" placeholder="email" required>
-                        <input type="password" name="senhaEntrar" placeholder="senha" required>
-                        <input type="submit" name="entrar" value="Entrar">
-                    </form>
-                    <button onclick="chamarFbLogin();">Entrar com o facebook</button>
-                    <button onclick="mostrarModal();">Criar conta</button>
+                    <button id="sign-in">Entrar com o Google</button>
                 </div>
             </div>
             <div class="container_form_busca">
@@ -135,35 +21,89 @@
                 <br>
                 <a href="pages/teste.php">Página de teste</a>
             </div>
-            <p class="rodape">LE16 project. Day 42, 12 skips, working...</p>
+            <p class="rodape">LE16 project. Day 54, 14 skips, working...</p>
         </div>
-        <!--
-        DIV COM EFEITO MODAL, contém o formulário para criar conta
-        -->
-        <div class="modal_background" id="modalBackground">
-            <div class="modal_content" id="modalContent">
-                <div class="modal_header">
-                    <span onclick="fecharModal();" class="modal_btn_close">&times;</span>
-                    <h2>Crie sua conta</h2>
-                </div>
-                <div class="modal_body" id="modalBody">
-                    <form>
-                        <label>
-                            Nome:<input type="text" required>
-                        </label>
-                        <label>
-                            Email:<input type="email" required>
-                        </label>
-                        <label>
-                            Senha:<input type="password" required>
-                        </label>
-                        <label>
-                            Confirmar senha:<input type="password" required>
-                        </label>
-                        <input type="submit" value="Criar conta" onclick="msgEmailConfirmacao();">
-                    </form>
-                </div>
-            </div>
-        </div>
-  </body>
+        <!-- ********************************** Carregando o Firebase ************************************ -->
+        <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+        <script>
+            // Iniciando o SDK do Firebase
+            var config = {
+                apiKey: "AIzaSyCMgLyuJrzW_mFobJR8Vy-yYcMi6i4n0hA",
+                authDomain: "le16project.firebaseapp.com",
+                databaseURL: "https://le16project.firebaseio.com",
+                projectId: "le16project",
+                storageBucket: "le16project.appspot.com",
+                messagingSenderId: "288102999150"
+            };
+            firebase.initializeApp(config);
+            // Função geral, cahamada ao carregar a página para gerenciar as funções específicas
+            function le16index() {
+                // Função para verificar se o Firebase está configurado corretamente
+                this.checkSetup();
+                // Shortcuts to DOM Elements.
+                this.signInButton = document.getElementById('sign-in');
+                //Event listeners
+                this.signInButton.addEventListener('click', this.signIn.bind(this));
+                // Função para fazer algumas configuralções iniciais
+                this.initFirebase();
+            }
+            // Sets up shortcuts to Firebase features and initiate firebase auth.
+            le16index.prototype.initFirebase = function() {
+                // Shortcuts to Firebase SDK features.
+                this.auth = firebase.auth();
+                this.database = firebase.database();
+                this.storage = firebase.storage();
+                // Initiates Firebase auth and listen to auth state changes.
+                this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
+            }; 
+            // Função chamada quando o usuário clica em "Entrar com o Google"
+            le16index.prototype.signIn = function() {
+                // Sign in Firebase using popup auth and Google as the identity provider.
+                var provider = new firebase.auth.GoogleAuthProvider();
+                this.auth.signInWithPopup(provider);
+            };
+            // Triggers when the auth state change for instance when the user signs-in or signs-out.
+            le16index.prototype.onAuthStateChanged = function(user) {
+                if (user) { // User is signed in!
+                    var userFirebaseName = user.displayName;
+                    var userFirebaseId = user.uid;
+                    // AJAX para verificar se o usuário já é cadastrado (se não é faz o cadastro), criar a sessão (com o identificador do firebase) e redirecionar para a home
+                    var loginPostman = new XMLHttpRequest();
+                    loginPostman.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            // Se o usuário foi encontrado (ou cadastrado com sucesso) e a sessão foi criada
+                            if(this.responseText==='true'){
+                                //redireciona para a home
+                                window.location.assign("pages/home.php");
+                            } else {
+                                window.alert('AJAX funcionando, mas algo errado no banco de dados.');
+                            }
+                        }
+                    };
+                    form = new FormData(); /*Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)*/
+                    form.append('userFirebaseName',userFirebaseName);/* Adiciona a variável 'userFirebaseName' como se um campo type=text (nesse caso) tivesse sido preenchido com a variável*/
+                    form.append('userFirebaseId',userFirebaseId);
+                    loginPostman.open("POST", 'config/ajax/registerAndSession.php', true); /*Chama o script para tratar os dados do formulário*/
+                    loginPostman.send(form); /*Equivalente a clicar em um submit e enviar o formulário*/
+                } else { // User is signed out!
+                    window.alert('Você NÃO está logado.');
+                }
+            };
+            // Função necessária na fase de desenvolvimento
+            // Checks that the Firebase SDK has been correctly setup and configured.
+            le16index.prototype.checkSetup = function() {
+                if (!window.firebase || !(firebase.app instanceof Function) || !firebase.app().options) {
+                    window.alert('You have not configured and imported the Firebase SDK. ' +
+                        'Make sure you go through the codelab setup instructions and make ' +
+                        'sure you are running the codelab using `firebase serve`');
+                }
+            };
+            // Chamando a função geral (que gerencia as específicas) ao carregar a página
+            window.onload = function() {
+                window.le16index = new le16index();
+                // Nomes originais do exemplo web codelab
+                //window.friendlyChat = new FriendlyChat();
+            };
+        </script>
+    </body>
 </html>
