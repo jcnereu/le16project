@@ -1,10 +1,8 @@
 <?php
 
-/**
- * Verificar a segurança de se usar o GET para isso
- */
+// O envio pode ser feito com GET, pois o que o usuário pesquisa não é tradado como uma informação confidencial
 
-$rawString = $_GET['q'];
+$rawString = filter_input(INPUT_GET,'q',FILTER_DEFAULT);//$_GET['q'];
 $string = (String) strip_tags(trim($rawString));
 require_once '../loadConn.inc.php';// Sainda da pasta ajax
 $resultado = '';
@@ -28,45 +26,25 @@ if(strlen($string)>1){ // Mínimo de letras para fazer a busca (Para não estres
             $bindValues = $bindValues . "&bv{$bvnum}={$substring}";
         }
     }
-    /*
-     * Acrescentar um ORDER BY pela quantidade de usuários no espaço
-     */
+    // Acrescentando um limite no resultado da busca (Em produção deve ser maior)
     $query = $query . ' LIMIT 10'; // No máximo 10 resultados
-    $busca = new readLike;
-    /// Verificar a segurança de declarar o LIMIT sem bind value
-    ///$tres = 2;
-    ///$busca->fazerBusca('SELECT * FROM spaces WHERE name LIKE :bv1 LIMIT :bv2',"bv1={$string}&bv2={$tres}");
-    ///$busca->fazerBusca('SELECT * FROM spaces WHERE name LIKE :bv1 LIMIT 2',"bv1={$string}");
-    
+    $busca = new readLike;    
     $busca->fazerBusca($query,$bindValues);
-    
+    // Se a busca retornar resultados
     if($busca->contaResultados()>0):
         foreach ($busca->retornaResultado() as $linha => $espaco):
-
                 // Criando o HTML/CSS para exibir cada resultado da busca
                 $resultado = $resultado . 
-                //'<a href="home.php?ss=sp&ids=' .$espaco['id']. '&em=sch">' .
-                    /*
-                     * Estrutura da função JS para fazer o registro de entrada do usuário ao clicar no espaço pelo resultado
-                     * da busca na barra do usuário (via AJAX, se o registro for bem sucedido redireciona via JS para o espaço)
-                    */
                     '<div class="resultado_busca_item_container" '. 
                     "onclick=\"registrarEntradaUsuario({$espaco['id']})\"" .
                     ' >' .
                         '<p class="resultado_busca_item_bloco_esquerdo">' . $espaco['name'] . '</p>' .
                         '<p class="resultado_busca_item_bloco_direito">' . $espaco['nusers'] . '</p>' .
-                    '</div>';// .
-                //'</a>';
+                    '</div>';
         endforeach;
-        //$resultado = 'Algum resultado.';
     else:
         $resultado = 'Nenhum resultado encontrado.';
     endif;
-    //echo 'Você digitou: ' . $string;
-//else:
-    //$resultado = 'Letras insuficientes para a busca.';
 }
-
 //RESPOSTA PARA O CLIENT-SIDE (Para ser manipulado pelo JavaScript)
 echo $resultado;
-

@@ -34,6 +34,9 @@ handlers:
 # Script com o espaço ativo
 - url: /pages/space.php
   script: pages/space.php
+# Página intermediária para fazer signout do Fitebase ao perder a sessão
+- url: /pages/wayout.php
+  script: pages/wayout.php
 # AJAX para fechar um espaço
 - url: /config/ajax/fecharEspaco.php
   script: config/ajax/fecharEspaco.php

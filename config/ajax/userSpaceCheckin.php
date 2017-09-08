@@ -1,14 +1,12 @@
 <?php
 
-/**
- * Verificar a segurança de se usar o GET para isso
- */
-
-$idEspaco = $_GET['ide'];
-$idUsuario = $_GET['idu'];
+// Pegando os dados enviados por formulário (via post) no JS registrarEntradaUsuario(idEspaco) da userBar.php
+$dadosFormulario = filter_input_array(INPUT_POST,FILTER_DEFAULT);
+$idUsuario = $dadosFormulario['idUsuario'];
+$idEspaco = $dadosFormulario['idEspaco'];
 
 //Registrando a entrada do usuário
-require_once '../models/space.class.php';
+require_once '../models/space.class.php'; //  Sindo da pasta ajax
 
 $spaceIn = new space();
 if($spaceIn->registrarEntradaUsuario($idUsuario,$idEspaco)){
@@ -16,4 +14,5 @@ if($spaceIn->registrarEntradaUsuario($idUsuario,$idEspaco)){
 } else {
     $resposta = 'false';
 }
+// Resposta para o ClientSide 
 echo $resposta;

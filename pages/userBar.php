@@ -14,17 +14,17 @@
             </ul>
         </div>
         <div class="barra_usuario_ola_container">
-            <p>Olá <?php echo $dadosUsuario['nome'];?></p>
+            <p id="ola_usuario"></p>
             <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID do usuário-->
             <input type="text" value="<?php echo $dadosUsuario['id']; ?>" id="id_invisivel_usuario" style="display: none;">
         </div>
         <div class="barra_usuario_busca_container">
             <form method="post">
-                <div class="bu_caixa_texto"><input type="text" name="nomeEspaco" onkeyup="buscarSugestao(this.value)"></div>
-                <div class="bu_botao_novo"><input type="submit" name="novoEspaco" value="Novo"></div>
+                <div class="bu_caixa_texto"><input name="nome_novo_espaco" type="text" onkeyup="buscarSugestao(this.value)"></div>
+                <div class="bu_botao_novo"><input type="submit" value="Novo" name="submit_novo_espaco"></div>
                 <!-- 
                 O processamento PHP do formulário é feito na home, pois é preciso usar o header
-                e a barra do usuário é carregada na home, depois de saídas HTML 
+                e a barra do usuário é carregada na home, depois de saídas HTML
                 -->
             </form>
         </div>
@@ -51,7 +51,9 @@
         this.checkSetup();
         // Shortcuts to DOM Elements.
         this.signOutButton = document.getElementById('sign-out');
-        //Event listeners
+        //this.messageList = document.getElementById('messages'); // Na space.php
+        //*this.userPic = document.getElementById('user-pic');
+        // Event listeners
         this.signOutButton.addEventListener('click', this.signOut.bind(this));
         // Função para configurações iniciais
         this.initFirebase();
@@ -60,11 +62,26 @@
     le16.prototype.initFirebase = function() {
         // Shortcuts to Firebase SDK features.
         this.auth = firebase.auth();
-        this.database = firebase.database();
+        //this.database = firebase.database();
         this.storage = firebase.storage();
         // A função abaixo pode ser útil futuramente
         // Initiates Firebase auth and listen to auth state changes.
-        // this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
+        this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
+    };
+    //
+    le16.prototype.onAuthStateChanged = function(user) {
+        if (user) { // User is signed in!
+            // Pegando os dados Firebase do Usuário
+            var userFirebaseName = user.displayName;
+            //var userFirebaseId = user.uid;
+            // Preenchendo a tag com a saudação ao usuário
+            document.getElementById("ola_usuario").innerHTML = 'Olá '+userFirebaseName;
+            // Pegando a imagem de perfil do usuário
+            //*var profilePicUrl = user.photoURL;
+            // Set the user's profile pic and name.
+            //*this.userPic.style.backgroundImage = 'url(' + profilePicUrl + ')';
+
+        }// else { User is signed Out }
     };
     // Função chamada quando o usuário clica em sair.
     le16.prototype.signOut = function() {
@@ -73,6 +90,7 @@
         // Para chamar a função de destruição da sessão e redirecionamento na loadSession.php
         window.location.assign("home.php?logout=true");
     };
+    
     // Função necessária para a fase de desenvolvimento
     // Checks that the Firebase SDK has been correctly setup and configured.
     le16.prototype.checkSetup = function() {
@@ -84,7 +102,7 @@
     };
     // Chamando a função geral (que gerencia as específicas) ao carregar a página
     window.onload = function() {
-        window.le16 = new le16();
+        window.le16 = new le16();     
     };
     // ******************************** FIM: FUNÇÕES FIREBASE ***************************************
     
@@ -99,37 +117,42 @@
         /*AJAX PARA FAZER A BUSCA ENQUANTO O USUÁRIO DIGITA*/
         if (str.length > 0) {
             /*document.getElementById("ResultadoBusca").innerHTML = "Digitando...";*/
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
+            var searchPostman = new XMLHttpRequest();
+            searchPostman.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
                     /*Recebe a string de resultados do servidor (já com html/css) e joga na div 'div_resultado_busca'*/
                     document.getElementById("div_resultado_busca").innerHTML = this.responseText;
                 }
             };
             // O envio pode ser feito com GET, pois o que o usuário pesquisa não é tradado como uma informação confidencial
-            xmlhttp.open("GET", "../config/ajax/userBarSearch.php?q=" + str, true);
-            xmlhttp.send();
+            searchPostman.open("GET", "../config/ajax/userBarSearch.php?q="+str, true);
+            searchPostman.send();
         }
-    }
+    };
     // Função chamada quando o usuário clica em algum espaço listado no resultado da busca
     function registrarEntradaUsuario(idEspaco){
+        // Pegando o id do usuário no campo invisível
         var idUsuario = document.getElementById("id_invisivel_usuario").value;
         // AJAX para registrar a entrada do usuário
-        var xmlregistro = new XMLHttpRequest();
-            xmlregistro.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    if(this.responseText==='true'){
-                        window.location.assign('home.php?ss=sp&ids='+idEspaco);
-                    }// Se o registro não for bem sucedido: Não fazer nada por enquanto
-                }
-            };
-            xmlregistro.open("GET", "../config/ajax/userSpaceCheckin.php?ide="+idEspaco+"&idu="+idUsuario, true);
-            xmlregistro.send();
-    }
-    /* Mostra/oculta o conteúdo do menu ao clicar no botão do menu */
+        var checkInPostman = new XMLHttpRequest();
+        checkInPostman.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                // Se o registro foi bem sucedido
+                if(this.responseText==='true'){
+                    window.location.assign('home.php?ss=sp&ids='+idEspaco);
+                } // Se o registro não foi bem sucedido ou o usuário já está no espaço: Não faz nada, apenas não entra
+            }
+        };
+        formCheckIn = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
+        formCheckIn.append('idUsuario',idUsuario);// Adiciona a variável 'idUsuario' como se um campo type=text (nesse caso) tivesse sido preenchido com a variável
+        formCheckIn.append('idEspaco',idEspaco);
+        checkInPostman.open("POST", "../config/ajax/userSpaceCheckin.php", true); // Chama o script para tratar os dados do formulário
+        checkInPostman.send(formCheckIn); // Equivalente a clicar em um submit e enviar o formulário
+    };
+    // Mostra/oculta o conteúdo do menu ao clicar no botão do menu
     function mostrarMenu() {
         document.getElementById("barra_usuario_menu_conteudo").classList.toggle("barra_usuario_menu_mostrar_conteudo");
-    }
+    };
     /* Para ocultar o conteúdo do meno ao clicar fora */
     window.onclick = function(event) {
         if (!event.target.matches('.barra_usuario_menu_botao')) {
@@ -138,5 +161,5 @@
                 divConteudoMenu.classList.remove('barra_usuario_menu_mostrar_conteudo');
             }
         }
-    }
+    };
 </script>

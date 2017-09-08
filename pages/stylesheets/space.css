@@ -13,29 +13,29 @@
 /* Cabeçálio */
 .espaco_cabecalio {
     width: 96%;
-    padding: 12px 1%;
+    padding: 15px 4px 0 4px;
     margin: auto;
     margin-top: 2px;
-    border: 1px solid black;
-    border-radius: 4px;
     font-weight: 700;
-    color: #333;
+    color: #3e4859;
 }
-.espaco_btn_sair {
+.espaco_cabecalio p {font-size: 24px;}
+.espaco_cabecalio_menu {
     float: right;
+    padding-top: 10px;  /*Para descer um pouco a div*/
 }
-.espaco_btn_sair:hover {
+.espaco_cabecalio_sair:hover{
     cursor: pointer;
     font-weight: bold;
 }
 /* Área de exibição da comversa */
 .espaco_mensagens_container {
     width: 96%;
-    height: 300px;
-    padding: 12px 1%;
+    height: 350px;
+    padding: 6px 2px;
     margin: auto;
     margin-top: 4px;
-    border: 1px solid #666;
+    /*border: 1px solid #666;*/
     border-radius: 4px;
     background-color: #eee;
 }
@@ -61,17 +61,21 @@
 }
 .espaco_area_texto input[type=text] {
     width: 75%;
-    padding: 12px;
-    border: solid 1px #aaa;
-    border-radius: 4px;
-    margin-right: 4px; /*Para o botão Enviar não ficar encostado*/
+    padding: 14px 10px;
+    /*border: none;*/
+    border: solid 1px #ccc;
+    border-radius: 8px;
+    background-color: #f5f5f5;
 }
 .espaco_area_texto input[type=submit] {
-    width: 20%;
-    padding: 12px;
-    border: solid 1px #aaa;
-    border-radius: 4px;
+    width: 44px;
+    padding: 14px 10px;
+    border: none;
+    background-color: #d5d5d5;
+    border-radius:25px;
+    margin-left: 6px; /*Para os botões não encostarem nos seus vizinho a esquerda*/
 }
+.espaco_area_texto input[type=submit]:hover {background-color: #c5c5c5;}
 .area_texto_item {
     float: left;
 }

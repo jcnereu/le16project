@@ -17,22 +17,26 @@ if($buscaUsuario->contaResultados()>0) {// Se o usuário já é cadastrado
     $_SESSION['dadosUsuario'] = array('id'=>$buscaUsuario->retornaResultado()[0]['id'],'fb_uid'=>$idUsuarioFirebase,'nome'=>$buscaUsuario->retornaResultado()[0]['name']);
     // Pode redirecionar
     $resposta = 'true';
-} else { // Se o usuário não é cadastrado
+} else { // Se o usuário não é cadastrado (faz o cadastro e cria a sessão com os dados do Firbase e o novo id)
     $novoUsuario = new create();
     $novoUsuario->fazerInsercao('users', array('fb_uid'=>$idUsuarioFirebase,'name'=>$nomeUsuarioFirebase));
     // Se a inserção foi bem sucedida
     if($novoUsuario->retornaResultado()){
         // Crinado a correspondencia do usuário na tabela userspaces
         $novoUsuarioEspaco = new create();
-        $novoUsuarioEspaco->fazerInsercao('userspaces',array('id'=>$novoUsuario->retornaIDinserido(),'s1'=>0,'s2'=>0,'s3'=>0,'s4'=>0,'s5'=>0,'s6'=>0,'s7'=>0,'s8'=>0,'s9'=>0,'s10'=>0));
+        $novoUsuarioEspaco->fazerInsercao('userspaces',array('id'=>$idUsuarioFirebase,'s1'=>0,'s2'=>0,'s3'=>0,'s4'=>0,'s5'=>0,'s6'=>0,'s7'=>0,'s8'=>0,'s9'=>0,'s10'=>0));
         if($novoUsuarioEspaco->retornaResultado()){
             // Se não houver nenhuma sessão iniciada
             if(!session_id()):
                 session_start();
             endif;
-            //Pega os dados do usuário e aloca em uma varável global
+            //Pega os dados do novo usuário e aloca em uma varável global
             $_SESSION['dadosUsuario'] = array('id'=>$novoUsuario->retornaIDinserido(),'fb_uid'=>$idUsuarioFirebase,'nome'=>$nomeUsuarioFirebase);
-            // Pode redirecionar
+            // Pode redirecionar:
+            //***********************************************************************************
+            // Aqui é o lugar para informar que esse é o primeiro acesso do usuário
+            // Ex: Em vez de 'true' responder 'firstTrue' e tratar no clentside
+            //***********************************************************************************
             $resposta = 'true';
         } else {
             // Algo deu errado na inserção da userspaces, não deve redirecionar
