@@ -21,7 +21,7 @@
                 <br>
                 <a href="pages/teste.php">Página de teste</a>
             </div>
-            <p class="rodape">LE16 project. When I'm sixty four, 14 skips, working...</p>
+            <p class="rodape">LE16 project. Dia 65, 14 skips, working...</p>
         </div>
         <!-- ********************************** Carregando o Firebase ************************************ -->
         <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>

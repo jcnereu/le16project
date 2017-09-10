@@ -31,7 +31,7 @@
         }
     }
     /******************************************************************
-     Código para tratar as mensagens da área de conversa em um espaço (Feito pelo Firebase agora)
+     Código para tratar as mensagens da área de conversa em um espaço (Deixado aqui em memória, feito pelo Firebase agora)
      ******************************************************************/
     /*
     if(isset($dadosFormulario['enviarMensagem'])){
@@ -67,6 +67,7 @@
             <div class="coluna_central_c1">
                 <div class="c1_lista_espacos" id="lista_espacos">
                     <?php
+                        // Para guardar o id do último espaço na lista
                         $proximoEspaco = 0;
                         // Listando os espaços em que o usuário se encontra
                         include_once '../config/loadConn.inc.php';

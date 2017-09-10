@@ -51,62 +51,109 @@ main, #messages-card {
   padding-top: 0;
   padding-bottom: 0;
 }
-#messages { /*Classe utilizada no projeto*/
+/******************************************************************************************************/
+/*                                  CONTAINER PARA AS MENSAGENS le16                                  */
+/******************************************************************************************************/
+#messages {
   overflow-y: auto;
   margin-bottom: 10px;
-  height: 100%;/*calc(100% - 80px);*/
+  height: 100%;
 }
-/*
-#message-filler {
-  flex-grow: 1;
-}
-*/
-.message-container:first-of-type { /*Classe utilizada no projeto*/
-  border-top-width: 0;
-}
-.message-container { /*Classe utilizada no projeto*/
+/******************************************************************************************************/
+/*                               CONTAINER PARA AS MENSAGENS DO USUÁRIO                               */
+/******************************************************************************************************/
+.message-container-user {
   display: block;
-  max-width: 70%; /*le16*/
-  float: right; /*le16*/
-  clear: right; /*le16*/
+  max-width: 70%;
+  float: right;
+  clear: both; /* Para que não aconteca interferência vertical entre as mensagens*/
   margin: 10px 4px 0 4px;
-  /*border-top: 1px solid #f3f3f3;*/
-  border-radius: 8px;/*le16*/
+  border-radius: 8px;
   padding-top: 10px;
   background-color: #428BDD;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
-.message-container.visible { /*Classe utilizada no projeto*/
+/* BUG CABULOSO (Testado no firefox): Se der um espaço entre "...-others" e ".visible" a classe não é reconhecida e as mensagens permanecem invisíveis*/
+.message-container-user.visible {
   opacity: 1;
 }
-.message-container .pic { /*Classe utilizada no projeto*/
+.message-container-user .pic {
   background-image: url('/backgrounds/profile_placeholder.png');
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
   background-size: 30px;
   border-radius: 20px;
+  margin-left: 4px;
 }
-.message-container .spacing { /*Classe utilizada no projeto*/
-  margin-left: 4px; /*le16*/
+.message-container-user .spacing {
   display: table-cell;
   vertical-align: top;
 }
-.message-container .message { /*Classe utilizada no projeto*/
+.message-container-user .message {
   display: table-cell;
   width: calc(100% - 40px);
-  padding: 5px 0 5px 10px;
+  padding: 5px;
 }
-.message-container .name { /*Classe utilizada no projeto*/
+.message-container-user .name {
   display: inline-block;
   width: 100%;
-  padding-left: 40px;
-  color: #bbb;
+  padding-left: 5px;
+  color: #eee;
   font-style: italic;
   font-size: 12px;
   box-sizing: border-box;
 }
+/******************************************************************************************************/
+/*                 CONTAINER PARA AS MENSAGENS DE OUTROS USUÁRIOS - INÍCIO                            */
+/******************************************************************************************************/
+.message-container-others {
+  display: block;
+  max-width: 70%;
+  float: left;
+  clear: both; /* Para que não aconteca interferência vertical entre as mensagens*/
+  margin: 10px 4px 0 4px;
+  border-radius: 8px;
+  padding-top: 10px;
+  background-color: #fff189;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+/* BUG CABULOSO (Testado no firefox): Se der um espaço entre "...-others" e ".visible" a classe não é reconhecida e as mensagens permanecem invisíveis*/
+.message-container-others.visible {
+  opacity: 1;
+}
+.message-container-others .pic {
+  background-image: url('/backgrounds/profile_placeholder.png');
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+  background-size: 30px;
+  border-radius: 20px;
+  margin-left: 4px;
+}
+.message-container-others .spacing {
+  display: table-cell;
+  vertical-align: top;
+}
+.message-container-others .message {
+  display: table-cell;
+  width: calc(100% - 40px);
+  padding: 5px;
+}
+.message-container-others .name {
+  display: inline-block;
+  width: 100%;
+  padding-left: 5px;
+  color: #555;
+  font-style: italic;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+/******************************************************************************************************/
+/*                 CONTAINER PARA AS MENSAGENS DE OUTROS USUÁRIOS - FIM                               */
+/******************************************************************************************************/
 #message-form { /*Classe utilizada no projeto*/
   display: flex;
   flex-direction: row;

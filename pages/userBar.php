@@ -21,7 +21,7 @@
         <div class="barra_usuario_busca_container">
             <form method="post">
                 <div class="bu_caixa_texto"><input name="nome_novo_espaco" type="text" onkeyup="buscarSugestao(this.value)"></div>
-                <div class="bu_botao_novo"><input type="submit" value="Novo" name="submit_novo_espaco"></div>
+                <div class="bu_botao_novo"><input type="submit" value="Novo" name="submit_novo_espaco" id="new-space-submit"></div>
                 <!-- 
                 O processamento PHP do formulário é feito na home, pois é preciso usar o header
                 e a barra do usuário é carregada na home, depois de saídas HTML
@@ -51,8 +51,6 @@
         this.checkSetup();
         // Shortcuts to DOM Elements.
         this.signOutButton = document.getElementById('sign-out');
-        //this.messageList = document.getElementById('messages'); // Na space.php
-        //*this.userPic = document.getElementById('user-pic');
         // Event listeners
         this.signOutButton.addEventListener('click', this.signOut.bind(this));
         // Função para configurações iniciais
@@ -64,7 +62,6 @@
         this.auth = firebase.auth();
         //this.database = firebase.database();
         this.storage = firebase.storage();
-        // A função abaixo pode ser útil futuramente
         // Initiates Firebase auth and listen to auth state changes.
         this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
     };
@@ -73,7 +70,6 @@
         if (user) { // User is signed in!
             // Pegando os dados Firebase do Usuário
             var userFirebaseName = user.displayName;
-            //var userFirebaseId = user.uid;
             // Preenchendo a tag com a saudação ao usuário
             document.getElementById("ola_usuario").innerHTML = 'Olá '+userFirebaseName;
             // Pegando a imagem de perfil do usuário
@@ -83,7 +79,7 @@
 
         }// else { User is signed Out }
     };
-    // Função chamada quando o usuário clica em sair.
+    // Função chamada quando o usuário clica em sair no menu da barra do usuário
     le16.prototype.signOut = function() {
         // Sign out of Firebase.
         this.auth.signOut();
@@ -133,12 +129,14 @@
     function registrarEntradaUsuario(idEspaco){
         // Pegando o id do usuário no campo invisível
         var idUsuario = document.getElementById("id_invisivel_usuario").value;
+        var spaceRef = 'space-'+String(idEspaco);
         // AJAX para registrar a entrada do usuário
         var checkInPostman = new XMLHttpRequest();
         checkInPostman.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 // Se o registro foi bem sucedido
                 if(this.responseText==='true'){
+                    // Atualiza a URL para exibir o espçao clicado
                     window.location.assign('home.php?ss=sp&ids='+idEspaco);
                 } // Se o registro não foi bem sucedido ou o usuário já está no espaço: Não faz nada, apenas não entra
             }

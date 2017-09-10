@@ -12,6 +12,7 @@ class space {
     private $nUsers;
     private $userID;
     private $userAvailableColumn;
+    private $emptySpace = false; // Flag para informar o clintSide se o espaço está vazio (true) ou ocupado (false)
 
     // Método chamado quando o usuárip clica em "Novo" para abrir um espaço na home
     // Ao chamar o método registrarEntradaUsuario aqui dentro criou-se um bug de 3 dias
@@ -55,14 +56,17 @@ class space {
         $this->id = $idEspaco;
         require_once '../loadConn.inc.php';// Saindo do userSpaceCheckout na pasta ajax
         $busca = new read();
+        // Primeiro encontra em qual coluna da userspaces (na linha do usuário) o espaço informado está registrado 
         $busca->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$this->userID}");
         foreach ($busca->retornaResultado()[0] as $coluna => $space){
             if($coluna!='id' && $space==$this->id){ // Para não atualizar o id huaahauah
                 $colunaEspaco = $coluna;
             }
         }
+        // Depois atualiza a linha do usuário na coluna encontrada no passo anterior
         $atualizacao = new update();
         $atualizacao->fazerAtualizacao('userspaces',array("{$colunaEspaco}"=>'dummy'),"id={$this->userID}","{$colunaEspaco}"."=0");
+        // Por último atualiza a spaces subtraindo 1 do campo nusers na linha do espaço 
         if($atualizacao->retornaResultado()){
             if($this->atualizarNumeroUsuarios('menos')){
                 return true;
@@ -113,6 +117,10 @@ class space {
     
     public function pegarNumeroUsuarios() {
         return $this->nUsers;
+    }
+    
+    public function pegarEmptySpace() {
+        return $this->emptySpace;
     }
     
     // Métodos privados
@@ -203,6 +211,8 @@ class space {
             }       
         } else {
             if($this->limparEspaco()){
+                // Flag para informar o clientSide que o espaço foi fechado (último usuário saiu)
+                $this->emptySpace = true;
                 return true;
             } else {
                 return false;
