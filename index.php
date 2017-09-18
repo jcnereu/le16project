@@ -21,7 +21,7 @@
                 <br>
                 <a href="pages/teste.php">Página de teste</a>
             </div>
-            <p class="rodape">LE16 project. Dia 65, 14 skips, working...</p>
+            <p class="rodape">LE16 project. Dia 74, 14 skips, working...</p>
         </div>
         <!-- ********************************** Carregando o Firebase ************************************ -->
         <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
@@ -67,7 +67,8 @@
             le16index.prototype.onAuthStateChanged = function(user) {
                 
                 if (user) { // User is signed in!
-                    
+
+                    // Fluxo de Login
                     var userFirebaseName = user.displayName;
                     var userFirebaseId = user.uid;
                     // AJAX para verificar se o usuário já é cadastrado (se não é faz o cadastro), criar a sessão (com o identificador do firebase) e redirecionar para a home

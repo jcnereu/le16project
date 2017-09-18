@@ -37,12 +37,6 @@ handlers:
 # Página intermediária para fazer signout do Fitebase ao perder a sessão
 - url: /pages/wayout.php
   script: pages/wayout.php
-# AJAX para fechar um espaço
-- url: /config/ajax/fecharEspaco.php
-  script: config/ajax/fecharEspaco.php
-  # AJAX para fazer a busca digitada na barra do usuário
-- url: /config/ajax/userBarSearch.php
-  script: config/ajax/userBarSearch.php
 # Página de teste *****###### TESTE
 - url: /pages/testeAjax.php
   script: pages/testeAjax.php

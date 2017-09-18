@@ -9,10 +9,10 @@ class space {
     
     private $name;
     private $id;
-    private $nUsers;
+    private $info; // Array com as informações ESTÁTICAS exibidas no espaço: Nome, criador e data de criação (Por enquanto)
     private $userID;
     private $userAvailableColumn;
-    private $emptySpace = false; // Flag para informar o clintSide se o espaço está vazio (true) ou ocupado (false)
+    private $emptySpace = false; // Flag para informar o clientSide se o espaço está vazio (true) ou ocupado (false)
 
     // Método chamado quando o usuárip clica em "Novo" para abrir um espaço na home
     // Ao chamar o método registrarEntradaUsuario aqui dentro criou-se um bug de 3 dias
@@ -20,7 +20,7 @@ class space {
     public function alocarEspaco($name,$idUsuario) {
         $this->name = (String) strip_tags(trim($name));
         $this->userID = $idUsuario;
-        require_once '../config/loadConn.inc.php';// Saindo da home
+        require_once '../loadConn.inc.php';// Saindo do createNewSpace na pasta ajax
         if($this->procurarVagaUsuario()){
             if($this->reciclarOuCriarVaga()) {// Gera o id do espaço, atua na tabela spaces
                    $atualizacao = new update();
@@ -76,15 +76,14 @@ class space {
         }   
     }
     
-    // Esse método não está sendo utilizado por enquanto (Acho que nem será preciso)
+    // ESSE MÉTODO NÃO ESTÁ SENDO UTILIZADO (Acho que nem será preciso)
     public function contarUsuarios($idEspaco) {
         require_once '../loadConn.inc.php';// Saindo do userSpaceCheckout na pasta ajax
         $busca = new read();
         $busca->fazerBusca('SELECT nusers FROM spaces WHERE id = :bv',"bv={$idEspaco}");
         $nusers = $busca->retornaResultado()[0]['nusers'];
         return $nusers;
-        // Método necessário para mostrar o número de usuários em um espaço no resultado da busca
-        // Para decidir entre apenas registrar saída ou limpar o espçao ao clicar em sair
+        // O número de usuários (no espaço aberto e na lista) será mostrado via Firebase
     }
     
     public function validarAcessoEspaco($idUsuario,$idEspaco) {
@@ -95,8 +94,8 @@ class space {
         $busca->fazerBusca('SELECT * FROM spaces WHERE id = :bv',"bv={$this->id}");
         if($busca->contaResultados()>0){
             if($this->verificarRegistroUsuario()){
-                $this->name = $busca->retornaResultado()[0]['name'];
-                $this->nUsers = $busca->retornaResultado()[0]['nusers'];
+                 // Retornando os dados (nome, criador e data de criação) para uso no clientSide
+                $this->info = $busca->retornaResultado()[0];
                 return true;
             } else {
                 return false; // O usuário não foi eregistrado e portanto não pode ter acesso a esse espaço
@@ -110,13 +109,9 @@ class space {
     public function pegarIDespaco() {
         return $this->id;
     }
-    
-    public function pegarNomeEspaco() {
-        return $this->name;
-    }
-    
-    public function pegarNumeroUsuarios() {
-        return $this->nUsers;
+
+    public function pegarInfoEspaco() {
+        return $this->info;
     }
     
     public function pegarEmptySpace() {
@@ -127,9 +122,14 @@ class space {
     
     private function reciclarOuCriarVaga() {
         if($this->procurarVaga()){
-            // A contagem do usuário é feita pelo registrarEntradaUsuario chamada na sequência
+            // Pegando o ID fairebase do usuário
+            $buscaFbId = new read();
+            $buscaFbId->fazerBusca('SELECT fb_uid FROM users WHERE id = :bv',"bv={$this->userID}");
+            // Unix time (ou UTC): tempo absoluto em segundos desde 01/01/1970 ver o wikipedia sobre
+            $utime = time();
+            // Fazendo a atualização da vaga (linha na spaces) com os dados recebidos
             $atualizacao = new update();
-            $atualizacao->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','status'=>'dummy'),"id={$this->id}","name={$this->name}&nusers=1&status=on");
+            $atualizacao->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'dummy','creation_date'=>'','status'=>'dummy'),"id={$this->id}","name={$this->name}&nusers=1&creator_fbuid={$buscaFbId->retornaResultado()[0]['fb_uid']}&creation_date={$utime}&status=on");
             if($atualizacao->retornaResultado()){
                 return true;
             } else {
@@ -157,8 +157,14 @@ class space {
     }
     
     private function criarVaga() {
+        // Pegando o ID fairebase do usuário
+        $buscaFbId = new read();
+        $buscaFbId->fazerBusca('SELECT fb_uid FROM users WHERE id = :bv',"bv={$this->userID}");
+        // Unix time (ou UTC): tempo absoluto em segundos desde 01/01/1970 ver o wikipedia sobre
+        $utime = time();
+        // Fazendo a inserção (nova linha na spaces) com os dados recebidos
         $insercao = new create();
-        $insercao->fazerInsercao('spaces',array('name'=>$this->name,'nusers'=>1,'status'=>'on'));
+        $insercao->fazerInsercao('spaces',array('name'=>$this->name,'nusers'=>1,'creator_fbuid'=>$buscaFbId->retornaResultado()[0]['fb_uid'],'creation_date'=>$utime,'status'=>'on'));
         if($insercao->retornaResultado()){
             $this->id = $insercao->retornaIDinserido(); // Pegando o novo ID 
             //echo 'Vaga criada de novo.';
@@ -178,7 +184,7 @@ class space {
         $busca = new read();
         $busca->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$this->userID}");
         
-        // PAROU AQUI: O bug do id 1 está por aqui. Parece ocorrer quando o id do usuário é igual ao id do espaço
+        // PAROU AQUI: O bug do id 1 está por aqui. Parece ocorrer quando o id do usuário é igual ao id do espaço (Comentário deixado em memória)
         
         foreach ($busca->retornaResultado()[0] as $coluna => $space) {     
             if($coluna!='id' && $space==0){// O resultado da leitura vem como string
@@ -223,7 +229,7 @@ class space {
     private function limparEspaco() {
         $zero = 0;
         $atualizacao3 = new update();
-        $atualizacao3->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','status'=>'dummy'),"id={$this->id}","name=null&nusers={$zero}&status=off");
+        $atualizacao3->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'null','creation_date'=>0,'status'=>'dummy'),"id={$this->id}","name=null&nusers={$zero}&status=off");
         if($atualizacao3->retornaResultado()){
             return true;
         } else {

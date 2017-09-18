@@ -1,21 +1,6 @@
 <?php
     // Carregando o script para iniciar a sessão, fazer a verificação de login e processar o logout 
     require_once 'loadSession.php';
-    // Pegando os dados do formulário se algum submit for clicado
-    $dadosFormulario = filter_input_array(INPUT_POST,FILTER_DEFAULT);
-    /******************************************************************
-     Código para tratar a submissão do botão "Novo" na barra do usuário
-     ******************************************************************/
-    if(isset($dadosFormulario['submit_novo_espaco'])){
-        $idUsuario = $dadosUsuario['id'];
-        require_once '../config/models/space.class.php';// Saindo da home
-        $espaco = new space();
-        // O método alocarEspaco já faz o registro de entrada do usuário (O primeiro usuário)
-        if($espaco->alocarEspaco($dadosFormulario['nome_novo_espaco'],$idUsuario)){
-            // Se tudo ocorreu bem, atualiza a URL para carregar o novo espaço
-            header("Location: home.php?ss=sp&ids={$espaco->pegarIDespaco()}");
-        }        
-    }
     /******************************************************************
      Código para validar acesso a um espaço e pegar os dados
      ******************************************************************/
@@ -24,8 +9,12 @@
         require_once '../config/models/space.class.php';// Saindo da home
         $espaco = new space();
         if($espaco->validarAcessoEspaco($dadosUsuario['id'],$idEspacoUrl)){
-            // Se o par usuário/espaço está registrado: Carrega as infos do espaço (Apenas o nome por enquanto)
-            $nomeEspaco = $espaco->pegarNomeEspaco();
+            // Se o par usuário/espaço está registrado: Carrega as informações estáticas de criação do espaço
+            $infoEspaco = $espaco->pegarInfoEspaco();
+            $nomeEspaco = $infoEspaco['name'];
+            $numeroUsuarios = $infoEspaco['nusers'];
+            $criadorEspaco = $infoEspaco['creator_fbuid'];
+            $dataCriacao = $infoEspaco['creation_date'];
         } else {
             header("Location: home.php?ss=ns&access=false");// Acrescentar uma mensagem específica informando que o usuário tentou uma operação não permitida (tentar acessar um espaço pela url)
         }

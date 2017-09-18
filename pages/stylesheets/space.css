@@ -3,7 +3,7 @@
 /* Sub página contida na Home*/
 
 /**************************************************************************************************/
-/*                            ESPAÇO ATIVO (ocupra a coluna c2)                                   */
+/*                             ESPAÇO ATIVO (ocupa a coluna c2)                                   */
 /**************************************************************************************************/
 /* Container geral*/
 .espaco_container {
@@ -19,16 +19,105 @@
     font-weight: 700;
     color: #3e4859;
 }
-.espaco_cabecalio p {font-size: 24px;}
+.espaco_cabecalio .titulo {font-size: 24px;} /***** ATUALIZADO *****/
 .espaco_cabecalio_menu {
     float: right;
     padding-top: 10px;  /*Para descer um pouco a div*/
 }
-.espaco_cabecalio_sair:hover{
+.espaco_cabecalio_sair {
+    margin-left: 10px; /***** NOVO *****/
+}
+.espaco_cabecalio_sair:hover {
     cursor: pointer;
     font-weight: bold;
 }
-/* Área de exibição da comversa */
+/*********************************** INFO SOBRE O ESPAÇO ************************************/
+.espaco_info {
+    display: none;
+    width: 100%;
+}
+/** Bloco com as informações de origem do espaço **/
+.espaco_info .usuario_criador {
+    display: inline-block;
+    width: 200px;
+}
+.espaco_info .usuario_criador .pic {
+    float: left;
+    background-image: url('backgrounds/profile_placeholder.png');
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    background-size: 40px;
+    border-radius: 30px;
+    margin-right: 4px;
+}
+.espaco_info .usuario_criador .nome {
+    font-weight: bold;
+}
+.espaco_info .usuario_criador .data {
+    font-size: 12px;
+}
+/** Bloco com número de outros usuários **/
+.espaco_info .outros_usuarios {
+    display: inline-block;
+    min-width: 50px;
+    border-radius: 8px;
+    padding: 2px 4px 6px 4px;
+}
+.espaco_info .outros_usuarios:hover {
+    /*box-shadow: 2px 2px 1px #bbb;*/
+    background-color: #e9e9e9;
+    cursor: pointer;
+}
+.espaco_info .outros_usuarios .numero {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+}
+.espaco_info .outros_usuarios .icone {
+    display: inline-block;
+    margin: 0 -3px -2px 0;
+    width: 20px;
+}
+.espaco_info .outros_usuarios .texto {
+    margin: auto;
+    font-size: 13px;
+    width: 46px; /* ~Largura do texto "ver lista" para que o margin auto tenha efeito*/
+    line-height: 80%;
+}
+.espaco_mostrar_info {
+    display: block;
+}
+/************************** ÁREA DE EXIBIÇAO DA LISTA DE USUÁRIOS NO ESPAÇO ***************************/
+.espaco_lista_usuarios {
+    display: none;
+    width: 96%;
+    height: 200px;
+    padding: 12px 1%;
+    margin: auto;
+    margin-top: 4px;
+    border-radius: 4px;
+    background-color: #eee;
+}
+.espaco_lista_usuarios .cabecalio {
+    width: 96%;
+    padding: 4px;
+    margin: auto;
+    margin-top: 2px;
+    font-weight: 700;
+    color: #3e4859;
+}
+.espaco_lista_usuarios .cabecalio .titulo {
+    font-size: 18px;
+}
+.espaco_lista_usuarios .cabecalio .voltar_link {
+    float: right;
+}
+.espaco_lista_usuarios .cabecalio .voltar_link:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+/***************************** Área de exibição da conversa ***********************************/
 .espaco_mensagens_container {
     width: 96%;
     height: 350px;
