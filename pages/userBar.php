@@ -20,10 +20,10 @@
             <input type="text" value="<?php echo $dadosUsuario['fb_uid']; ?>" id="fbid_invisivel_usuario" style="display: none;">
         </div>
         <div class="barra_usuario_busca_container">
-            <form>
+            <!--<form action="#">-->
                 <div class="bu_caixa_texto"><input id="nome_novo_espaco" type="text" onkeyup="buscarSugestao(this.value);"></div>
                 <div class="bu_botao_novo"><input type="submit" value="Novo" onclick="criarNovoEspaco();"></div>
-            </form>
+            <!--</form>-->
         </div>
         <div class="resultado_busca" id="div_resultado_busca"></div>
     </div>
@@ -52,12 +52,12 @@
         this.signOutButton.addEventListener('click', this.signOut.bind(this));
         // Função para configurações iniciais
         this.initFirebase();
-    }
+    };
     // Sets up shortcuts to Firebase features and initiate firebase auth.
     le16.prototype.initFirebase = function() {
         // Shortcuts to Firebase SDK features.
         this.auth = firebase.auth();
-        //this.database = firebase.database();
+        this.database = firebase.database();
         this.storage = firebase.storage();
         // Initiates Firebase auth and listen to auth state changes.
         this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
@@ -67,8 +67,10 @@
         if (user) { // User is signed in!
             // Pegando os dados Firebase do Usuário 
             var userFirebaseName = user.displayName;
+            var nFirstBlank = userFirebaseName.search(" ");
+            var firstName = userFirebaseName.substr(0,nFirstBlank);
             // Preenchendo a tag com a saudação ao usuário
-            document.getElementById("ola_usuario").innerHTML = 'Olá '+userFirebaseName;
+            document.getElementById("ola_usuario").innerHTML = 'Olá '+firstName;
             // Pegando a imagem de perfil do usuário
             // var profilePicUrl = user.photoURL;
             // Set the user's profile pic and name.
@@ -84,10 +86,56 @@
     };
     // Função chamada quando o usuário clica em sair no menu da barra do usuário
     le16.prototype.signOut = function() {
-        // Sign out of Firebase.
-        this.auth.signOut();
-        // Para chamar a função de destruição da sessão e redirecionamento na loadSession.php
-        window.location.assign("home.php?logout=true");
+        
+        // Pegando o id do usuário no campo invisível
+        var idUsuario = document.getElementById("id_invisivel_usuario").value;
+        // Pegando o id Firebase do usuário no campo invisível
+        var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value;
+        // Pegando a lista de espaços (uma string) em um campo invisível na home
+        var listaEspacos = document.getElementById("lista_invisivel_espacos").value;
+        
+        // AJAX para registrar saída (na userspaces e no Firebase) em todos os espçaos registrados
+        var generalCheckoutPostman = new XMLHttpRequest();
+        generalCheckoutPostman.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                // Se existir algum espaço registrado
+                if (this.responseText !== 'nolist'){
+                    // Se os registros de saída na userspaces foram bem sucedidos
+                    if (this.responseText !== 'false') {
+                        var lista = this.responseText;
+                        var listaValida = lista.substr(1); // Para remover o primeiro '&'
+                        var arrayLista = listaValida.split('&'); // Passando de string para array
+                        for (var i = 0; i < arrayLista.length; i++) { // Em cada elemento do array
+                            var pair = arrayLista[i].split('='); // Separando a chave e o valor
+                            if (pair[1]==='true') {
+                                // Removendo o child do usuário na ref do espaço no Firebase DB
+                                firebase.database().ref('spaces/space-'+pair[0]+'/'+fbidUsuario).remove().then( function(){ return; });
+                            } else if (pair[1]==='empty') {
+                                // Removendo o child com a ref do espçao no banco de mensagens
+                                firebase.database().ref('messages/space-'+pair[0]).remove().then( function(){ return; });
+                                // Removendo o child do usuário no banco de espaços (remove automaticament a ref do espaço, pois fica vazia)
+                                firebase.database().ref('spaces/space-'+pair[0]+'/'+fbidUsuario).remove().then( function(){ return; });
+                                // Removendo a ref do espaço no banco de contadores (TRANSACTION para contar mensagens)
+                                firebase.database().ref('counters/space-'+pair[0]).remove().then( function(){ return; });
+                            }
+                        }
+
+                    } else { // Se occoreu algum problema ao fazer os checkouts no servidor
+                        window.alert('Mensagem provisória: Problema ao registrar saída em um espaço.');
+                    }
+                }
+                // ÚLTIMA ETAPA DO PROCESSO: Sign out of Firebase.
+                firebase.auth().signOut();
+                // Para chamar a função de destruição da sessão e redirecionamento na loadSession.php
+                window.location.assign("home.php?logout=true");
+            }
+        };
+        generalCheckoutForm = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
+        generalCheckoutForm.append('idUsuario', idUsuario);// Adiciona a variável 'idUsuario' como se um campo type=text (nesse caso) tivesse sido preenchido com a variável
+        generalCheckoutForm.append('listaEspacos', listaEspacos);
+        generalCheckoutPostman.open("POST", "../config/ajax/generalCheckout.php", true); // Chama o script para tratar os dados do formulário
+        generalCheckoutPostman.send(generalCheckoutForm); // Equivalente a clicar em um submit e enviar o formulário
+        
     };
     
     // Função necessária para a fase de desenvolvimento
@@ -127,6 +175,7 @@
             searchPostman.send();
         }
     };
+    
     // Função chamada quando o usuário clica em algum espaço listado no resultado da busca
     function registrarEntradaUsuario(idEspaco) {
         // Pegando o id do usuário no campo invisível
@@ -159,6 +208,7 @@
         checkInPostman.open("POST", "../config/ajax/userSpaceCheckin.php", true); // Chama o script para tratar os dados do formulário
         checkInPostman.send(formCheckIn); // Equivalente a clicar em um submit e enviar o formulário
     };
+    
     // Função chamada quando o usuário clica no botão "Novo" para criar um novo espaço
     function criarNovoEspaco() {     
         // Pegando o id do usuário no campo invisível
@@ -175,11 +225,16 @@
                 if (this.responseText !== 'false') {                    
                     // Alteração Firebase ****************************************************************
                     var currentUser = firebase.auth().currentUser;
-                    // Criando um child com as infos básicas do usuário na ref do espaço
+                    // Criando um child com as infos básicas do usuário no banco de espaços
                     firebase.database().ref('spaces/space-'+this.responseText+'/'+fbidUsuario).set({
                         // Por enquanto não terá o link para o perfil (pq não tem perfil)
                         userName: currentUser.displayName,
                         userPhotoUrl: currentUser.photoURL
+                    });
+                    // Criando um child com o id do espaço no banco de contadores
+                    firebase.database().ref('counters/space-'+this.responseText).set({
+                        // Apenas contando mensagens
+                        messages: 0
                     });
                     // ***********************************************************************************
                     // Atualiza a URL para exibir o espçao criado
@@ -194,7 +249,8 @@
         formNewSpace.append('nomeNovoEspaco', nomeNovoEspaco);
         newSpacePostman.open("POST", "../config/ajax/createNewSpace.php", true); // Chama o script para tratar os dados do formulário
         newSpacePostman.send(formNewSpace); // Equivalente a clicar em um submit e enviar o formulário
-    } 
+    };
+
     // Mostra/oculta o conteúdo do menu ao clicar no botão do menu
     function mostrarMenu() {
         document.getElementById("barra_usuario_menu_conteudo").classList.toggle("barra_usuario_menu_mostrar_conteudo");

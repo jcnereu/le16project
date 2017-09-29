@@ -39,7 +39,7 @@ class create extends conn{
      * @return Bool : TRUE se a inserção foi bem sicedida ou FALSE caso contrário
      */
     public function retornaResultado() {
-        if(!empty($this->resultado)){
+        if($this->resultado!=0){
             return true;
         } else {
             return false;
@@ -70,7 +70,7 @@ class create extends conn{
              */ 
             $this->resultado = $this->conexao->lastInsertId();
         } catch (PDOException $ex) {
-            $this->resultado = null;
+            $this->resultado = 0;
             msgSistema("<b>Erro ao inserir no banco de dados</b>:{$ex->getMessage()}", $ex->getCode());
             die;
         }

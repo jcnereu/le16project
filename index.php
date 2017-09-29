@@ -71,6 +71,10 @@
                     // Fluxo de Login
                     var userFirebaseName = user.displayName;
                     var userFirebaseId = user.uid;
+                    
+                    // PROVISÓRIO: Para verificar se no primeiro acesso o usuário já tem ID Firebase
+                    // window.alert('Nome: '+userFirebaseName+' / Id: '+userFirebaseId);
+                    
                     // AJAX para verificar se o usuário já é cadastrado (se não é faz o cadastro), criar a sessão (com o identificador do firebase) e redirecionar para a home
                     var loginPostman = new XMLHttpRequest();
                     loginPostman.onreadystatechange = function() {

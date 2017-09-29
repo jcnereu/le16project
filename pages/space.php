@@ -25,7 +25,7 @@
                 <p class="nome" id="user-creator-name"></p>
                 <p class="data" id="data-criacao"></p>
             </div>
-            <div class="outros_usuarios" onclick="listarUsuarios();">
+            <div class="outros_usuarios" id="div_geral_numero_usuarios" onclick="listarUsuarios();">
                 <!--<img class="icone" src="stylesheets/backgrounds/people3.png">-->
                 <!-- 
                     ACRESCENTAR O + ANTES DO NÚMERO
@@ -45,7 +45,9 @@
             <span onclick="ocultarListaUsuarios();" class="voltar_link" id="lista_voltar_link">voltar</span>
             <p class="titulo">Nesse momento</p>
         </div>
-        Lista aqui...
+        <div id="container_lista_usuarios">
+            
+        </div>  
     </div>
     <div class="espaco_area_texto" id="area_input">
         <form id="message-form" action="#">
@@ -130,9 +132,12 @@
         this.submitImageButton = document.getElementById('image-submit'); // Botão para enviar Imagens
         this.imageForm = document.getElementById('image-form');
         this.mediaCapture = document.getElementById('media-capture');
+        this.numeroUsuarios = document.getElementById('div_geral_numero_usuarios');
+        this.listaUsuarios = document.getElementById('container_lista_usuarios');
         
         // Eventlisteners
         this.messageForm.addEventListener('submit', this.saveMessage.bind(this));
+        this.numeroUsuarios.addEventListener('click', this.loadUsers.bind(this)); // Sem o ".bind(this)" o this.database e a função displayUserRow() não são reconhecidos
         
         // Events for image upload.
         this.submitImageButton.addEventListener('click', function(e) {
@@ -170,6 +175,11 @@
         this.messagesRef = this.database.ref('messages/space-'+spaceId);
         // Make sure we remove all previous listeners.
         this.messagesRef.off();
+        
+        //TRANSACTION
+        this.countMsgsRef = this.database.ref('counters/space-'+spaceId+'/messages');
+        this.countMsgsRef.off();
+        
         // Loads the last 12 messages and listen for new ones.
         var setMessage = function(data) {
             var val = data.val();
@@ -241,8 +251,14 @@
                 uid: currentUser.uid,
                 name: currentUser.displayName,
                 text: this.messageInput.value,
-                photoUrl: currentUser.photoURL || '/backgrounds/profile_placeholder.png'
+                photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png'
             }).then(function() {
+                
+                // TRANSACTION
+                this.countMsgsRef.transaction(function (current_value) {
+                    return (current_value || 0) + 1;
+                });
+                
                 // Clear message text field
                 this.messageInput.value = '';
             }.bind(this)).catch(function(error) {
@@ -320,6 +336,57 @@
         }
     };
     
+    // Função chamada ao criar/entrar em um espaço
+    le16space.prototype.loadUsers = function() {
+        // Pegando o id do espçao em um campo invível no ínico da página, criado ao exibir o espaço
+        var spaceId = document.getElementById('id_invisivel_espaco').value;
+        // Pegando referência do espaço no firebase DB
+        this.userListRef = this.database.ref('spaces/space-'+spaceId);
+        // Make sure we remove all previous listeners.
+        this.userListRef.off();
+        // Loads the last 12 messages and listen for new ones.
+        var setUserRow = function(data) {
+            var val = data.val();
+            // Chamando a função para exibir as informações do usuário
+            this.displayUserRow(data.key, val.userName, val.userPhotoUrl);
+        }.bind(this);
+        this.userListRef.on('child_added', setUserRow);    
+    };  
+    // Template para a linha do usuário na lista
+    USER_ROW_TEMPLATE =
+        '<div class="item-lista-usuario">' +
+            '<div class="pic"></div>' +
+            '<div class="name"></div>' +
+            '<div class="status"></div>' +
+        '</div>';
+    
+    // Mostra a linha com as informações básicas do usuário.
+    le16space.prototype.displayUserRow = function(key, name, picUrl) {
+        
+        // Pegando o elemento da mensagem (cada mensagem tem uma chave única) se ela já existir
+        var rowDiv = document.getElementById(key);
+        // If an element for that message does not exists yet we create it.
+        if (!rowDiv) {
+            var container = document.createElement("div");
+            container.innerHTML = USER_ROW_TEMPLATE;
+            rowDiv = container.firstChild;
+            rowDiv.setAttribute("id", key);
+            this.listaUsuarios.appendChild(rowDiv);            
+        }
+        // Se a mensagem tem uma imagem de perfil registrada
+        if (picUrl) {
+            rowDiv.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
+        }
+        // Adicionando o nome registrado na mensagem
+        rowDiv.querySelector('.name').textContent = name;
+        // Adicionando o texto de status do usuário
+        rowDiv.querySelector('.status').textContent = "\"Aqui vai o status...\"";
+        // Show the card fading-in.
+        //setTimeout(function() {msgDiv.classList.add('visible');}, 1);
+        //this.messageList.scrollTop = this.messageList.scrollHeight;
+        //this.messageInput.focus();
+    };
+    
     // Chamando a função geral (que gerencia as específicas) ao carregar a página (subpágina space.php)
     window.onload = function() {
         window.le16 = new le16();
@@ -341,25 +408,27 @@
             if (this.readyState === 4 && this.status === 200) {
                 // Recebe a resposta do serverSide e manda ver
                 if (this.responseText==='true') { // Se o usuário saiu, mas ainda tem outros no espaço
-                    if (idProximoEspaco!==0){ // Se existe algum espaço na lista
+                    // Alteração Firebase ***********************************************************************************
+                    // Removendo o child do usuário no banco de espaços
+                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).remove().then( function(){ return; });
+                    //******************************************************************************************************* 
+                    if (idProximoEspaco!==0){ // Se existir algum espaço na lista
                         window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
-                    } else {// Se não existe
+                    } else {// Se não existir
                         window.location.assign("home.php?ss=ns");
                     }
-                    // Alteração Firebase ***********************************************************************************
-                    // Removendo o child do usuário na ref do espaço no Firebase DB
-                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).remove();
-                    //******************************************************************************************************* 
                 } else if (this.responseText==='empty') { // Se era o último usuário do espaço
                     // Alteração Firebase ***********************************************************************************
-                    // Removendo o child com a ref do espçao no banco de mensagens
-                    firebase.database().ref('messages/space-'+idEspaco).remove();
-                    // Removendo o child do usuário na ref do espaço (remove automaticament a ref do espaço, pois fica vazia)
-                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).remove();
+                    // Removendo o child com a ref do espaço no banco de mensagens
+                    firebase.database().ref('messages/space-'+idEspaco).remove().then( function(){ return; });
+                    // Removendo o child do usuário no banco de espaços (remove automaticament a ref do espaço, pois fica vazia)
+                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).remove().then( function(){ return; });
+                    // Removendo a ref do espaço no banco de contadores (TRANSACTION para contar mensagens)
+                    firebase.database().ref('counters/space-'+idEspaco).remove().then( function(){ return; });
                     //*******************************************************************************************************
-                    if (idProximoEspaco!==0){ // Se existe algum espaço na lista
+                    if (idProximoEspaco!=0){ // Se existir algum espaço na lista
                         window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
-                    } else {// Se não existe
+                    } else {// Se não existir
                         window.location.assign("home.php?ss=ns");
                     }
                 }
@@ -380,13 +449,14 @@
             document.getElementById("mostrar_info_link").innerHTML = "mais";
         }
     }
-    // Função para buscar e mostrar os usuários no espaço
+    // Função para mostrar a div com a lista de usuários no espaço
     function listarUsuarios(){
         document.getElementById("area_input").style.display = 'none';
         document.getElementById("mensagens_container").style.display = 'none';
         document.getElementById("lista_usuarios_container").style.display = 'block';
+        
     }
-    // Função para ocultar a lista de usuários e exibir a conversa
+    // Função para ocultar a lista de usuários e voltar a exibir a conversa
     function ocultarListaUsuarios(){
         document.getElementById("lista_usuarios_container").style.display = 'none';
         document.getElementById("mensagens_container").style.display = 'block';

@@ -24,8 +24,12 @@ if($buscaUsuario->contaResultados()>0) {// Se o usuário já é cadastrado
     if($novoUsuario->retornaResultado()){
         // Crinado a correspondencia do usuário na tabela userspaces
         $novoUsuarioEspaco = new create();
-        $novoUsuarioEspaco->fazerInsercao('userspaces',array('id'=>$idUsuarioFirebase,'s1'=>0,'s2'=>0,'s3'=>0,'s4'=>0,'s5'=>0,'s6'=>0,'s7'=>0,'s8'=>0,'s9'=>0,'s10'=>0));
-        if($novoUsuarioEspaco->retornaResultado()){
+        $novoUsuarioEspaco->fazerInsercao('userspaces', array('id'=>$novoUsuario->retornaIDinserido(),'s1'=>0,'s2'=>0,'s3'=>0,'s4'=>0,'s5'=>0,'s6'=>0,'s7'=>0,'s8'=>0,'s9'=>0,'s10'=>0));
+        
+        // VALIDAÇÃO DO CADASTRO NA USERSPACES (Não é possível usar o médoto "$this->conexao->lastInsertId();" pq o id na userspaces NÃO é inserido automaticamente)
+        $buscaValidacao = new read();
+        $buscaValidacao->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$novoUsuario->retornaIDinserido()}");
+        if($buscaValidacao->contaResultados()>0){
             // Se não houver nenhuma sessão iniciada
             if(!session_id()):
                 session_start();

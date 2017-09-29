@@ -98,17 +98,17 @@
     margin-top: 4px;
     border-radius: 4px;
     background-color: #eee;
+    overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
 }
 .espaco_lista_usuarios .cabecalio {
     width: 96%;
-    padding: 4px;
+    padding: 2px 2px 4px 2px;
     margin: auto;
-    margin-top: 2px;
     font-weight: 700;
     color: #3e4859;
 }
 .espaco_lista_usuarios .cabecalio .titulo {
-    font-size: 18px;
+    font-size: 16px;
 }
 .espaco_lista_usuarios .cabecalio .voltar_link {
     float: right;
@@ -116,6 +116,31 @@
 .espaco_lista_usuarios .cabecalio .voltar_link:hover {
     cursor: pointer;
     font-weight: bold;
+}
+/*Div individual para cada usuário na lista*/
+.item-lista-usuario {
+    width: 100%;
+    height: 34px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 4px;
+}
+.item-lista-usuario .pic {
+    float: left;
+    background-image: url('/backgrounds/profile_placeholder.png');
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+    border-radius: 20px;
+    margin: 2px 4px 2px 4px;
+}
+.item-lista-usuario .name {
+    font-size: 13px;
+}
+.item-lista-usuario .status {
+    font-size: 13px;
+    color: #555;
+    font-style: italic;
 }
 /***************************** Área de exibição da conversa ***********************************/
 .espaco_mensagens_container {
