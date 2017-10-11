@@ -43,7 +43,7 @@ if(strlen($string)>1){ // Mínimo de letras para fazer a busca (Para não estres
                     '</div>';
         endforeach;
     else:
-        $resultado = 'Nenhum resultado encontrado.';
+        $resultado = 'noresult'; // Flag para exibir o botão para criar um novo espaço
     endif;
 }
 //RESPOSTA PARA O CLIENT-SIDE (Para ser manipulado pelo JavaScript)

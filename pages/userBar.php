@@ -12,20 +12,38 @@
                 <a id="sign-out">Sair</a>
             </ul>
         </div>
+        <!-- ##################### NOTIFICAÇÃO E LISTA DE CONVITES ########################## -->
+        <div class="lista_convite_container">
+            <div class="botao_icone_container" id="convite_botao_icone_container">
+                <!-- A classe "flag_lista" NÃO tem função de estilo. Serve apenas para marcar quais divs NÃO devem ativar ocultar a lista ao serem clicadas (ver a função window.onclick() no fim do script) -->
+                <div class="botao_lista flag_lista" onclick="mostrarConvites();"><div class="icone_botao_lista flag_lista"></div></div>
+                <div class="contador_convites" id="contador_convites">0</div>
+            </div>
+            <div class="lista" id="lista_convites">
+                <div class="cabecalio">CONVITES</div>
+            </div>
+        </div>
+        <!-- ############################################################################### -->
         <div class="barra_usuario_ola_container">
             <p id="ola_usuario"></p>
             <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID do usuário-->
             <input type="text" value="<?php echo $dadosUsuario['id']; ?>" id="id_invisivel_usuario" style="display: none;">
             <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID Firebase do usuário-->
             <input type="text" value="<?php echo $dadosUsuario['fb_uid']; ?>" id="fbid_invisivel_usuario" style="display: none;">
+            <!-- O campo abaixo é invisível. Criado apenas para serivir o covite e economizar uma consulta no Firebase -->
+            <input type="text" value="Bug" id="nome_invisivel_usuario" style="display: none;">
+            <!-- O campo abaixo é invisível. Criado apenas para serivir o covite e economizar uma consulta no Firebase -->
+            <input type="text" value="backgrounds/profile_placeholder.png" id="pic_invisivel_usuario" style="display: none;">      
         </div>
         <div class="barra_usuario_busca_container">
             <!--<form action="#">-->
-                <div class="bu_caixa_texto"><input id="nome_novo_espaco" type="text" onkeyup="buscarSugestao(this.value);"></div>
-                <div class="bu_botao_novo"><input type="submit" value="Novo" onclick="criarNovoEspaco();"></div>
+                <div class="caixa_texto"><input id="nome_novo_espaco" type="text" placeholder="buscar ou criar..." onkeyup="buscarSugestao(this.value);"></div>
+                <div class="botao_listar_tudo" id="botao_listar_tudo"><button onclick="redirecionarListaTudo();">Ver tudo</button></div>
+                
             <!--</form>-->
         </div>
         <div class="resultado_busca" id="div_resultado_busca"></div>
+        <div class="resultado_novo_espaco" id="div_resultado_novo_espaco"></div>
     </div>
 </div>
 <!-- ********************************** Carregando o Firebase ************************************ -->
@@ -48,10 +66,13 @@
         this.checkSetup();
         // Shortcuts to DOM Elements.
         this.signOutButton = document.getElementById('sign-out');
+        this.listaConvites = document.getElementById('lista_convites');
         // Event listeners
         this.signOutButton.addEventListener('click', this.signOut.bind(this));
         // Função para configurações iniciais
         this.initFirebase();
+        // Carregando e ouvindo os convites enviados para o usuário
+        this.loadInvitations();
     };
     // Sets up shortcuts to Firebase features and initiate firebase auth.
     le16.prototype.initFirebase = function() {
@@ -71,18 +92,89 @@
             var firstName = userFirebaseName.substr(0,nFirstBlank);
             // Preenchendo a tag com a saudação ao usuário
             document.getElementById("ola_usuario").innerHTML = 'Olá '+firstName;
+            // Preenchendo um campo invisível com o nome completo do usuário (Para usar no convite a princípio)
+            document.getElementById("nome_invisivel_usuario").value = userFirebaseName;
+            // Preenchendo um campo invisível com o endereço da imagem de perfil do usuário no cloudstorage (Para usar no convite tbm)
+            var profilePicUrl = user.photoURL;
+            document.getElementById("pic_invisivel_usuario").value = profilePicUrl;
             // Pegando a imagem de perfil do usuário
             // var profilePicUrl = user.photoURL;
             // Set the user's profile pic and name.
             // this.userPic.style.backgroundImage = 'url(' + profilePicUrl + ')';
             
-            // Salvando (sobrescreve depois da primeira vez) a imagem de perfil do usuário em um nó específico (com id do usuário) no Firebase DB
+            // Salvando (sobrescreve depois da primeira vez) o nome e a imagem de perfil do usuário em um child do no Firebase DB
             firebase.database().ref('users/'+user.uid).set({
                 userName: user.displayName,
                 userPhotoUrl : user.photoURL
             });
 
         }// else { User is signed Out }
+    };
+    // Carregando os convites (se) enviados para o usuário
+    le16.prototype.loadInvitations = function() {
+        // Pegando o fbuid do usuário em um campo invível no ínico da página (preenchido com a sessão (php) ao carregar a página)
+        var fbuidUsuario = document.getElementById('fbid_invisivel_usuario').value;
+        // Pegando a ref do usuário no banco de Convites (Se no momento da chamada a referencia não existe, então uma nova é criada)
+        this.invitationsRef = this.database.ref('invitations/'+fbuidUsuario);
+        // Make sure we remove all previous listeners (comentário herança do codelab)
+        this.invitationsRef.off();
+        // Carregando todos os convites enviados para o usuário
+        var setUserInvitation = function(data) {
+            var val = data.val();
+            // Chamando a função para exibir o convite (O key é gerador por push ao enviar o convite)
+            this.displayInvitations(data.key, val.origemId, val.origemName, val.origemPic, val.spaceId, val.spaceName, val.message);   
+        }.bind(this);
+        this.invitationsRef.on('child_added', setUserInvitation); 
+    };
+    // Template para cada convite listado
+    INVITE_TEMPLATE =
+            // A classe "flag_lista" NÃO tem função de estilo. Serve apenas para marcar quais divs NÃO devem ocultar a lista ao serem clicadas (ver a função window.onclick() no fim do script)        
+            '<div class="convite flag_lista">' +
+                '<div class="pic flag_lista"></div>' +
+                // Aqui é acrescentada a função para esconder e depois remover o convite
+                '<button class="descartar_btn flag_lista">Descartar</button>' +
+                '<div class="nome"></div>' +
+                '<div class="mensagem flag_lista"></div>' +
+                // Aqui é acrescentada a função para registrar a entrada do usuário ao clicar no espaço (tbm remove o convite)
+                '<div class="nome_espaco">&#9656</div>' +
+            '</div>';
+    // Preenche uma nova div com as informações do convite
+    le16.prototype.displayInvitations = function(key, origemId, origemName, origemPic, spaceId, spaceName, message) {
+        // Criando a div com um id associado à chave únnica do convite (necessário para identificar o convite no descarte)
+        var container = document.createElement("div");
+        container.innerHTML = INVITE_TEMPLATE;
+        var rowDiv = container.firstChild;
+        rowDiv.setAttribute("id", key);
+        /*
+         * ACRESCENTAR A FUNÇÃO PARA REDIRECIONAR PARA O PERFIL DO USUÁRIO (CRIAR O PERFIL PRIMEIRO)
+         */
+        // Acrescentado a função para esconder o convite e depois removê-lo do firebase
+        rowDiv.querySelector('.descartar_btn').setAttribute("onclick", 'discardInvitation("'+key+'");');
+        // Acrescentando a função de registro de entrado no espaço com o segundo argumento não nulo (key do convite) para remover o convite do firebase db
+        rowDiv.querySelector('.nome_espaco').setAttribute("onclick", 'registrarEntradaUsuario("'+spaceId+'","'+key+'");');
+        this.listaConvites.appendChild(rowDiv);
+        
+        // Se o usuário de origem tem uma imagem de perfil
+        if (origemPic) {
+            rowDiv.querySelector('.pic').style.backgroundImage = 'url(' + origemPic + ')';
+        }
+        // Adicionando o nome do usuário de origem
+        rowDiv.querySelector('.nome').textContent = origemName;
+        // Se uma mensagem adicional foi enviada
+        if (message) {
+            rowDiv.querySelector('.mensagem').textContent = message;
+        }
+        // Adicionando o nome do espaço alvo do convite
+        rowDiv.querySelector('.nome_espaco').textContent = spaceName;
+        
+        // Atualizando o número de convites no contador da barra do usuário
+        var nConvites = document.getElementById('contador_convites').innerHTML;
+        document.getElementById('contador_convites').innerHTML = nConvites - (-1);
+        // Mostrando o ícone da lista de convites se existir pelo menos um convite
+        if (document.getElementById('contador_convites').innerHTML>0) {
+            document.getElementById('convite_botao_icone_container').style.display = 'block';
+        }
+        
     };
     // Função chamada quando o usuário clica em sair no menu da barra do usuário
     le16.prototype.signOut = function() {
@@ -166,8 +258,24 @@
             var searchPostman = new XMLHttpRequest();
             searchPostman.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
-                    // Recebe a string de resultados do servidor (já com html/css) e joga na div 'div_resultado_busca'
-                    document.getElementById("div_resultado_busca").innerHTML = this.responseText;
+                    // Se a busca não tem resultados exibe o botão para criar um novo espaço
+                    if (this.responseText==='noresult') {
+                        // Ajustando a largura da div para exibir o botão
+                        /*
+                         * PENSAR EM OUTRA FORMA DE AJUSTE, PQ COM 'width' FIXO NÃO SERÁ POSSÍVEL IMPLEMENTAR O MOBILE FIRST
+                         */
+                        document.getElementById("div_resultado_busca").style.width = '29%';
+                        // Crinado o HTML/CSS do botão
+                        var botaoNovoEspaco = '<p class="texto_novo_espaco">Nenhum espaço encontrado.</p>' +
+                                              '<button class="botao_novo_espaco" onclick="criarNovoEspaco();">Criar novo</button>';
+                        // Exibindo o botão
+                        document.getElementById("div_resultado_busca").innerHTML = botaoNovoEspaco;
+                    } else { // Se a busca encontrou resultados
+                        // Ajustando a largura da div para exibir o resultado
+                        document.getElementById("div_resultado_busca").style.width = '40%';
+                        // Recebe a string de resultados do servidor (já com html/css) e joga na div 'div_resultado_busca'
+                        document.getElementById("div_resultado_busca").innerHTML = this.responseText;
+                    }
                 }
             };
             // O envio pode ser feito com GET, pois o que o usuário pesquisa não é tradado como uma informação confidencial
@@ -177,7 +285,8 @@
     };
     
     // Função chamada quando o usuário clica em algum espaço listado no resultado da busca
-    function registrarEntradaUsuario(idEspaco) {
+    // O segundo argumento só é utilizado pela chamada em um convite
+    function registrarEntradaUsuario(idEspaco,inviteKey) {
         // Pegando o id do usuário no campo invisível
         var idUsuario = document.getElementById("id_invisivel_usuario").value;
         // Pegando o id Firebase do usuário no campo invisível
@@ -196,8 +305,13 @@
                         userName: currentUser.displayName,
                         userPhotoUrl: currentUser.photoURL
                     });
+                    // Se a função foi chamada ao aceitar um convite (o segundo argumento é informado)
+                    if (inviteKey) {
+                        // remove o convite no firebase (Depois de ter feito todo o processo de registro)
+                        firebase.database().ref('invitations/'+fbidUsuario+'/'+inviteKey).remove().then( function(){ return; });
+                    } 
                     // ***********************************************************************************
-                    // Atualiza a URL para exibir o espçao clicado
+                    // Atualiza a URL para exibir o espaço clicado
                     window.location.assign('home.php?ss=sp&ids='+idEspaco);
                 } // Se o registro não foi bem sucedido ou o usuário já está no espaço: Não faz nada, apenas não entra
             }
@@ -250,18 +364,55 @@
         newSpacePostman.open("POST", "../config/ajax/createNewSpace.php", true); // Chama o script para tratar os dados do formulário
         newSpacePostman.send(formNewSpace); // Equivalente a clicar em um submit e enviar o formulário
     };
+    
+    // Redireciona a página para mostrar a lista de todos os espaços abertos
+    function redirecionarListaTudo() {
+        // Por enquanto só isso (É geral o suficiente para a introdução de filtros (tags) futuramente)
+        window.location.assign('home.php?ss=lt');
+    };    
 
     // Mostra/oculta o conteúdo do menu ao clicar no botão do menu
     function mostrarMenu() {
         document.getElementById("barra_usuario_menu_conteudo").classList.toggle("barra_usuario_menu_mostrar_conteudo");
     };
-    // Para ocultar o conteúdo do meno ao clicar fora
+    // Mostrar/ocultar a lista de convites
+    function mostrarConvites() {
+        document.getElementById("lista_convites").classList.toggle("lista_convites_mostrar_conteudo");
+    };
+    // Descartar convites
+    function discardInvitation(key) {
+        // Escondendo a div do convite
+        document.getElementById(key).style.display = 'none';
+        // Pegando o fbuid do usuário
+        var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value;
+        // remove o convite no firebase...
+        firebase.database().ref('invitations/'+fbidUsuario+'/'+key).remove().then( function(){ return; });
+        // Atualizando o número de convites na barra do usuário
+        // A rigor deveria utilizar um firebase listener com "child_removed" mais essa solução simples e econômica tbm funciona
+        var nConvites = document.getElementById('contador_convites').innerHTML;
+        document.getElementById('contador_convites').innerHTML = nConvites - 1;
+        // Escondendo o icone de convites se NÃO existir nenhum convite
+        if (document.getElementById('contador_convites').innerHTML < 1) {
+            document.getElementById('convite_botao_icone_container').style.display = 'none';
+        }    
+    }
+    // Para ocultar elementos ao clicar fora deles
     window.onclick = function(event) {
+        // Escondendo o menu
         if (!event.target.matches('.barra_usuario_menu_botao')) {
             var divConteudoMenu = document.getElementById("barra_usuario_menu_conteudo");
             if (divConteudoMenu.classList.contains('barra_usuario_menu_mostrar_conteudo')) {
                 divConteudoMenu.classList.remove('barra_usuario_menu_mostrar_conteudo');
             }
+        }
+        // Escondendo a lista de convites
+        if (!event.target.matches(".flag_lista")) {
+            var listaDisplay = document.getElementById("lista_convites");
+            if (listaDisplay.classList.contains('lista_convites_mostrar_conteudo')) {
+                listaDisplay.classList.remove('lista_convites_mostrar_conteudo');
+                console.log('remove');
+            }
+            
         }
     };
 </script>

@@ -31,7 +31,9 @@
     cursor: pointer;
     font-weight: bold;
 }
-/*********************************** INFO SOBRE O ESPAÇO ************************************/
+/**************************************************************************************************/
+/*                             INFO SOBRE O ESPAÇO (no cabeçalio)                                 */
+/**************************************************************************************************/
 .espaco_info {
     display: none;
     width: 100%;
@@ -88,21 +90,24 @@
 .espaco_mostrar_info {
     display: block;
 }
-/************************** ÁREA DE EXIBIÇAO DA LISTA DE USUÁRIOS NO ESPAÇO ***************************/
+/**************************************************************************************************/
+/*                        ÁREA DE EXIBIÇAO DA LISTA DE USUÁRIOS NO ESPAÇO                         */
+/**************************************************************************************************/
 .espaco_lista_usuarios {
     display: none;
-    width: 96%;
+    width: 94%;
     height: 200px;
-    padding: 12px 1%;
+    padding: 12px 2%;
     margin: auto;
     margin-top: 4px;
     border-radius: 4px;
     background-color: #eee;
     overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
+    position: relative; /* Para que a div do CONVITE seja posicionado em relação à essa*/
 }
 .espaco_lista_usuarios .cabecalio {
     width: 96%;
-    padding: 2px 2px 4px 2px;
+    padding: 2px 2px 10px 2px;
     margin: auto;
     font-weight: 700;
     color: #3e4859;
@@ -120,13 +125,14 @@
 /*Div individual para cada usuário na lista*/
 .item-lista-usuario {
     width: 100%;
-    height: 34px;
-    border-bottom: 1px solid #ccc;
+    height: 40px;
+    padding: 10px 2px 0 2px;
+    border-bottom: 1px solid #ddd;
     margin-bottom: 4px;
 }
 .item-lista-usuario .pic {
     float: left;
-    background-image: url('/backgrounds/profile_placeholder.png');
+    background-image: url('backgrounds/profile_placeholder.png');
     background-repeat: no-repeat;
     width: 30px;
     height: 30px;
@@ -136,13 +142,76 @@
 }
 .item-lista-usuario .name {
     font-size: 13px;
+    color: #3e4859;
+    font-weight: bold;
 }
 .item-lista-usuario .status {
     font-size: 13px;
-    color: #555;
+    color: #586782;
     font-style: italic;
 }
-/***************************** Área de exibição da conversa ***********************************/
+.invite_btn {
+    float: right;
+    width: 26px;
+    height: 26px;
+    padding: 6px;
+    margin: -36px 16px 0 0;
+    border: none;
+    border-radius: 50%;
+}
+.invite_btn:hover {
+    background-color: #dedede;
+}
+.invite_icon {
+    background-image: url('backgrounds/envelope.png');
+    background-repeat: no-repeat;
+    width: 26px;
+    height: 26px;
+    background-size: 26px;
+}
+/**************************************************************************************************/
+/*                                      FORMULÁRIO DE CONVITE                                     */
+/**************************************************************************************************/
+.convite_conatainer {
+    display: none;
+    width: 400px;
+    height: 240px;
+    position: absolute; /* Para que seja posicionado em relação a div espaco_lista_usuarios (primeiro parent)*/
+    margin-top: 5px;
+    overflow: auto;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
+    right: 100px; /* Para que a caixa de opções do menu abra para a esquerda */
+    top: 140px;
+    z-index: 1;
+}
+.convite_conatainer .campo {
+    padding: 8px;
+}
+.convite_conatainer .nome_campo {
+    font-size: 13px;
+    color: #3e4859;
+}
+.convite_conatainer .nome_convidado {
+    color: #3e4859;
+}
+.convite_conatainer select {
+    width: 100%;
+}
+.convite_conatainer option {
+    padding: 4px;
+}
+.convite_conatainer textarea {
+    width: 100%;
+}
+.convite_conatainer button {
+    float: right;
+    padding: 4px;
+}
+/**************************************************************************************************/
+/*                                    ÁREA DE EXIBIÇAO DA CONVERSA                                */
+/**************************************************************************************************/
 .espaco_mensagens_container {
     width: 96%;
     height: 350px;

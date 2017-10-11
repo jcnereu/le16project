@@ -25,7 +25,7 @@
                 <p class="nome" id="user-creator-name"></p>
                 <p class="data" id="data-criacao"></p>
             </div>
-            <div class="outros_usuarios" id="div_geral_numero_usuarios" onclick="listarUsuarios();">
+            <div class="outros_usuarios" id="div_geral_numero_usuarios" onclick="mostrarListaUsuarios();">
                 <!--<img class="icone" src="stylesheets/backgrounds/people3.png">-->
                 <!-- 
                     ACRESCENTAR O + ANTES DO NÚMERO
@@ -39,6 +39,26 @@
     <div class="espaco_mensagens_container" id="mensagens_container">
         <div id="messages"></div><!-- *************************** FIREBASE STYLESHEET (codelab.css) -->
     </div>
+    <!-- ############################### Formulário do convite ################################### -->
+    <div class="convite_conatainer" id="convite_container">
+        <div class="campo">
+            <div class="nome_campo">Convidar:</div>
+            <div class="nome_convidado" id="convite_nome_convidado"></div>
+        </div>
+        <div class="campo">
+            <div class="nome_campo">Para:</div>
+            <select id="convite_lista_espacos"></select>
+        </div>
+        <div class="campo">
+            <div class="nome_campo">Mensagem:</div>
+            <textarea id="convite_msg"></textarea>
+        </div>
+        <div class="campo">
+            <button onclick="enviarConvite();">ENVIAR</button>
+            <button onclick="cancelarConvite();">CANCELAR</button>
+        </div>
+    </div>
+    <!-- ############################################################################################## -->
     <div class="espaco_lista_usuarios" id="lista_usuarios_container">
         <div class="cabecalio">
             <!-- novo -->
@@ -63,7 +83,7 @@
 <script>
     // ************************************ INÍCIO: FUNÇÕES FIREBASE *********************************************
     
-    // O Firebase já é inicializado na userbar. Aqui vão apenas as funções para tratar as mensagens e as informações
+    // O Firebase já é inicializado na userBar. Aqui vão apenas as funções para tratar as mensagens e as informações
     // do espaço, que dependem de elementos que só existem quando um espaço está aberto.
      
     function le16space() {
@@ -148,7 +168,7 @@
         
         // Carrega as 12 últimas mensagens que (se) que estiverem registradas na referencia firebase do espaço
         this.loadMessages();
-
+        
     }
       
     // Template para as mensagens do usuário
@@ -176,7 +196,7 @@
         // Make sure we remove all previous listeners.
         this.messagesRef.off();
         
-        //TRANSACTION
+        //TRANSACTION (Para contar mensagens)
         this.countMsgsRef = this.database.ref('counters/space-'+spaceId+'/messages');
         this.countMsgsRef.off();
         
@@ -254,7 +274,7 @@
                 photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png'
             }).then(function() {
                 
-                // TRANSACTION
+                // TRANSACTION (para contar mensagens)
                 this.countMsgsRef.transaction(function (current_value) {
                     return (current_value || 0) + 1;
                 });
@@ -297,7 +317,7 @@
             uid: currentUser.uid,
             name: currentUser.displayName,
             imageUrl: LOADING_IMAGE_URL,
-            photoUrl: currentUser.photoURL || '/backgrounds/profile_placeholder.png'
+            photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png'
         }).then(function(data) {
 
             /*
@@ -344,7 +364,7 @@
         this.userListRef = this.database.ref('spaces/space-'+spaceId);
         // Make sure we remove all previous listeners.
         this.userListRef.off();
-        // Loads the last 12 messages and listen for new ones.
+        // Carregando todos os usuários registrados no espaço
         var setUserRow = function(data) {
             var val = data.val();
             // Chamando a função para exibir as informações do usuário
@@ -355,9 +375,13 @@
     // Template para a linha do usuário na lista
     USER_ROW_TEMPLATE =
         '<div class="item-lista-usuario">' +
+            // O atributo "value" é iniciado vazio e preenchido quando o usuário clica no icone do convite
+            '<input type="text" value="Bug" id="fbuid_invisivel_destino_convite" style="display: none;">' +
             '<div class="pic"></div>' +
             '<div class="name"></div>' +
             '<div class="status"></div>' +
+            // Nessa div é acrescentado o JS para exibir o formulário do convite
+            '<div class="invite_btn"><div class="invite_icon"></div></div>' +
         '</div>';
     
     // Mostra a linha com as informações básicas do usuário.
@@ -371,13 +395,16 @@
             container.innerHTML = USER_ROW_TEMPLATE;
             rowDiv = container.firstChild;
             rowDiv.setAttribute("id", key);
+            // Acrescentando a função para mostrar e preencher as infos do convite no botão (icone) do convite
+            rowDiv.querySelector('.invite_btn').setAttribute("onclick", 'mostrarConvite("'+key+'","'+name+'");');
+            // key = fbuid, name = name
             this.listaUsuarios.appendChild(rowDiv);            
         }
-        // Se a mensagem tem uma imagem de perfil registrada
+        // Se o usuário tem uma imagem de perfil
         if (picUrl) {
             rowDiv.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
         }
-        // Adicionando o nome registrado na mensagem
+        // Adicionando o nome do usuário
         rowDiv.querySelector('.name').textContent = name;
         // Adicionando o texto de status do usuário
         rowDiv.querySelector('.status').textContent = "\"Aqui vai o status...\"";
@@ -426,7 +453,7 @@
                     // Removendo a ref do espaço no banco de contadores (TRANSACTION para contar mensagens)
                     firebase.database().ref('counters/space-'+idEspaco).remove().then( function(){ return; });
                     //*******************************************************************************************************
-                    if (idProximoEspaco!=0){ // Se existir algum espaço na lista
+                    if (idProximoEspaco!=0) { // Se existir algum espaço na lista
                         window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
                     } else {// Se não existir
                         window.location.assign("home.php?ss=ns");
@@ -441,7 +468,7 @@
         checkOutPostman.send(formCheckOut); // Equivalente a clicar em um submit e enviar o formulário
     }
     // Função para mostrar a div com informações sobre o espaço
-    function mostrarInfoEspaco(){
+    function mostrarInfoEspaco() {
         document.getElementById("espaco_info").classList.toggle("espaco_mostrar_info");
         if(document.getElementById("mostrar_info_link").innerHTML === "mais"){
             document.getElementById("mostrar_info_link").innerHTML = "menos";
@@ -450,16 +477,87 @@
         }
     }
     // Função para mostrar a div com a lista de usuários no espaço
-    function listarUsuarios(){
+    function mostrarListaUsuarios() {
         document.getElementById("area_input").style.display = 'none';
         document.getElementById("mensagens_container").style.display = 'none';
         document.getElementById("lista_usuarios_container").style.display = 'block';
         
     }
     // Função para ocultar a lista de usuários e voltar a exibir a conversa
-    function ocultarListaUsuarios(){
+    function ocultarListaUsuarios() {
         document.getElementById("lista_usuarios_container").style.display = 'none';
         document.getElementById("mensagens_container").style.display = 'block';
         document.getElementById("area_input").style.display = 'block';
+    }
+    // Mostrar e preencher as infos e opções do convite
+    function mostrarConvite(fbuid,nome) {
+        // Mostrando a div com o formulário do convite
+        document.getElementById("convite_container").style.display = 'block';
+        // Preenchendo o nome do convidado
+        document.getElementById("convite_nome_convidado").innerHTML = nome;
+        // Preechendo o fduid do convidado em um campo invisível
+        document.getElementById("fbuid_invisivel_destino_convite").value = fbuid;
+        // Pegando a lista de espaços em um campo invisível na home
+        var listaEspacos = document.getElementById("lista_invisivel_espacos").value;
+        // Se a lista não está vazia
+        if(listaEspacos){
+            // Criando o HTML com cada espaço listado em uma tag "option'
+            var strLista = listaEspacos.substr(1); // Para remover o primeiro "&"
+            var arrayLista = strLista.split("&");
+            var htmlLista = '';
+            for (var i = 0; i < arrayLista.length; i++) {
+                var par = arrayLista[i].split('=');
+                //console.log("id="+pair[0]);
+                htmlLista = htmlLista + '<option value="' + par[0]+ '">' + par[1] + '</option>';
+            }
+        } else { // Se a lista está vazia (pela lógica essa condição nunca será acessada)
+            var htmlLista = 'Nenhum espaço para fazer o convite. Entre em um existente ou crie um novo, depois volte aqui.';
+        }
+        // Acrescentando a lista na tag "select"
+        document.getElementById("convite_lista_espacos").innerHTML = htmlLista;
+    }
+    // Função para registrar o convite no Firebase
+    function enviarConvite() {
+        // Pegando o fbuid do rementente do convite
+        var fbuidOrigem = document.getElementById("fbid_invisivel_usuario").value;
+        // Pegando o nome do remetente
+        var nomeOrigem = document.getElementById("nome_invisivel_usuario").value;
+        // Pegando o endereço coludstorage da imagem de perfíl do remetente
+        var picUrlOrigem = document.getElementById("pic_invisivel_usuario").value;
+        // Pegando o fbuid do destinatário
+        var fbuidDestino = document.getElementById("fbuid_invisivel_destino_convite").value;
+        // Pegando o ID do espaço alvo do convite
+        var idEespaco = document.getElementById("convite_lista_espacos").value;
+        // Nome do espaço selecionado
+        var selectTag = document.getElementById("convite_lista_espacos");
+        var nomeEspaco = selectTag.options[selectTag.selectedIndex].text;
+        // Pegando a mensagem enviada junto com o convite
+        var msgConvite = document.getElementById("convite_msg").value;
+        
+        // Alteração Firebase ****************************************************************
+        // Criando um child com ID único no parent do convidado com as infos do convite no banco de convites 
+        firebase.database().ref('invitations/'+fbuidDestino).push({
+            origemId: fbuidOrigem,
+            origemName: nomeOrigem,
+            origemPic: picUrlOrigem,
+            spaceId: idEespaco,
+            spaceName: nomeEspaco,
+            message: msgConvite
+        }).then( function(){ // Se o registro for bem sucedido (Por enquanto sem a condição de erro)
+            document.getElementById("convite_container").style.display = 'none';
+            document.getElementById("convite_nome_convidado").innerHTML = '';
+            document.getElementById("convite_msg").value = '';
+            //#################################################################################
+            // ACRESCENTAR MENSAGEM DE CONFIRMAÇÃO (SNACKBAR?) .. PESQUISAR
+            //#################################################################################
+        });;
+        // ***********************************************************************************
+        
+    }
+    // Função para ocultar o convite e limpar o campo de menssagem
+    function cancelarConvite() {
+        document.getElementById("convite_container").style.display = 'none';
+        document.getElementById("convite_nome_convidado").innerHTML = '';
+        document.getElementById("convite_msg").value = '';
     }
 </script>

@@ -15,7 +15,12 @@ if(!empty($listaEspacos)){
     $erro = false;// Flag para sinalizar algum erro
 
     // Para cada espaço listado
-    foreach ($arrayLista as $idEspaco) {
+    foreach ($arrayLista as $infoEspaco) {
+        // Recuperando o ID do espaço
+        // A lista vem no formato "id1=nome1&id2=nome2&..." (futuramente podem até vir outras informações)
+        // Os nomes não são necessários aqui, mas são utilizados no "convite" que um usuário pode mandar pra outro (na lista de usuários de um espaço)
+        $subArray = explode('=', $infoEspaco);
+        $idEspaco = $subArray[0];
         // Fazendo o registro de saída
         if($espaco->registrarSaidaUsuario($idUsuario,$idEspaco)){
             if($espaco->pegarEmptySpace()){ // Se era o último usuário no espaço

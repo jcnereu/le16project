@@ -76,16 +76,6 @@ class space {
         }   
     }
     
-    // ESSE MÉTODO NÃO ESTÁ SENDO UTILIZADO (Acho que nem será preciso)
-    public function contarUsuarios($idEspaco) {
-        require_once '../loadConn.inc.php';// Saindo do userSpaceCheckout na pasta ajax
-        $busca = new read();
-        $busca->fazerBusca('SELECT nusers FROM spaces WHERE id = :bv',"bv={$idEspaco}");
-        $nusers = $busca->retornaResultado()[0]['nusers'];
-        return $nusers;
-        // O número de usuários (no espaço aberto e na lista) será mostrado via Firebase
-    }
-    
     public function validarAcessoEspaco($idUsuario,$idEspaco) {
         $this->userID = $idUsuario;
         $this->id = $idEspaco;
@@ -124,12 +114,12 @@ class space {
         if($this->procurarVaga()){
             // Pegando o ID fairebase do usuário
             $buscaFbId = new read();
-            $buscaFbId->fazerBusca('SELECT fb_uid FROM users WHERE id = :bv',"bv={$this->userID}");
+            $buscaFbId->fazerBusca('SELECT fb_uid,name FROM users WHERE id = :bv',"bv={$this->userID}");
             // Unix time (ou UTC): tempo absoluto em segundos desde 01/01/1970 ver o wikipedia sobre
             $utime = time();
             // Fazendo a atualização da vaga (linha na spaces) com os dados recebidos
             $atualizacao = new update();
-            $atualizacao->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'dummy','creation_date'=>'','status'=>'dummy'),"id={$this->id}","name={$this->name}&nusers=1&creator_fbuid={$buscaFbId->retornaResultado()[0]['fb_uid']}&creation_date={$utime}&status=on");
+            $atualizacao->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'dummy','creator_name'=>'dummy','creation_date'=>'','status'=>'dummy'),"id={$this->id}","name={$this->name}&nusers=1&creator_fbuid={$buscaFbId->retornaResultado()[0]['fb_uid']}&creator_name={$buscaFbId->retornaResultado()[0]['name']}&creation_date={$utime}&status=on");
             if($atualizacao->retornaResultado()){
                 return true;
             } else {
@@ -159,12 +149,12 @@ class space {
     private function criarVaga() {
         // Pegando o ID fairebase do usuário
         $buscaFbId = new read();
-        $buscaFbId->fazerBusca('SELECT fb_uid FROM users WHERE id = :bv',"bv={$this->userID}");
+        $buscaFbId->fazerBusca('SELECT fb_uid,name FROM users WHERE id = :bv',"bv={$this->userID}");
         // Unix time (ou UTC): tempo absoluto em segundos desde 01/01/1970 ver o wikipedia sobre
         $utime = time();
         // Fazendo a inserção (nova linha na spaces) com os dados recebidos
         $insercao = new create();
-        $insercao->fazerInsercao('spaces',array('name'=>$this->name,'nusers'=>1,'creator_fbuid'=>$buscaFbId->retornaResultado()[0]['fb_uid'],'creation_date'=>$utime,'status'=>'on'));
+        $insercao->fazerInsercao('spaces',array('name'=>$this->name,'nusers'=>1,'creator_fbuid'=>$buscaFbId->retornaResultado()[0]['fb_uid'],'creator_name'=>$buscaFbId->retornaResultado()[0]['name'],'creation_date'=>$utime,'status'=>'on'));
         if($insercao->retornaResultado()){
             $this->id = $insercao->retornaIDinserido(); // Pegando o novo ID 
             //echo 'Vaga criada de novo.';

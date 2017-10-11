@@ -1,0 +1,76 @@
+/* O SIMPLES É O MAIS DIFÍCIL */
+
+/* Sub página contida na Home */
+
+/**************************************************************************************************/
+/*                          LISTA DE TODOS OS ESPAÇOS (ocupa a coluna c2)                         */
+/**************************************************************************************************/
+/* Container geral */
+.lista_container {
+    width: 100%;
+    color: #586782;
+}
+/* Cabeçálio */
+.lista_container .cabecalio {
+    width: 96%;
+    padding: 15px 0 5px 15px;
+    margin: auto;
+    margin-top: 2px;
+    font-weight: 700;
+    font-size: 18px;
+}
+/* Corpo da lista*/
+.lista_container .corpo {
+    width: 96%;
+    padding: 4px;
+    margin: auto;
+    margin-top: 2px;
+}
+/* Itens listados */
+.lista_container .item_resultado_busca {
+    clear: left;
+    width: 100%;
+    height: 56px;
+    box-sizing: border-box;
+    margin: auto;
+    border-bottom: 1px solid #ddd;
+}
+.lista_container .item_resultado_busca:hover {
+    background-color: #f2f2f2;
+}
+.lista_container .item_bloco_esquerdo {
+    float: left;
+    padding: 16px 6px 6px 6px;
+    
+}
+.lista_container .item_bloco_esquerdo:hover {
+    cursor: pointer;
+}
+.lista_container .nome_espaco {
+    color: blue;
+}
+.lista_container .info_criador {
+    font-size: 12px;
+    color: #586782;
+}
+.lista_container .item_bloco_direito {
+    float: right;
+    padding: 16px 6px 6px 6px;
+    color: #586782;
+    font-size: 18px;
+    font-weight: bold;
+}
+/**************************************************************************************************/
+/*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
+/**************************************************************************************************/
+@media screen and (min-width: 580px) {
+    
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 1140px) {
+
+}

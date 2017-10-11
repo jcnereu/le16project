@@ -34,6 +34,9 @@ handlers:
 # Script com o espaço ativo
 - url: /pages/space.php
   script: pages/space.php
+  # Lista com os espçaos abertos no filtro selecionado (Por enquanto geral)
+- url: /pages/list.php
+  script: pages/list.php
 # Página intermediária para fazer signout do Fitebase ao perder a sessão
 - url: /pages/wayout.php
   script: pages/wayout.php
