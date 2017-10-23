@@ -8,39 +8,158 @@
     float: right; margin: 4px;
 }
 .barra_usuario_menu_botao { /* Não é possível usar apenas apenas o button, pq é preciso uma classe para ocultar o menu*/
-    width: 32px; height: 32px;
-    margin-top: 4px;
-    cursor: pointer;
-    background: #ccc url(backgrounds/menu_icon.png) center no-repeat;
-    border: none;
-    border-radius: 50%;
+    background-image: url('backgrounds/profile_placeholder.png');
+    background-repeat: no-repeat;
+    width: 34px;
+    height: 34px;
+    background-size: 34px;
+    border-radius: 50%;/*20px;*/
+    margin: 1px 4px;
 }
+
 .barra_usuario_menu_botao:hover {
-    background-color: #aaa;
+    background-color: #ccc;
 }
 .barra_usuario_menu_conteudo { /* Não é possível usar somente a ul, pq é preciso uma classe na função mostrarMenu()*/
     display: none;
     position: absolute; /* Para que seja posicionado em relação a div barra_usuario_container*/
     margin-top: 5px;
-    overflow: auto;
-    background-color: #f9f9f9;
-    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
     right: 0; /* Para que a caixa de opções do menu abra para a esquerda */
     z-index: 2; /*Para que o contúdo do menu fique em promeiro plano (A frente da lista de notificações nivel 1) */
 }
-.barra_usuario_menu a {
-    min-width: 140px;
+.barra_usuario_menu_conteudo .box {
+    overflow: auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
+}
+.barra_usuario_menu_conteudo .triangle {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ccc;
+    margin-left: 163px;
+    margin-bottom: -9px;
+}
+.barra_usuario_menu_conteudo .inner_triangle {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f9f9f9;
+    margin-left: 163px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 2;
+}
+.barra_usuario_menu .item_menu {
+    width: 180px; /* ############### EDIÇÃO DO STATUS ################### */
     padding: 8px;
     color: black;
     text-decoration: none;
-    display: block; /*Para que os links figuem alinhados verticalmente*/
 }
-.barra_usuario_menu a:hover {
+.barra_usuario_menu .item_menu:hover {
     background: #ddd;
     cursor: pointer;
 }
 .barra_usuario_menu_mostrar_conteudo {
     display: block;
+}
+/* #################################### EDIÇÃO DO STATUS ######################################## */
+/*
+.status_container .edit_icon {
+    float: right;
+    background-image: url('backgrounds/edit.png');
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+
+*/
+.status_edit_container {
+    display: none;
+    position: absolute; /* Para que seja posicionado em relação a div barra_usuario_container*/
+    margin-top: 5px;
+    right: 0; /* Para que a caixa de opções do menu abra para a esquerda */
+    z-index: 2;
+}
+.status_edit_container .box {
+    width: 360px;
+    padding: 4px;
+    overflow: auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
+}
+.status_edit_container .triangle {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #aaa;
+    margin-left: 335px;
+    margin-bottom: -9px;
+}
+.status_edit_container .inner_triangle {
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f9f9f9;
+    margin-left: 335px;
+    margin-bottom: -1px;
+    position: relative;
+    z-index: 2;
+}
+.status_edit_container textarea {
+    width: 96%;
+    height: 34px;
+    padding: 4px 2%;
+    border: none;
+    background-color: #eee;
+    border-bottom: 1px solid #e5e5e5;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #777;
+    font-weight: bold;
+    font-style: italic;
+}
+.status_edit_container .titulo {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+    color: #bbb;
+}
+.status_edit_container .btn_atualizar {
+    float: right;
+    /*width: 100px;*/
+    padding: 2px 6px;
+    margin: 4px;
+    font-size: 13px;
+    border-radius: 2px;
+    color: white;
+    background-color: #27c66f;
+}
+.status_edit_container .btn_atualizar:hover {
+    cursor: default;
+    background-color: #21bc68;
+}
+.status_edit_container .btn_cancelar {
+    float: right;
+    /*width: 100px;*/
+    padding: 2px 6px;
+    margin: 4px;
+    font-size: 13px;
+    border-radius: 2px;
+    color: #555;
+    background-color: #ddd;
+}
+.status_edit_container .btn_cancelar:hover {
+    cursor: default;
+    background-color: #ccc;
 }
 /**************************************************************************************************/
 /*                                 NOTIFICAÇÃO E LISTA DE CONVITES                                */
@@ -92,11 +211,12 @@
     width: 300px;
     min-height: 200px;
     position: absolute; /* Para que seja posicionado em relação a div "barra_usuario_container" (primeiro parent com position)*/
-    margin-top: 5px;
+    margin-top: 7px;
     overflow: auto;
     background-color: #f9f9f9;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
     right: -30px; /* Para que a caixa de opções do menu abra para a esquerda */
     top: 44px;
     z-index: 1;
@@ -188,7 +308,7 @@
 /* Container da mensagem */
 .barra_usuario_ola_container {
     float: right;
-    margin: 14px 10px 0 0;
+    margin: 13px 5px 0 0;
 }
 /**************************************************************************************************/
 /*                                             BUSCA                                              */

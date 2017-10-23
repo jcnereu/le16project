@@ -79,13 +79,24 @@
                     var loginPostman = new XMLHttpRequest();
                     loginPostman.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
-                            // Se o usuário foi encontrado (ou cadastrado com sucesso) e a sessão foi criada
-                            //******************************************************************************
-                            // Se for o primeiro acesso do usuário redireciorar para uma p[agina de boas vindas
-                            // Nesse caso deve vir uma resposta específica do serverside (ex: fisrtTrue)
-                            //******************************************************************************
-                            if(this.responseText==='true'){
+                            // Se o usuário foi encontrado e a sessão foi criada
+                            if (this.responseText==='true') {
                                 //redireciona para a home
+                                window.location.assign("pages/home.php");
+                            // Se o usuário foi cadastrado e sessão criada (PRIMEIRO ACESSO DO USUÁRIO)
+                            } else if (this.responseText==='firstTrue') {
+                                window.alert('Primeiro acesso');
+                                // Alteração Firebase ******************************************************
+                                // Salvando as informações básicas de perfil do usuário
+                                // Manter o child 'users' é a única forma de ter acesso  ao perfil de outros usuário pelo fbuid
+                                firebase.database().ref('users/'+user.uid).set({
+                                    // Por enquanto não tem edição de nome e imagem de perfil (São pegos do currentUser, como estçao no Google)
+                                    userName: user.displayName,
+                                    userPhotoUrl: user.photoURL,
+                                    userMsgStatus: 'Olá, eu estou no le16project!'
+                                });
+                                //**************************************************************************
+                                //redireciona para a home (Pode ser uma página de boas vindas)
                                 window.location.assign("pages/home.php");
                             } else {
                                 window.alert('Ops! Algo errado no banco de dados. Tente outra vez.');

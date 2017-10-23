@@ -21,18 +21,27 @@
         <div class="espaco_info" id="espaco_info">
             <div class="usuario_criador">
                 <!-- <img class="perfil" src="stylesheets/backgrounds/profile_placeholder.png"> -->
-                <div class="pic" id="user-creator-photo"></div><!-- novo -->
-                <p class="nome" id="user-creator-name"></p>
-                <p class="data" id="data-criacao"></p>
+                <div class="pic" id="user_creator_photo"></div><!-- novo -->
+                <div class="nome" id="user_creator_name"></div>
+                <div class="data" id="data-criacao"></div>
             </div>
             <div class="outros_usuarios" id="div_geral_numero_usuarios" onclick="mostrarListaUsuarios();">
                 <!--<img class="icone" src="stylesheets/backgrounds/people3.png">-->
-                <!-- 
-                    ACRESCENTAR O + ANTES DO NÚMERO
-                -->
                 <!--<p class="numero" id="numero_usuarios"><\?php echo $numeroUsuarios; ?></p>-->
-                <p class="numero" id="numero_usuarios"></p>
-                <p class="texto">ver lista</p>
+                <div class="numero" id="numero_usuarios"></div>
+                <div class="texto">ver lista</div>
+            </div>
+            <!-- *********************************** CATRACA *************************************** -->
+            <div class="catraca_container" id="catraca_container">
+                    <div class="pic" id="catraca_user_pic"></div>
+                    <div class="nome" id="catraca_user_name"></div>
+                    <div class="sentido" id="catraca_sentido">entrou</div>
+            </div>
+            <!-- ################################# OPÇÕES BTN ###################################### -->
+            <div class="menu_opcoes_container" id="menu_opcoes_container">
+                <label title="Opções" onclick="mostrarOpcoes();">
+                    <div class="opcoes_btn"><div class="opcoes_icone">&#8942;</div></div>
+                </label>
             </div>
         </div>
     </div>
@@ -58,17 +67,38 @@
             <button onclick="cancelarConvite();">CANCELAR</button>
         </div>
     </div>
-    <!-- ############################################################################################## -->
+    <!-- ############################## LISTA DE USUÁRIOS NO ESPAÇO ################################ -->
     <div class="espaco_lista_usuarios" id="lista_usuarios_container">
+        <!-- ######################### IMAGEM DE PERFIL AMPLIADA ########################### -->
+        <div class="img_perfil_ampliada_container" id="img_perfil_ampliada_container">
+            <div class="fechar_img_ampliada" id="fechar_img_ampliada" onclick="fecharImgPerfilAmpliada();">&times;</div>
+            <div class="img_perfil_ampliada" id="img_perfil_ampliada"></div>
+        </div>
         <div class="cabecalio">
-            <!-- novo -->
             <span onclick="ocultarListaUsuarios();" class="voltar_link" id="lista_voltar_link">voltar</span>
             <p class="titulo">Nesse momento</p>
         </div>
-        <div id="container_lista_usuarios">
-            
-        </div>  
+        <div id="container_lista_usuarios"></div>  
     </div>
+    <!-- ####################################### OPÇÕES ######################################### -->
+    <div class="opcoes_container" id="opcoes_container">
+        <div class="cabecalio">
+            <span class="voltar_link" onclick="esconderOpcoes();">voltar</span>
+            <div class="titulo">Opções:</div>
+        </div>
+        <div class="item_opcoes">
+            <div class="texto">Tornar o espaço invisível?</div>
+            <div class="radios">
+                <label><input type="radio" value="Sim" onclick="mostrarConfirmaOpcao();"> Sim </label> &ensp;
+                <label><input type="radio" value="Não" onclick="mostrarConfirmaOpcao();"> Não </label>
+            </div>
+        </div>
+        <div class="confirma_opcao_container" id="confirma_opcao_container">
+            <div class="confirmar_btn">Confirmar</div>
+            <div class="cancelar_btn" onclick="cancelarOpcoes();">Cancelar</div>
+        </div>
+    </div>
+    <!-- ######################### AREA PARA DIGITAR E ENVIAR MENSAGNES ########################### -->
     <div class="espaco_area_texto" id="area_input">
         <form id="message-form" action="#">
             <input type="text" id="message-text" class="area_texto_item">
@@ -119,29 +149,81 @@
             var userName = snapshot.val().userName;
             var creatorPhotoUrl = snapshot.val().userPhotoUrl;
             // Preenchendo as divs com Imagem de perfil e nome no usuário criador
-            document.getElementById('user-creator-photo').style.backgroundImage = 'url('+creatorPhotoUrl+')';
-            document.getElementById('user-creator-name').innerHTML = userName;
-        });
+            document.getElementById('user_creator_photo').style.backgroundImage = 'url('+creatorPhotoUrl+')';
+            document.getElementById('user_creator_name').innerHTML = userName;
+        }).catch(function(error) { console.error('Dev Msg: Erro ao carregar as infos de criação', error); }); 
         
         // 3) Quantidade de usuários no espaço (atualizado dinâmicamente)
 
         // Pegando o id do espaço aberto em um campo invisível no início do script
         var idEspaco = document.getElementById('id_invisivel_espaco').value;
+        // Número de usuários ao carregar a página (servidor)
+        var nUsuarios = document.getElementById('numero_usuarios_inicial').value;
+        // Inicializando a div com o número de usuários
+        document.getElementById('numero_usuarios').innerHTML = nUsuarios;
         // Referência com o ID do espaço em um child exclusivo (spaces) para listar os espaços abertos no Firebase DB
         var spaceRef = this.database.ref('spaces/space-'+idEspaco);
         // Para remover qualquer referência anterior
         spaceRef.off();
+        // Contador do listener de adição (Variável adotada para que o número de usuários mostrado não dependa do listener ao recarregar a página)
+        var contAdd = 0;
         // Listener para atualizar (somar 1) o número de usuários se algum usuário ENTRAR do espçao
-        spaceRef.on('child_added', function(data) {
+        spaceRef.on('child_added', function(data) { // Callback simples
+            contAdd = contAdd + 1;
+            if (contAdd>nUsuarios) {
+                // Atualizando o contador de usuários
+                nUsuarios = nUsuarios - (-1);
+                document.getElementById('numero_usuarios').innerHTML = nUsuarios;
+                // Paranauês para mostrar o novo usuário com fade-out
+                document.getElementById("catraca_container").style.display = 'none';
+                document.getElementById("catraca_container").style.opacity = "1";
+                document.getElementById("catraca_user_pic").style.backgroundImage = 'url(' + data.val().userPhotoUrl + ')';
+                document.getElementById("catraca_user_name").innerHTML = data.val().userName;
+                document.getElementById("catraca_container").style.display = 'block';
+                setTimeout(function(){ 
+                    document.getElementById("catraca_container").style.opacity = "0";
+                }, 2000);
+                
+            }
+            /* TESTAR COM MAIS DE 2 USUÁRIOS ANTES DE APAGAR
             var numeroUsuariosAtual = document.getElementById('numero_usuarios').innerHTML;
             document.getElementById('numero_usuarios').innerHTML = numeroUsuariosAtual - (-1);
-        });
-        // Listener para atualizar (subtrair 1) o número de usuários se algum usuário SAIR do espçao
-        spaceRef.on('child_removed', function(data) {
-            var numeroUsuariosAtual = document.getElementById('numero_usuarios').innerHTML;
-            document.getElementById("numero_usuarios").innerHTML = numeroUsuariosAtual - 1;
-        });
-        // Pode-se pegar os dados do child adicionado (exemplo: data.val().userName OU data.key): https://firebase.google.com/docs/database/web/lists-of-data?hl=pt-br
+            // Informar quem entrou? numero_usuarios_inicial
+            
+            if ((numeroUsuariosAtual - (-1)) > nUsuarios) {
+                nUsuarios = nUsuarios - (-1);
+                
+                document.getElementById("catraca_container").style.display = 'none';
+                document.getElementById("catraca_container").style.opacity = "1";
+
+                document.getElementById("catraca_user_pic").style.backgroundImage = 'url(' + data.val().userPhotoUrl + ')';
+                document.getElementById("catraca_user_name").innerHTML = data.val().userName;
+
+                document.getElementById("catraca_container").style.display = 'block';
+
+                setTimeout(function(){ 
+                    document.getElementById("catraca_container").style.opacity = "0";
+                    //document.getElementById("catraca_user_name").innerHTML = "";
+                }, 2000);
+            }
+            */
+            
+        });// Não há que fazer se der errado
+        // Listener para atualizar (subtrair 1) o número de usuários se algum usuário SAIR do espaço
+        spaceRef.on('child_removed', function(data) { // Callback simples
+            contAdd = contAdd - 1;
+            nUsuarios = nUsuarios - 1;
+            //##var numeroUsuariosAtual = document.getElementById('numero_usuarios').innerHTML;
+            //##document.getElementById("numero_usuarios").innerHTML = numeroUsuariosAtual - 1;
+            document.getElementById("numero_usuarios").innerHTML = nUsuarios;
+            // Informar quem saiu?
+        });// Não há que fazer se der errado
+        
+        // 4) Exibindo o botão para alterar as opções do espaço, caso o usuário seja o criador
+
+        if (document.getElementById("fbid_invisivel_usuario").value === userCreatorId) {
+            document.getElementById("menu_opcoes_container").style.display = 'block';
+        }
         //*******************************************************************************************************************
         
         // Shortcuts to DOM Elements.
@@ -206,17 +288,23 @@
             // Chamando a função para exibir as mensagens carrregadas
             this.displayMessage(data.key, val.uid, val.name, val.text, val.photoUrl, val.imageUrl);
         }.bind(this);
-        this.messagesRef.limitToLast(12).on('child_added', setMessage);
-        this.messagesRef.limitToLast(12).on('child_changed', setMessage);
+        this.messagesRef.limitToLast(12).on('child_added', setMessage); // Não há que fazer se der errado (enviar de novo)
+        this.messagesRef.limitToLast(12).on('child_changed', setMessage); // Não há que fazer se der errado (enviar de novo)
     };
     // Displays a Message in the UI.
     le16space.prototype.displayMessage = function(key, uid, name, text, picUrl, imageUri) {
+        // Pegando o fbid do usuário num campo invisível na userBar()
+        var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value; 
         // Pegando o elemento da mensagem (cada mensagme tem uma chave única) se ela já existir
         var msgDiv = document.getElementById(key);
         // If an element for that message does not exists yet we create it.
         if (!msgDiv) {
             // Criando uma instancia de usuário Firebase para pegar o ID e comparar com ID registrado em cada mensagem
-            if (uid==firebase.auth().currentUser.uid) { // Se o usuário é dono da mensagem
+            /*
+             * PEGAR O fbuid DO CAMPO INVISÍVEL (eficiência)
+             */
+            //if (uid==firebase.auth().currentUser.uid) { // Se o usuário é dono da mensagem
+            if (uid===fbidUsuario) {
                 var container = document.createElement("div");
                 container.innerHTML = MESSAGE_TEMPLATE_USER;
                 msgDiv = container.firstChild;
@@ -368,24 +456,24 @@
         var setUserRow = function(data) {
             var val = data.val();
             // Chamando a função para exibir as informações do usuário
-            this.displayUserRow(data.key, val.userName, val.userPhotoUrl);
+            this.displayUserRow(data.key, val.userName, val.userPhotoUrl, val.userMsgStatus);
         }.bind(this);
-        this.userListRef.on('child_added', setUserRow);    
+        this.userListRef.on('child_added', setUserRow); // Não há o que fazer se der errado (F5)
     };  
     // Template para a linha do usuário na lista
     USER_ROW_TEMPLATE =
         '<div class="item-lista-usuario">' +
             // O atributo "value" é iniciado vazio e preenchido quando o usuário clica no icone do convite
             '<input type="text" value="Bug" id="fbuid_invisivel_destino_convite" style="display: none;">' +
-            '<div class="pic"></div>' +
+            '<label title="Ampliar" class="label_pic"><div class="pic"></div></label>' +
             '<div class="name"></div>' +
-            '<div class="status"></div>' +
+            '<div class="msgStatus"></div>' +
             // Nessa div é acrescentado o JS para exibir o formulário do convite
             '<div class="invite_btn"><div class="invite_icon"></div></div>' +
         '</div>';
     
     // Mostra a linha com as informações básicas do usuário.
-    le16space.prototype.displayUserRow = function(key, name, picUrl) {
+    le16space.prototype.displayUserRow = function(key, name, picUrl, msgStatus) {
         
         // Pegando o elemento da mensagem (cada mensagem tem uma chave única) se ela já existir
         var rowDiv = document.getElementById(key);
@@ -398,6 +486,8 @@
             // Acrescentando a função para mostrar e preencher as infos do convite no botão (icone) do convite
             rowDiv.querySelector('.invite_btn').setAttribute("onclick", 'mostrarConvite("'+key+'","'+name+'");');
             // key = fbuid, name = name
+            // Acrescentando a função para mostrar a imagem de perfil em um tamanho maior
+            rowDiv.querySelector('.label_pic').setAttribute("onclick", 'ampliarImgPerfil("'+picUrl+'");');
             this.listaUsuarios.appendChild(rowDiv);            
         }
         // Se o usuário tem uma imagem de perfil
@@ -407,7 +497,7 @@
         // Adicionando o nome do usuário
         rowDiv.querySelector('.name').textContent = name;
         // Adicionando o texto de status do usuário
-        rowDiv.querySelector('.status').textContent = "\"Aqui vai o status...\"";
+        rowDiv.querySelector('.msgStatus').textContent = msgStatus;//"\"Aqui vai o status...\"";
         // Show the card fading-in.
         //setTimeout(function() {msgDiv.classList.add('visible');}, 1);
         //this.messageList.scrollTop = this.messageList.scrollHeight;
@@ -421,7 +511,7 @@
     };
     // ************************************* FIM: FUNÇÕES FIREBASE *******************************************
     
-    // Se o usuário clicar em sair no canto superio direito do espaço aberto
+    // Se o usuário clicar em sair no canto superior direito do espaço aberto
     function sairEspaco(idEspaco) {
         // Pegando o id do usuário em um campo invisível na barra do usuário;
         var idUsuario = document.getElementById("id_invisivel_usuario").value;
@@ -435,29 +525,33 @@
             if (this.readyState === 4 && this.status === 200) {
                 // Recebe a resposta do serverSide e manda ver
                 if (this.responseText==='true') { // Se o usuário saiu, mas ainda tem outros no espaço
-                    // Alteração Firebase ***********************************************************************************
+                    // Alteração Firebase ****************************************************************************
                     // Removendo o child do usuário no banco de espaços
-                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).remove().then( function(){ return; });
-                    //******************************************************************************************************* 
-                    if (idProximoEspaco!==0){ // Se existir algum espaço na lista
-                        window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
-                    } else {// Se não existir
-                        window.location.assign("home.php?ss=ns");
-                    }
+                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).remove().then( function(){ 
+                        if (idProximoEspaco!==0){ // Se existir algum espaço na lista
+                            window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
+                        } else {// Se não existir
+                            window.location.assign("home.php?ss=ns");
+                        }
+                    }).catch( function(error) { console.error('Dev Msg: Erro ao remover o registro.',error); });
+                    //************************************************************************************************
                 } else if (this.responseText==='empty') { // Se era o último usuário do espaço
-                    // Alteração Firebase ***********************************************************************************
-                    // Removendo o child com a ref do espaço no banco de mensagens
-                    firebase.database().ref('messages/space-'+idEspaco).remove().then( function(){ return; });
-                    // Removendo o child do usuário no banco de espaços (remove automaticament a ref do espaço, pois fica vazia)
-                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).remove().then( function(){ return; });
-                    // Removendo a ref do espaço no banco de contadores (TRANSACTION para contar mensagens)
-                    firebase.database().ref('counters/space-'+idEspaco).remove().then( function(){ return; });
-                    //*******************************************************************************************************
-                    if (idProximoEspaco!=0) { // Se existir algum espaço na lista
-                        window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
-                    } else {// Se não existir
-                        window.location.assign("home.php?ss=ns");
-                    }
+                    // Alteração Firebase ****************************************************************************
+                    // O update e o remove são assíncronos por isso deve-se garantir que o redirect
+                    // seja feito somente depois que tudo foi finalizado. Exemplo da estrutura em:
+                    // https://firebase.google.com/docs/database/web/read-and-write?hl=pt-br
+                    var updatesRemove = {};
+                    updatesRemove['messages/space-'+idEspaco] = null;
+                    updatesRemove['spaces/space-'+idEspaco+'/'+fbidUsuario] = null;
+                    updatesRemove['counters/space-'+idEspaco] = null;
+                    firebase.database().ref().update(updatesRemove).then( function() {
+                        if (idProximoEspaco!=0) { // Se existir algum espaço na lista
+                            window.location.assign("home.php?ss=sp&ids="+idProximoEspaco);
+                        } else {// Se não existir
+                            window.location.assign("home.php?ss=ns");
+                        }
+                    }).catch( function(error) { console.error('Dev Msg: Erro ao remover os registros.',error); });
+                    //***********************************************************************************************
                 }
             }
         };        
@@ -466,7 +560,7 @@
         formCheckOut.append('idEspaco',idEspaco);
         checkOutPostman.open("POST", '../config/ajax/userSpaceCheckout.php', true); // Chama o script para tratar os dados do formulário
         checkOutPostman.send(formCheckOut); // Equivalente a clicar em um submit e enviar o formulário
-    }
+    };
     // Função para mostrar a div com informações sobre o espaço
     function mostrarInfoEspaco() {
         document.getElementById("espaco_info").classList.toggle("espaco_mostrar_info");
@@ -475,20 +569,20 @@
         } else {
             document.getElementById("mostrar_info_link").innerHTML = "mais";
         }
-    }
+    };
     // Função para mostrar a div com a lista de usuários no espaço
     function mostrarListaUsuarios() {
         document.getElementById("area_input").style.display = 'none';
         document.getElementById("mensagens_container").style.display = 'none';
-        document.getElementById("lista_usuarios_container").style.display = 'block';
-        
-    }
+        document.getElementById("opcoes_container").style.display = 'none'; /* #################### NOVO */
+        document.getElementById("lista_usuarios_container").style.display = 'block'; 
+    };
     // Função para ocultar a lista de usuários e voltar a exibir a conversa
     function ocultarListaUsuarios() {
         document.getElementById("lista_usuarios_container").style.display = 'none';
         document.getElementById("mensagens_container").style.display = 'block';
         document.getElementById("area_input").style.display = 'block';
-    }
+    };
     // Mostrar e preencher as infos e opções do convite
     function mostrarConvite(fbuid,nome) {
         // Mostrando a div com o formulário do convite
@@ -515,7 +609,7 @@
         }
         // Acrescentando a lista na tag "select"
         document.getElementById("convite_lista_espacos").innerHTML = htmlLista;
-    }
+    };
     // Função para registrar o convite no Firebase
     function enviarConvite() {
         // Pegando o fbuid do rementente do convite
@@ -534,7 +628,7 @@
         // Pegando a mensagem enviada junto com o convite
         var msgConvite = document.getElementById("convite_msg").value;
         
-        // Alteração Firebase ****************************************************************
+        // Alteração Firebase ******************************************************************************
         // Criando um child com ID único no parent do convidado com as infos do convite no banco de convites 
         firebase.database().ref('invitations/'+fbuidDestino).push({
             origemId: fbuidOrigem,
@@ -543,21 +637,63 @@
             spaceId: idEespaco,
             spaceName: nomeEspaco,
             message: msgConvite
-        }).then( function(){ // Se o registro for bem sucedido (Por enquanto sem a condição de erro)
+        }).then( function(){
             document.getElementById("convite_container").style.display = 'none';
             document.getElementById("convite_nome_convidado").innerHTML = '';
             document.getElementById("convite_msg").value = '';
             //#################################################################################
             // ACRESCENTAR MENSAGEM DE CONFIRMAÇÃO (SNACKBAR?) .. PESQUISAR
             //#################################################################################
-        });;
-        // ***********************************************************************************
+        }).catch(function(error) {
+            console.error('Dev Msg: Erro ao enviar o convite', error);
+            // Acrescentar uma mensagem "userfriendly"
+            window.alert('Erro ao enviar o convite. Tente novamente.');
+        });
+        // *************************************************************************************************
         
-    }
+    };
     // Função para ocultar o convite e limpar o campo de menssagem
     function cancelarConvite() {
         document.getElementById("convite_container").style.display = 'none';
         document.getElementById("convite_nome_convidado").innerHTML = '';
         document.getElementById("convite_msg").value = '';
-    }
+    };
+    // Função para mostrar a foto de perfil em uma div separada com tamanho maior
+    function ampliarImgPerfil(picUrl) {
+        // Acrescentando a imagem na div
+        document.getElementById("img_perfil_ampliada").style.backgroundImage = 'url(' + picUrl + ')';
+        // mostrando a div container
+        document.getElementById("img_perfil_ampliada_container").style.display = 'block';
+    };
+    // Fechar (econder) a imagem de perfil ampliada
+    function fecharImgPerfilAmpliada() {
+        // Escondendo a div container
+        document.getElementById("img_perfil_ampliada_container").style.display = 'none';
+        // Resetando a div da imagem ampliada
+        document.getElementById("img_perfil_ampliada").style.backgroundImage = 'none';
+    };
+    // ########################################################################################################
+    // Para mostrar as opçoes de configuração do espaço
+    function mostrarOpcoes() {
+        document.getElementById("area_input").style.display = 'none';
+        document.getElementById("mensagens_container").style.display = 'none';
+        document.getElementById("lista_usuarios_container").style.display = 'none';
+        document.getElementById("opcoes_container").style.display = 'block';
+    };
+    // Para esconder as opcoes e mostrar a conversa
+    function esconderOpcoes() {
+        document.getElementById("opcoes_container").style.display = 'none';
+        document.getElementById("mensagens_container").style.display = 'block';
+        document.getElementById("area_input").style.display = 'block';
+    };
+    // Para mostrar botões de confirmaçao de mudança de opções
+    function mostrarConfirmaOpcao() {
+        document.getElementById("confirma_opcao_container").style.display = 'block';
+    };
+    // Para cancelar a mudança de opção
+    function cancelarOpcoes() {
+        window.location.reload(); 
+        //window.location.assign("home.php?ss=sp");
+    };
+    // ########################################################################################################
 </script>

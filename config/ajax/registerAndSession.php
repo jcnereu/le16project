@@ -41,7 +41,7 @@ if($buscaUsuario->contaResultados()>0) {// Se o usuário já é cadastrado
             // Aqui é o lugar para informar que esse é o primeiro acesso do usuário
             // Ex: Em vez de 'true' responder 'firstTrue' e tratar no clentside
             //***********************************************************************************
-            $resposta = 'true';
+            $resposta = 'firstTrue';
         } else {
             // Algo deu errado na inserção da userspaces, não deve redirecionar
             $resposta = 'false';

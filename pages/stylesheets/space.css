@@ -34,45 +34,50 @@
 /**************************************************************************************************/
 /*                             INFO SOBRE O ESPAÇO (no cabeçalio)                                 */
 /**************************************************************************************************/
-.espaco_info {
-    display: none;
-    width: 100%;
+.espaco_info{
+    display: none; /* Começa fechado para não mostrar as infos carregando */
+    clear: both; /* ########################################### NOVO */
+    margin: 4px 0 4px 0;
+    min-height: 46px;
 }
-/** Bloco com as informações de origem do espaço **/
+/* Bloco com as informações de origem do espaço */
 .espaco_info .usuario_criador {
-    display: inline-block;
-    width: 200px;
+    float: left;
+    min-width: 100px;
+    margin-top: 4px;
 }
 .espaco_info .usuario_criador .pic {
-    float: left;
-    background-image: url('backgrounds/profile_placeholder.png');
-    background-repeat: no-repeat;
     width: 40px;
     height: 40px;
-    background-size: 40px;
-    border-radius: 30px;
+    background-image: url('backgrounds/profile_placeholder.png');
+    background-size: 40px; /* elipsíde */
+    border-radius: 50%;
     margin-right: 4px;
+    float: left;
 }
 .espaco_info .usuario_criador .nome {
     font-weight: bold;
+    display: inline-block; /* Para que o texto não quebre */
 }
 .espaco_info .usuario_criador .data {
     font-size: 12px;
 }
-/** Bloco com número de outros usuários **/
+/* Bloco com número de outros usuários */
 .espaco_info .outros_usuarios {
-    display: inline-block;
+    float: left;
     min-width: 50px;
     border-radius: 8px;
-    padding: 2px 4px 6px 4px;
+    margin-left: 15px;
+    padding: 0 4px 6px 4px;
+    text-align: center; /* Truque para centralizar uma div comm texto variável (Parte 1)*/
 }
 .espaco_info .outros_usuarios:hover {
-    /*box-shadow: 2px 2px 1px #bbb;*/
     background-color: #e9e9e9;
     cursor: pointer;
 }
-.espaco_info .outros_usuarios .numero {
+.espaco_info .outros_usuarios .numero{
     display: inline-block;
+    text-align: left; /* Truque para centralizar uma div comm texto variável (Parte 2)*/
     font-size: 24px;
     font-weight: bold;
 }
@@ -81,12 +86,69 @@
     margin: 0 -3px -2px 0;
     width: 20px;
 }
-.espaco_info .outros_usuarios .texto {
+.espaco_info .outros_usuarios .texto{
     margin: auto;
     font-size: 13px;
-    width: 46px; /* ~Largura do texto "ver lista" para que o margin auto tenha efeito*/
-    line-height: 80%;
+    width: 46px;
+    line-height: 70%;
 }
+/* Bloco para informar quem entrou no espaço */
+.espaco_info .catraca_container {
+    float: left;
+    margin: 5px 0 0 15px;
+    font-size: 13px;
+    min-width: 100px; /* Pensar em um max-width para o mobile*/
+    
+    display: none;
+    /*opacity: 0;*/
+    transition: opacity 1s;
+}
+/*
+.espaco_info .catraca_subcontainer {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s;
+}
+*/
+.espaco_info .catraca_container .pic {
+    float: left;
+    background-image: url('backgrounds/profile_placeholder.png');
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    background-size: 32px;
+    border-radius: 50%;
+    margin: 2px 4px 2px 4px;
+}
+.espaco_info .catraca_container .nome {
+    display: inline-block; /* Para que o texto não quebre */
+    font-weight: bold;
+    padding-top: 2px;
+}
+.espaco_info .catraca_container .sentido {
+    color: #888;
+}
+/* Menu com as opçoes de configuração do espçao (Por equanto apenas "tornar invisível") */
+.espaco_info .menu_opcoes_container {
+    display: none; /* Só é exibido para o criador do espaço */
+    float: right;
+}
+.espaco_info .menu_opcoes_container .opcoes_btn {
+    width: 14px;
+    height: 18px;
+    padding: 6px;
+    border-radius: 8px;
+    margin: 12px 0 0 4px;
+}
+.espaco_info .menu_opcoes_container .opcoes_btn:hover {
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+.espaco_info .menu_opcoes_container .opcoes_icone {
+    margin: -8px 0 0 2px;
+    font-size: 24px;
+}
+/* Classe para alternar a visibilidade das infos do espaço */
 .espaco_mostrar_info {
     display: block;
 }
@@ -96,14 +158,14 @@
 .espaco_lista_usuarios {
     display: none;
     width: 94%;
-    height: 200px;
+    height: 300px;
     padding: 12px 2%;
     margin: auto;
     margin-top: 4px;
     border-radius: 4px;
     background-color: #eee;
     overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
-    position: relative; /* Para que a div do CONVITE seja posicionado em relação à essa*/
+    position: relative; /* Para que o container da img de perfil ampliada fique posicionada em relação à essa div*/
 }
 .espaco_lista_usuarios .cabecalio {
     width: 96%;
@@ -137,15 +199,23 @@
     width: 30px;
     height: 30px;
     background-size: 30px;
-    border-radius: 20px;
+    border-radius: 50%;
     margin: 2px 4px 2px 4px;
+}
+.item-lista-usuario .pic:hover {
+    cursor: pointer;
+    margin-top: -2px;
+    width: 36px;
+    height: 36px;
+    background-size: 36px;
+    border-radius: 50%;
 }
 .item-lista-usuario .name {
     font-size: 13px;
     color: #3e4859;
     font-weight: bold;
 }
-.item-lista-usuario .status {
+.item-lista-usuario .msgStatus {
     font-size: 13px;
     color: #586782;
     font-style: italic;
@@ -168,6 +238,39 @@
     width: 26px;
     height: 26px;
     background-size: 26px;
+}
+/*######################################## IMAGEM AMPLIADA ##############################################*/
+.img_perfil_ampliada_container {
+    display: none;
+    position: absolute;
+    width: 96%;
+    height: 290px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.3);
+}
+.fechar_img_ampliada {
+    float: right;
+    margin: 6px;
+    padding: 7px 11px 4px 10px;
+    border-radius: 50%;
+    color: #666;
+    background-color: #ddd;
+    font-size: 16px;
+    font-weight: bold;
+}
+.fechar_img_ampliada:hover {
+    cursor: default;
+    color: white;
+    background-color: #ea533c;
+}
+.img_perfil_ampliada{
+    /*background-image: url('backgrounds/profile_placeholder.png');*/
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 200px;
+    margin: 45px auto;
+    background-size: 200px;
+    border-radius: 4px;
 }
 /**************************************************************************************************/
 /*                                      FORMULÁRIO DE CONVITE                                     */
@@ -210,9 +313,90 @@
     padding: 4px;
 }
 /**************************************************************************************************/
+/*                                          OPÇÕES DO ESPAÇO                                      */
+/**************************************************************************************************/
+.opcoes_container {
+    display: none;
+    width: 94%;
+    height: 300px;
+    padding: 12px 2%;
+    margin: auto;
+    margin-top: 4px;
+    border-radius: 4px;
+    background-color: #eee;
+    /*overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
+}
+.opcoes_container .cabecalio {
+    width: 100%;
+    padding: 2px 2px 10px 2px;
+    margin: auto;
+    font-weight: 700;
+    color: #3e4859;
+}
+.opcoes_container .cabecalio .titulo {
+    font-size: 16px;
+}
+.opcoes_container .cabecalio .voltar_link {
+    float: right;
+}
+.opcoes_container .cabecalio .voltar_link:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+/* Itens da lista de opções (Por enquanto só um) */
+.opcoes_container .item_opcoes {
+    width: 100%;
+    height: 30px;
+    padding: 10px 2px 0 2px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 4px;
+}
+.opcoes_container .item_opcoes .texto {
+    float: left;
+    color: #3e4859;
+}
+.opcoes_container .item_opcoes .radios {
+    float: right;
+    padding: 4px;
+    color: #3e4859;
+}
+/* Div com os botões para cancelar ou confirmar uma alteração de opção*/
+.opcoes_container .confirma_opcao_container {
+    display: none;
+    height: 30px;
+    margin-top: 200px;
+}
+.opcoes_container .confirma_opcao_container .cancelar_btn {
+    float: right;
+    padding: 6px 10px;
+    margin-left: 4px;
+    border-radius: 2px;
+    font-size: 13px;
+    background-color: #ddd;
+    color: #555;
+}
+.opcoes_container .confirma_opcao_container .cancelar_btn:hover {
+    cursor: default;
+    background-color: #ccc;
+}
+.opcoes_container .confirma_opcao_container .confirmar_btn {
+    float: right;
+    padding: 6px 10px;
+    margin-left: 4px;
+    border-radius: 2px;
+    font-size: 13px;
+    background-color: #27c66f;
+    color: white;
+}
+.opcoes_container .confirma_opcao_container .confirmar_btn:hover {
+    cursor: default;
+    background-color: #21bc68;
+}
+/**************************************************************************************************/
 /*                                    ÁREA DE EXIBIÇAO DA CONVERSA                                */
 /**************************************************************************************************/
 .espaco_mensagens_container {
+    clear: left;
     width: 96%;
     height: 350px;
     padding: 6px 2px;

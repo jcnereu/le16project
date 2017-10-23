@@ -4,13 +4,35 @@
  - Pega os dados de sessão do script loadSession.php carregado no início de todas as páginas.
 -->
 <div class="coluna_superior">
+    <!-- CRIAR PERFIL (BÁSICO) DO USUÁRIO
+    https://firebase.google.com/docs/auth/web/manage-users?hl=pt-br
+    Atualizar o perfil de um usuário
+    -->
     <div class="barra_usuario_container">
+        <!-- ##################################### MENU ####################################### -->
         <div class="barra_usuario_menu">
-            <button class="barra_usuario_menu_botao" onclick="mostrarMenu();"></button>
-            <ul class="barra_usuario_menu_conteudo" id="barra_usuario_menu_conteudo">
-                <a href="">Status</a>
-                <a id="sign-out">Sair</a>
-            </ul>
+            <div class="barra_usuario_menu_botao" id="menu_botao" onclick="mostrarMenu();"></div>
+            <div class="barra_usuario_menu_conteudo" id="barra_usuario_menu_conteudo">
+                <div class="triangle"></div><div class="inner_triangle"></div>
+                <div class="box">
+                    <div class="item_menu" onclick="mostrarEdicaoStatus();">
+                        <div class="texto">Status</div>
+                    </div>
+                    <div class="item_menu" id="sign_out">Sair</div>
+                </div>
+            </div>
+            <!-- ################################# EDIÇÃO DE STATUS ################################### -->
+            <div class="status_edit_container" id="status_edit_container">
+                <div class="triangle"></div><div class="inner_triangle"></div>
+                <div class="box">
+                    <textarea id="user_msg_status_textarea"></textarea>
+                    <div class="rodape">
+                        <div class="btn_atualizar" onclick="atualizarMsgStatus();">Atualizar</div>
+                        <div class="btn_cancelar" onclick="cancelarEdicaoStatus();">Cancelar</div>
+                        <div class="titulo">Status</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- ##################### NOTIFICAÇÃO E LISTA DE CONVITES ########################## -->
         <div class="lista_convite_container">
@@ -23,7 +45,7 @@
                 <div class="cabecalio">CONVITES</div>
             </div>
         </div>
-        <!-- ############################################################################### -->
+        <!-- ############################### OLÁ USUÁRIO #################################### -->
         <div class="barra_usuario_ola_container">
             <p id="ola_usuario"></p>
             <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID do usuário-->
@@ -35,12 +57,10 @@
             <!-- O campo abaixo é invisível. Criado apenas para serivir o covite e economizar uma consulta no Firebase -->
             <input type="text" value="backgrounds/profile_placeholder.png" id="pic_invisivel_usuario" style="display: none;">      
         </div>
+        <!-- ############################### BUSCA #################################### -->
         <div class="barra_usuario_busca_container">
-            <!--<form action="#">-->
-                <div class="caixa_texto"><input id="nome_novo_espaco" type="text" placeholder="buscar ou criar..." onkeyup="buscarSugestao(this.value);"></div>
-                <div class="botao_listar_tudo" id="botao_listar_tudo"><button onclick="redirecionarListaTudo();">Ver tudo</button></div>
-                
-            <!--</form>-->
+            <div class="caixa_texto"><input id="nome_novo_espaco" type="text" placeholder="buscar ou criar..." onkeyup="buscarSugestao(this.value);"></div>
+            <div class="botao_listar_tudo" id="botao_listar_tudo"><button onclick="redirecionarListaTudo();">Ver tudo</button></div>
         </div>
         <div class="resultado_busca" id="div_resultado_busca"></div>
         <div class="resultado_novo_espaco" id="div_resultado_novo_espaco"></div>
@@ -65,7 +85,7 @@
     function le16() {
         this.checkSetup();
         // Shortcuts to DOM Elements.
-        this.signOutButton = document.getElementById('sign-out');
+        this.signOutButton = document.getElementById('sign_out');
         this.listaConvites = document.getElementById('lista_convites');
         // Event listeners
         this.signOutButton.addEventListener('click', this.signOut.bind(this));
@@ -90,23 +110,25 @@
             var userFirebaseName = user.displayName;
             var nFirstBlank = userFirebaseName.search(" ");
             var firstName = userFirebaseName.substr(0,nFirstBlank);
+            var profilePicUrl = user.photoURL;
             // Preenchendo a tag com a saudação ao usuário
             document.getElementById("ola_usuario").innerHTML = 'Olá '+firstName;
-            // Preenchendo um campo invisível com o nome completo do usuário (Para usar no convite a princípio)
+            // Preenchendo o botão do menu na barra do usuário com a img de perfil do usuário
+            document.getElementById("menu_botao").style.backgroundImage = 'url(' + profilePicUrl + ')';
+            // As infos abaixo são guardadas para economizar uma consulta no Firebase ao carregar o convite
+            // Nome completo do usuário
             document.getElementById("nome_invisivel_usuario").value = userFirebaseName;
-            // Preenchendo um campo invisível com o endereço da imagem de perfil do usuário no cloudstorage (Para usar no convite tbm)
-            var profilePicUrl = user.photoURL;
+            // Endereço da imagem de perfil do usuário no cloudstorage (string)
             document.getElementById("pic_invisivel_usuario").value = profilePicUrl;
-            // Pegando a imagem de perfil do usuário
-            // var profilePicUrl = user.photoURL;
-            // Set the user's profile pic and name.
-            // this.userPic.style.backgroundImage = 'url(' + profilePicUrl + ')';
             
-            // Salvando (sobrescreve depois da primeira vez) o nome e a imagem de perfil do usuário em um child do no Firebase DB
-            firebase.database().ref('users/'+user.uid).set({
+            // Atualizando o nome e a imagem de perfil do usuário 
+            // Única forma de manter o perfil sincronozado com o perfil do Google (Enquanto não existe meio de atualização interno)
+            firebase.database().ref('users/'+user.uid).update({
+                // Por enquanto não tem edição de nome e imagem de perfil (São mostrados como vem do Google)
                 userName: user.displayName,
-                userPhotoUrl : user.photoURL
-            });
+                userPhotoUrl: user.photoURL
+                // NÃO atualiza o 'userMsgStatus' pq essa info não existe no perfil Google e tem um meio de atualizaççao interno
+            });// Não precisa de uma promisse, pq nao tem um redirect na sequencia e ser der errado não há o que fazer (F5)
 
         }// else { User is signed Out }
     };
@@ -131,11 +153,11 @@
             // A classe "flag_lista" NÃO tem função de estilo. Serve apenas para marcar quais divs NÃO devem ocultar a lista ao serem clicadas (ver a função window.onclick() no fim do script)        
             '<div class="convite flag_lista">' +
                 '<div class="pic flag_lista"></div>' +
-                // Aqui é acrescentada a função para esconder e depois remover o convite
+                // Aqui é acrescentada a função para descartar o convite
                 '<button class="descartar_btn flag_lista">Descartar</button>' +
                 '<div class="nome"></div>' +
                 '<div class="mensagem flag_lista"></div>' +
-                // Aqui é acrescentada a função para registrar a entrada do usuário ao clicar no espaço (tbm remove o convite)
+                // Aqui é acrescentada a função para registrar a entrada do usuário (tbm remove o convite)
                 '<div class="nome_espaco">&#9656</div>' +
             '</div>';
     // Preenche uma nova div com as informações do convite
@@ -146,11 +168,12 @@
         var rowDiv = container.firstChild;
         rowDiv.setAttribute("id", key);
         /*
-         * ACRESCENTAR A FUNÇÃO PARA REDIRECIONAR PARA O PERFIL DO USUÁRIO (CRIAR O PERFIL PRIMEIRO)
+         * POR ENQUANTO NÃO EXISTE UMA PÁGINA COM O PERFIL DO USUÁRIO. QUEM RECEBE O CONVITE
+         * PODE NO MÁXIMO AMPLIAR A FOTO DE QUEM CONVIDOU (ASSIM COM NA LISTA DE UM ESPAÇO)
          */
-        // Acrescentado a função para esconder o convite e depois removê-lo do firebase
+        // Acrescentado a função para descartar o contive (remove do Firebase e esconde a div)
         rowDiv.querySelector('.descartar_btn').setAttribute("onclick", 'discardInvitation("'+key+'");');
-        // Acrescentando a função de registro de entrado no espaço com o segundo argumento não nulo (key do convite) para remover o convite do firebase db
+        // Acrescentando a função de registro de entrado no espaço (Com o key do convite para removê-lo do firebase db)
         rowDiv.querySelector('.nome_espaco').setAttribute("onclick", 'registrarEntradaUsuario("'+spaceId+'","'+key+'");');
         this.listaConvites.appendChild(rowDiv);
         
@@ -194,40 +217,52 @@
                 if (this.responseText !== 'nolist'){
                     // Se os registros de saída na userspaces foram bem sucedidos
                     if (this.responseText !== 'false') {
+                        // Formatando a lista recebida do servidor
                         var lista = this.responseText;
                         var listaValida = lista.substr(1); // Para remover o primeiro '&'
                         var arrayLista = listaValida.split('&'); // Passando de string para array
+                        //Inicializando o vetor de refs para remoção
+                        var updatesRemove = {};
                         for (var i = 0; i < arrayLista.length; i++) { // Em cada elemento do array
                             var pair = arrayLista[i].split('='); // Separando a chave e o valor
-                            if (pair[1]==='true') {
-                                // Removendo o child do usuário na ref do espaço no Firebase DB
-                                firebase.database().ref('spaces/space-'+pair[0]+'/'+fbidUsuario).remove().then( function(){ return; });
-                            } else if (pair[1]==='empty') {
-                                // Removendo o child com a ref do espçao no banco de mensagens
-                                firebase.database().ref('messages/space-'+pair[0]).remove().then( function(){ return; });
-                                // Removendo o child do usuário no banco de espaços (remove automaticament a ref do espaço, pois fica vazia)
-                                firebase.database().ref('spaces/space-'+pair[0]+'/'+fbidUsuario).remove().then( function(){ return; });
-                                // Removendo a ref do espaço no banco de contadores (TRANSACTION para contar mensagens)
-                                firebase.database().ref('counters/space-'+pair[0]).remove().then( function(){ return; });
+                            // Listando as refs que devem ser removidas
+                            if (pair[1]==='true') { // Se o usuário saiu, mas ainda tem outros no espaço
+                                updatesRemove['spaces/space-'+pair[0]+'/'+fbidUsuario] = null;
+                            } else if (pair[1]==='empty') { // Se era o último usuário do espaço
+                                //******************************************************************************************
+                                // Deve-se garantir que o redirect somente seja chamado depois que todos os registros foram
+                                // removidos no Firebase. Por isso o redurect é chamado dentro da promise do signOut()
+                                //******************************************************************************************
+                                updatesRemove['messages/space-'+pair[0]] = null;
+                                updatesRemove['spaces/space-'+pair[0]+'/'+fbidUsuario] = null;
+                                updatesRemove['counters/space-'+pair[0]] = null;
                             }
                         }
-
-                    } else { // Se occoreu algum problema ao fazer os checkouts no servidor
-                        window.alert('Mensagem provisória: Problema ao registrar saída em um espaço.');
+                        // Removendo todas as refs listadas
+                        firebase.database().ref().update(updatesRemove).then( function() {
+                            // ÚLTIMA ETAPA DO PROCESSO: Sign out of Firebase.
+                            firebase.auth().signOut().then( function() {
+                                // Para chamar a função de destruição da sessão e redirecionamento na loadSession.php
+                                window.location.assign("home.php?logout=true");
+                            });
+                        }).catch( function(error) { console.error('Dev Msg: Erro ao remover os registros ou fazer o signout.',error); });
+                    // Se occoreu algum problema ao fazer os checkouts no servidor
+                    } else {
+                        console.log('Mensagem provisória: Problema ao registrar saída em um espaço.');
                     }
                 }
-                // ÚLTIMA ETAPA DO PROCESSO: Sign out of Firebase.
-                firebase.auth().signOut();
-                // Para chamar a função de destruição da sessão e redirecionamento na loadSession.php
-                window.location.assign("home.php?logout=true");
+                // Se o usuário não estava em nehum espaço ao clicar em sair (signout direto)
+                firebase.auth().signOut().then( function() {
+                    // Para chamar a função de destruição da sessão e redirecionamento na loadSession.php
+                    window.location.assign("home.php?logout=true");
+                }).catch( function(error) { console.error('Dev Msg: Erro ao fazer signout.',error); });
             }
         };
         generalCheckoutForm = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
         generalCheckoutForm.append('idUsuario', idUsuario);// Adiciona a variável 'idUsuario' como se um campo type=text (nesse caso) tivesse sido preenchido com a variável
         generalCheckoutForm.append('listaEspacos', listaEspacos);
         generalCheckoutPostman.open("POST", "../config/ajax/generalCheckout.php", true); // Chama o script para tratar os dados do formulário
-        generalCheckoutPostman.send(generalCheckoutForm); // Equivalente a clicar em um submit e enviar o formulário
-        
+        generalCheckoutPostman.send(generalCheckoutForm); // Equivalente a clicar em um submit e enviar o formulário  
     };
     
     // Função necessária para a fase de desenvolvimento
@@ -298,22 +333,11 @@
                 // Se o registro foi bem sucedido
                 if(this.responseText==='true'){
                     // Alteração Firebase ****************************************************************
-                    var currentUser = firebase.auth().currentUser;
-                    // Criando um child com as infos básicas do usuário na ref do espaço
-                    firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).set({
-                        // Por enquanto não terá o link para o perfil (pq não tem perfil)
-                        userName: currentUser.displayName,
-                        userPhotoUrl: currentUser.photoURL
-                    });
-                    // Se a função foi chamada ao aceitar um convite (o segundo argumento é informado)
-                    if (inviteKey) {
-                        // remove o convite no firebase (Depois de ter feito todo o processo de registro)
-                        firebase.database().ref('invitations/'+fbidUsuario+'/'+inviteKey).remove().then( function(){ return; });
-                    } 
+                    // Registro de entrada do usuário no Firebase (Em JS não é permitido declarar uma função dentro de uma condição)
+                    userSnapshotAndRegister(fbidUsuario, idEspaco, inviteKey, false);
                     // ***********************************************************************************
-                    // Atualiza a URL para exibir o espaço clicado
-                    window.location.assign('home.php?ss=sp&ids='+idEspaco);
-                } // Se o registro não foi bem sucedido ou o usuário já está no espaço: Não faz nada, apenas não entra
+                }
+                // Se o registro não foi bem sucedido ou o usuário já está no espaço: Não faz nada, ignora silenciosamente
             }
         };
         formCheckIn = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
@@ -336,25 +360,13 @@
         newSpacePostman.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 // Se o novo espaço foi reciclado/criado com sucesso
-                if (this.responseText !== 'false') {                    
+                if (this.responseText !== 'false') {
                     // Alteração Firebase ****************************************************************
-                    var currentUser = firebase.auth().currentUser;
-                    // Criando um child com as infos básicas do usuário no banco de espaços
-                    firebase.database().ref('spaces/space-'+this.responseText+'/'+fbidUsuario).set({
-                        // Por enquanto não terá o link para o perfil (pq não tem perfil)
-                        userName: currentUser.displayName,
-                        userPhotoUrl: currentUser.photoURL
-                    });
-                    // Criando um child com o id do espaço no banco de contadores
-                    firebase.database().ref('counters/space-'+this.responseText).set({
-                        // Apenas contando mensagens
-                        messages: 0
-                    });
+                    // Registro de entrada do usuário no Firebase (Em JS não é permitido declarar uma função dentro de uma condição)
+                    userSnapshotAndRegister(fbidUsuario, this.responseText, null, true);
                     // ***********************************************************************************
-                    // Atualiza a URL para exibir o espçao criado
-                    window.location.assign('home.php?ss=sp&ids='+this.responseText);
                 } else { // Se o espaço não pôde ser criado (Exibir msg explicando o motivo)
-                    window.alert('Mensagem provisória: Problema no banco de dados ou limite de espaços (10)');
+                    window.alert('Mensagem provisória: Problema no banco de dados ou limite de espaços atingido (10)');
                 }
             }
         };
@@ -364,13 +376,51 @@
         newSpacePostman.open("POST", "../config/ajax/createNewSpace.php", true); // Chama o script para tratar os dados do formulário
         newSpacePostman.send(formNewSpace); // Equivalente a clicar em um submit e enviar o formulário
     };
-    
+    // Lê as infos do usuário e faz o registro de entrada no Firebase
+    function userSnapshotAndRegister(fbidUsuario, idEspaco, inviteKey, creationFlag) {
+        // Infos do usuário
+        firebase.database().ref('users/'+fbidUsuario).once('value').then( function(snapshot) {
+            var userData = snapshot.val();
+            // Registro de entrada
+            firebase.database().ref('spaces/space-'+idEspaco+'/'+fbidUsuario).set({
+                userName: userData.userName,
+                userPhotoUrl: userData.userPhotoUrl,
+                userMsgStatus: userData.userMsgStatus
+            }).then( function() {
+                //****************************************************************************
+                // As condições seguintes nunca acontecem simultaneamente, por isso
+                // o redirect pode ser chamado em cada uma
+                //****************************************************************************
+                // Se a função foi chamada ao aceitar um convite (o id do convite é informado)
+                if (inviteKey) {
+                    firebase.database().ref('invitations/'+fbidUsuario+'/'+inviteKey).remove().then( function(){
+                        // Atualiza a URL para exibir o espaço (Depois de todo o processo)
+                        window.location.assign('home.php?ss=sp&ids='+idEspaco);//return;
+                    }).catch(function(error) { console.error('Dev Msg: O convite não foi descartado.',error); });
+                // Se a função foi chamada na criação de um espaço
+                } else if (creationFlag) {
+                    // Criando um child com o id do espaço no banco de contadores
+                    firebase.database().ref('counters/space-'+idEspaco).set({ 
+                        messages: 0 // Apenas contando mensagens
+                    }).then( function() {
+                        // Atualiza a URL para exibir o espaço (Depois de todo o processo)
+                        window.location.assign('home.php?ss=sp&ids='+idEspaco);
+                    }).catch(function(error) { console.error('Dev Msg: O contador de msgs não foi iniciado.',error); });
+                // Ou se foi chamada ao clicar no resultado de uma busca    
+                } else {
+                    // Atualiza a URL para exibir o espaço (Depois de todo o processo)
+                    window.location.assign('home.php?ss=sp&ids='+idEspaco);
+                }
+                // Obs: Chamar o redirect nas promisses foi a única forma de garantir que o registro
+                // de entrada seja feito em 100% dos casos. De outras formas é bug pra todo lado.
+            }).catch(function(error) { console.error('Dev Msg: O registro de entrada não foi bem sucedido.',error); }); 
+        }).catch( function(error) { console.error('Dev Msg: Erro ao ler os dados do usuário.',error); });
+    }; 
     // Redireciona a página para mostrar a lista de todos os espaços abertos
     function redirecionarListaTudo() {
         // Por enquanto só isso (É geral o suficiente para a introdução de filtros (tags) futuramente)
         window.location.assign('home.php?ss=lt');
     };    
-
     // Mostra/oculta o conteúdo do menu ao clicar no botão do menu
     function mostrarMenu() {
         document.getElementById("barra_usuario_menu_conteudo").classList.toggle("barra_usuario_menu_mostrar_conteudo");
@@ -386,7 +436,7 @@
         // Pegando o fbuid do usuário
         var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value;
         // remove o convite no firebase...
-        firebase.database().ref('invitations/'+fbidUsuario+'/'+key).remove().then( function(){ return; });
+        firebase.database().ref('invitations/'+fbidUsuario+'/'+key).remove(); // Não precisa de promise, pq não tem redirect na sequência
         // Atualizando o número de convites na barra do usuário
         // A rigor deveria utilizar um firebase listener com "child_removed" mais essa solução simples e econômica tbm funciona
         var nConvites = document.getElementById('contador_convites').innerHTML;
@@ -395,6 +445,43 @@
         if (document.getElementById('contador_convites').innerHTML < 1) {
             document.getElementById('convite_botao_icone_container').style.display = 'none';
         }    
+    }
+    // Mostrar e tratar edição do status
+    function mostrarEdicaoStatus() {
+        // Pegando o fbid do usuário no campo invisível
+        var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value;
+        // Lendo o status do usuário
+        firebase.database().ref('users/'+fbidUsuario).once('value').then( function(snapshot) {
+            var userMsgStatus = snapshot.val().userMsgStatus;
+            document.getElementById("user_msg_status_textarea").value = userMsgStatus;
+            // Mostrando a área de edição (se a promise for realizada)
+            document.getElementById("status_edit_container").style.display = 'block';
+        });
+    }
+    // Atualizar a mensagem de status do usuário
+    function atualizarMsgStatus() {
+        // Pegando o fbid do usuário no campo invisível
+        var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value;
+        // Pegando o conteúdo da área de texto na da edição do status
+        var strNovoStatus = document.getElementById("user_msg_status_textarea").value;
+        // Atualizando
+        firebase.database().ref('users/'+fbidUsuario).update({
+            userMsgStatus: strNovoStatus
+        }).then( function() {
+            // Escondendo a área de edição
+            document.getElementById("status_edit_container").style.display = 'none';
+            // Mensagem de confimação
+            window.alert('Sua mensagem de status foi atualizada com sucesso!');
+        }).catch( function(error) {
+            // Mensagens de erro
+            console.error('Dev Msg: Erro ao atualizar a msg de status.',error);
+            window.alert('Ops! Ocorreu um erro ao atualizar o seu status. Por favor tente novamente.');
+        });
+    }    
+    // Cancelar edição do status
+    function cancelarEdicaoStatus() {
+        // Escondendo a área de edição
+        document.getElementById("status_edit_container").style.display = 'none';
     }
     // Para ocultar elementos ao clicar fora deles
     window.onclick = function(event) {
