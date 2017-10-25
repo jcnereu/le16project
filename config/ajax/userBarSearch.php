@@ -11,10 +11,11 @@ if(strlen($string)>1){ // Mínimo de letras para fazer a busca (Para não estres
     //Dividindo a string em um array de substrings separadas por espaço em branco.
     $arrayString = explode(' ', $string); 
 
-    //Em cada substring
-    $query = 'SELECT * FROM spaces WHERE';
+    // Cabeçálio da query 
+    $query = 'SELECT * FROM spaces WHERE'; // visible="yes" AND ...
     $bindValues = '';
     $cont = 0;
+    //Em cada substring (acrescenta um item na query)
     foreach ($arrayString as $substring) {
         $cont = $cont + 1;
         $bvnum = (String) $cont;
@@ -26,8 +27,16 @@ if(strlen($string)>1){ // Mínimo de letras para fazer a busca (Para não estres
             $bindValues = $bindValues . "&bv{$bvnum}={$substring}";
         }
     }
-    // Acrescentando um limite no resultado da busca (Em produção deve ser maior)
-    $query = $query . ' LIMIT 10'; // No máximo 10 resultados
+    // Acrescentando o filtro de espaços visíveis
+    $query = $query . ' AND visible = :visible';
+    $bindValues = $bindValues . "&visible=yes";
+    // Acrescentando um limite no resultado da busca (Em produção deve ser maior?)
+    $query = $query . ' LIMIT :limit'; // No máximo 10 resultados
+    $bindValues = $bindValues . "&limit=10";
+    /*
+     * ACRESCENTAR O ORDER BY 'nusers'
+     */
+    // Executando a query final
     $busca = new readLike;    
     $busca->fazerBusca($query,$bindValues);
     // Se a busca retornar resultados

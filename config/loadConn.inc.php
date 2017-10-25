@@ -4,9 +4,10 @@
 //$stringDSN = getenv('MYSQL_DSN');
 //$stringUSER = getenv('MYSQL_USER');
 //$stringPASSWORD = getenv('MYSQL_PASSWORD');
-define('DB1_DSN','mysql:unix_socket=/cloudsql/le16project:us-central1:le16project-db1;dbname=teste');
+/* ESCONDER AS CHAVES PARA OS BACKUPS NO GITHUB */
+define('DB1_DSN','mysql:unix_socket=/cloudsql/le16project:us-central1:le16project-db1;dbname=');
 define('DB1_USER','root');
-define('DB1_PASSWORD','a4010b3010c2010d1');
+define('DB1_PASSWORD','Man, you fail again...');
 // Carregando a classe para conexão com o banco de dados
 require_once 'conn/conn.class.php';
 // Carregando a classe de leitura no banco de dados

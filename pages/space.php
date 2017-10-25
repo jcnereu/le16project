@@ -6,8 +6,10 @@
 <input type="text" value="<?php echo $dataCriacao; ?>" id="data_criacao-invisivel" style="display: none;">
 <!-- Identificador Firebase do usário que criou o espaço. Também invisível, para mostrar no cabecçalio do espaço-->
 <input type="text" value="<?php echo $criadorEspaco; ?>" id="fbuid_criador_invisivel" style="display: none;">
-<!-- (NÃO ESTÁ SENDO UTILIZADO) Número de usuários no espaço ao carregar a página. Também invisível, para verificar se é o primeiro acesso do criador-->
+<!-- Número de usuários no espaço ao carregar a página. Também invisível, para verificar se é o primeiro acesso do criador-->
 <input type="text" value="<?php echo $numeroUsuarios; ?>" id="numero_usuarios_inicial" style="display: none;">
+<!-- Estado da visibilidade do espçao ('yes' ou 'no') -->
+<input type="text" value="<?php echo $visibilidade; ?>" id="estado_visibilidade" style="display: none;">
 <!-- ... -->
 <div class="espaco_container">
     <div class="espaco_cabecalio">
@@ -18,6 +20,11 @@
         </div>
         <!-- Nome do espaço, atribuido no script de validação de acesso ao espaço no início da home -->
         <p class="titulo"><?php echo $nomeEspaco; ?></p>
+        <?php
+            // Verificando o estado de visibilidade do espaço
+            $displayIconeEspacoInvisivel = ($visibilidade=='yes') ? 'none' : 'block';
+        ?>
+        <div class="icone_espaco_invisivel" style="display: <?php echo $displayIconeEspacoInvisivel; ?>;"></div><!-- F5 -->
         <div class="espaco_info" id="espaco_info">
             <div class="usuario_criador">
                 <!-- <img class="perfil" src="stylesheets/backgrounds/profile_placeholder.png"> -->
@@ -87,14 +94,14 @@
             <div class="titulo">Opções:</div>
         </div>
         <div class="item_opcoes">
-            <div class="texto">Tornar o espaço invisível?</div>
+            <div class="texto">Tornar o espaço visível?</div>
             <div class="radios">
-                <label><input type="radio" value="Sim" onclick="mostrarConfirmaOpcao();"> Sim </label> &ensp;
-                <label><input type="radio" value="Não" onclick="mostrarConfirmaOpcao();"> Não </label>
+                <label><input type="radio" name="visibilidade" id="visible_Y" onchange="mostrarConfirmaOpcao();"> Sim </label> &ensp;
+                <label><input type="radio" name="visibilidade" id="visible_N" onchange="mostrarConfirmaOpcao();"> Não </label>
             </div>
         </div>
         <div class="confirma_opcao_container" id="confirma_opcao_container">
-            <div class="confirmar_btn">Confirmar</div>
+            <div class="confirmar_btn" onclick="atualizarOpcao();">Confirmar</div>
             <div class="cancelar_btn" onclick="cancelarOpcoes();">Cancelar</div>
         </div>
     </div>
@@ -552,7 +559,7 @@
                         }
                     }).catch( function(error) { console.error('Dev Msg: Erro ao remover os registros.',error); });
                     //***********************************************************************************************
-                }
+                }// Acho que falta um else aqui
             }
         };        
         formCheckOut = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
@@ -675,10 +682,20 @@
     // ########################################################################################################
     // Para mostrar as opçoes de configuração do espaço
     function mostrarOpcoes() {
+        // Vai e vem das divs
         document.getElementById("area_input").style.display = 'none';
         document.getElementById("mensagens_container").style.display = 'none';
         document.getElementById("lista_usuarios_container").style.display = 'none';
         document.getElementById("opcoes_container").style.display = 'block';
+        // Carregando o estado atual da visibilidade do estado
+        var visibilidade = document.getElementById("estado_visibilidade").value;
+        if (visibilidade==='yes') {
+            document.getElementById("visible_Y").checked = true;
+            document.getElementById("visible_N").checked = false;
+        } else { // ==='no'
+            document.getElementById("visible_N").checked = true;
+            document.getElementById("visible_Y").checked = false;
+        }
     };
     // Para esconder as opcoes e mostrar a conversa
     function esconderOpcoes() {
@@ -688,12 +705,50 @@
     };
     // Para mostrar botões de confirmaçao de mudança de opções
     function mostrarConfirmaOpcao() {
-        document.getElementById("confirma_opcao_container").style.display = 'block';
+        // Carregando o estado atual da visibilidade do estado
+        var visibilidade = document.getElementById("estado_visibilidade").value;
+        // Lendo o radiobutton "Sim"
+        var radioY = document.getElementById("visible_Y").checked;
+        // Deduzindo a configuração dos radios
+        var newVisibleValue = (radioY) ? "yes" : "no";
+        // Verificando se a opção mudou
+        if (newVisibleValue===visibilidade) {
+            document.getElementById("confirma_opcao_container").style.display = 'none';
+        } else {
+            document.getElementById("confirma_opcao_container").style.display = 'block';
+        }
     };
+    // Para fazer a mudança de opção
+    function atualizarOpcao() {
+        // Pegando o id do espaço
+        var idEspaco = document.getElementById("id_invisivel_espaco").value;
+        // Lendo o radiobutton "Sim"
+        var radioY = document.getElementById("visible_Y").checked;
+        // Deduzindo a configuração dos radios
+        var newVisibleValue = (radioY) ? "yes" : "no";
+        // AJAX para fazer a atualização
+        var visibilityPostman = new XMLHttpRequest();
+        visibilityPostman.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                // Recebe a resposta do serverSide e manda ver
+                if (this.responseText==='true') { // Se a atualização foi bem sucedida
+                    // Menssagem informando que atualzação foi bem sucedida
+                    window.location.reload(); 
+                } else { // Se não foi
+                    // Menssagem informando que atualzação NÃO foi bem sucedida (Tentar de novo)
+                    console.log('Erro no servidor ao tentar atualizar a visibilidade do espaço.');
+                }
+            }
+        };        
+        formVisibility = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
+        formVisibility.append('idEspaco',idEspaco);// Adiciona a variável 'idEspaco' como se um campo type=text (nesse caso) tivesse sido preenchido com a variável
+        formVisibility.append('visibilidade',newVisibleValue);
+        visibilityPostman.open("POST", '../config/ajax/visibilityUpdate.php', true); // Chama o script para tratar os dados do formulário
+        visibilityPostman.send(formVisibility); // Equivalente a clicar em um submit e enviar o formulário
+    }
     // Para cancelar a mudança de opção
     function cancelarOpcoes() {
         window.location.reload(); 
-        //window.location.assign("home.php?ss=sp");
     };
     // ########################################################################################################
 </script>

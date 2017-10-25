@@ -59,13 +59,17 @@ class readLike extends conn{
      
      private function preencherStatement() {
         if($this->bindValues):
-            foreach ($this->bindValues as $chave => $valor):
-                // Se o parâmetro informado representar as propriedades LIMIT ou OFFSET
-                if($chave=='limit' || $chave=='offset'):
+            foreach ($this->bindValues as $chave => $valor):  
+                if($chave=='visible'){ // Se o parâmetro se referir a coluna 'visible'
+                    $valor = (String) $valor;
+                    $this->statement->bindValue(":{$chave}", $valor, PDO::PARAM_STR);
+                } elseif ($chave=='limit') { // Se o parâmetro informado representar a propriedade LIMIT
                     $valor = (int) $valor;
-                endif;
-                $valor = '%'.$valor.'%'; // A classe toda para inserir essa linha
-                $this->statement->bindValue(":{$chave}", $valor, (is_int($valor)?PDO::PARAM_INT:PDO::PARAM_STR));
+                    $this->statement->bindValue(":{$chave}", $valor, PDO::PARAM_INT);
+                } else { // Se for uma substring para busca
+                    $valor = '%'.$valor.'%'; // A classe toda para inserir essa linha
+                    $this->statement->bindValue(":{$chave}", $valor, PDO::PARAM_STR);
+                }
                 // método bindValue(nome do campo, valor a ser lido, tipo de dado do valor(int ou string))
             endforeach;
         endif;

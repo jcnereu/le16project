@@ -19,7 +19,22 @@
     font-weight: 700;
     color: #3e4859;
 }
-.espaco_cabecalio .titulo {font-size: 24px;} /***** ATUALIZADO *****/
+/* ######################################################################## */
+.espaco_cabecalio .titulo {
+    font-size: 24px;
+    float: left;
+    max-width: 80%;
+}
+/* Incones para sinalização de configurações */
+.espaco_cabecalio .icone_espaco_invisivel {
+    width: 26px;
+    height: 26px;
+    background-size: 26px;
+    background-image: url('backgrounds/invisible.png');
+    margin-left: 10px;
+    float: left;
+}
+/* ######################################################################## */
 .espaco_cabecalio_menu {
     float: right;
     padding-top: 10px;  /*Para descer um pouco a div*/

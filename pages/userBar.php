@@ -73,7 +73,8 @@
     // ****************************** INÍCIO: FUNÇÕES FIREBASE ***************************************
     // Iniciando o SDK do Firebase
     var config = {
-        apiKey: "AIzaSyCMgLyuJrzW_mFobJR8Vy-yYcMi6i4n0hA",
+        /* ESCONDER AS CHAVES PARA OS BACKUPS NO GITHUB */
+        apiKey: "Ops! You fail...",
         authDomain: "le16project.firebaseapp.com",
         databaseURL: "https://le16project.firebaseio.com",
         projectId: "le16project",

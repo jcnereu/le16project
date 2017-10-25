@@ -93,7 +93,14 @@ class space {
         } else {
             return false; // O espaço não existe ou ocorreu algum problema na leitura
         }
-        
+    }
+    
+    // Futuramente pode ser necessário atualizar outra opção além da visibilidade
+    public function atualizarVisibilidade($idEspaco, $visibilidade) {
+        require_once '../config/loadConn.inc.php';// Saindo da home
+        $atualizacao = new update();
+        $atualizacao->fazerAtualizacao('spaces', array('visible'=>'dummy'), "id={$idEspaco}", "visible={$visibilidade}");
+        return $atualizacao->retornaResultado();
     }
     
     public function pegarIDespaco() {

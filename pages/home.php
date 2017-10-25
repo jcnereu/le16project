@@ -15,6 +15,7 @@
             $numeroUsuarios = $infoEspaco['nusers'];
             $criadorEspaco = $infoEspaco['creator_fbuid'];
             $dataCriacao = $infoEspaco['creation_date'];
+            $visibilidade = $infoEspaco['visible'];
         } else {
             header("Location: home.php?ss=ns&access=false");// Acrescentar uma mensagem específica informando que o usuário tentou uma operação não permitida (tentar acessar um espaço pela url)
         }
