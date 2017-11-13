@@ -34,6 +34,8 @@
                 </div>
             </div>
         </div>
+        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+        <div class="botao_pesquisar" id="botao_pesquisar" onclick="mostrarEspacosListadosMobile();"><div class="botao_pesquisar_icone"></div></div>
         <!-- ##################### NOTIFICAÇÃO E LISTA DE CONVITES ########################## -->
         <div class="lista_convite_container">
             <div class="botao_icone_container" id="convite_botao_icone_container">
@@ -47,7 +49,7 @@
         </div>
         <!-- ############################### OLÁ USUÁRIO #################################### -->
         <div class="barra_usuario_ola_container">
-            <p id="ola_usuario"></p>
+            <div>Olá <b id="ola_usuario"></b></div>
             <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID do usuário-->
             <input type="text" value="<?php echo $dadosUsuario['id']; ?>" id="id_invisivel_usuario" style="display: none;">
             <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID Firebase do usuário-->
@@ -58,12 +60,16 @@
             <input type="text" value="backgrounds/profile_placeholder.png" id="pic_invisivel_usuario" style="display: none;">      
         </div>
         <!-- ############################### BUSCA #################################### -->
-        <div class="barra_usuario_busca_container">
+        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY -->
+        <div class="barra_usuario_busca_container" id="barra_usuario_busca_container">
+            <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY -->
+            <div class="botao_listar_tudo_mobile" id="botao_listar_tudo_mobile"><button onclick="redirecionarListaTudo();">Ver tudo</button></div>
             <div class="caixa_texto"><input id="nome_novo_espaco" type="text" placeholder="buscar ou criar..." onkeyup="buscarSugestao(this.value);"></div>
             <div class="botao_listar_tudo" id="botao_listar_tudo"><button onclick="redirecionarListaTudo();">Ver tudo</button></div>
         </div>
+        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
         <div class="resultado_busca" id="div_resultado_busca"></div>
-        <div class="resultado_novo_espaco" id="div_resultado_novo_espaco"></div>
+        <div class="resultado_novo_espaco" id="div_resultado_novo_espaco"></div>-->
     </div>
 </div>
 <!-- ********************************** Carregando o Firebase ************************************ -->
@@ -74,12 +80,7 @@
     // Iniciando o SDK do Firebase
     var config = {
         /* ESCONDER AS CHAVES PARA OS BACKUPS NO GITHUB */
-        apiKey: "Ops! You fail...",
-        authDomain: "le16project.firebaseapp.com",
-        databaseURL: "https://le16project.firebaseio.com",
-        projectId: "le16project",
-        storageBucket: "le16project.appspot.com",
-        messagingSenderId: "288102999150"
+        apiKey: "Ops! You fail...";
     };
     firebase.initializeApp(config);
     // Função geral, cahamada ao carregar a página para gerenciar as funções específicas
@@ -113,7 +114,7 @@
             var firstName = userFirebaseName.substr(0,nFirstBlank);
             var profilePicUrl = user.photoURL;
             // Preenchendo a tag com a saudação ao usuário
-            document.getElementById("ola_usuario").innerHTML = 'Olá '+firstName;
+            document.getElementById("ola_usuario").innerHTML = firstName;
             // Preenchendo o botão do menu na barra do usuário com a img de perfil do usuário
             document.getElementById("menu_botao").style.backgroundImage = 'url(' + profilePicUrl + ')';
             // As infos abaixo são guardadas para economizar uma consulta no Firebase ao carregar o convite
@@ -285,9 +286,13 @@
     function buscarSugestao(str) {
         // Condição para abrir e fechar a div de exibição dos resultados
         if(str.length > 1){
+            document.getElementById("lista_espacos_container").style.display = 'none'; //YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+            document.getElementById("cabecalio_resultado_busca").style.display = 'block';//YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
             document.getElementById("div_resultado_busca").style.display = 'block';
         } else {
             document.getElementById("div_resultado_busca").style.display = 'none';
+            document.getElementById("cabecalio_resultado_busca").style.display = 'none'; //YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+            document.getElementById("lista_espacos_container").style.display = 'block'; //YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
         }
         // AJAX PARA FAZER A BUSCA ENQUANTO O USUÁRIO DIGITA
         if (str.length > 0) {
@@ -300,7 +305,7 @@
                         /*
                          * PENSAR EM OUTRA FORMA DE AJUSTE, PQ COM 'width' FIXO NÃO SERÁ POSSÍVEL IMPLEMENTAR O MOBILE FIRST
                          */
-                        document.getElementById("div_resultado_busca").style.width = '29%';
+                        //document.getElementById("div_resultado_busca").style.width = '29%'; yyyyyyyyyyyyyyyyyyyyyyyyyy
                         // Crinado o HTML/CSS do botão
                         var botaoNovoEspaco = '<p class="texto_novo_espaco">Nenhum espaço encontrado.</p>' +
                                               '<button class="botao_novo_espaco" onclick="criarNovoEspaco();">Criar novo</button>';
@@ -308,7 +313,7 @@
                         document.getElementById("div_resultado_busca").innerHTML = botaoNovoEspaco;
                     } else { // Se a busca encontrou resultados
                         // Ajustando a largura da div para exibir o resultado
-                        document.getElementById("div_resultado_busca").style.width = '40%';
+                        // document.getElementById("div_resultado_busca").style.width = '40%'; yyyyyyyyyyyyyyyyyyyyyyyyyy
                         // Recebe a string de resultados do servidor (já com html/css) e joga na div 'div_resultado_busca'
                         document.getElementById("div_resultado_busca").innerHTML = this.responseText;
                     }
@@ -484,6 +489,21 @@
         // Escondendo a área de edição
         document.getElementById("status_edit_container").style.display = 'none';
     }
+    // YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+    function mostrarEspacosListadosMobile() {
+        // Escondendo
+        document.getElementById("c2").style.display = 'none';
+        document.getElementById("c3").style.display = 'none';
+        document.getElementById("botao_pesquisar").style.display = 'none';
+        // Mostrando
+        document.getElementById("c1").style.display = 'block';
+        document.getElementById("barra_usuario_busca_container").style.display = 'block';
+        // Alerendo para o layout mobile
+        document.getElementById("botao_listar_tudo").style.display = 'none';
+        document.getElementById("botao_listar_tudo_mobile").style.display = 'inline-block';
+        document.getElementById("cabecalio_lista_espacos").innerHTML = 'Conversas';
+    }
+    // YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
     // Para ocultar elementos ao clicar fora deles
     window.onclick = function(event) {
         // Escondendo o menu

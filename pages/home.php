@@ -43,7 +43,10 @@
         <link type="text/css" rel="stylesheet" href="stylesheets/reset.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/home.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/userBar.css">
-        <link type="text/css" rel="stylesheet" href="stylesheets/space.css">
+        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+        <link type="text/css" rel="stylesheet" href="stylesheets/c1.css">
+        <link type="text/css" rel="stylesheet" href="stylesheets/c2.css">
+        <link type="text/css" rel="stylesheet" href="stylesheets/c3.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/list.css">
         <!-- Firebase codelab web CSS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -55,8 +58,12 @@
     <body>
         <?php include_once 'userBar.php';?>
         <div class="coluna_central">
-            <div class="coluna_central_c1">
-                <div class="c1_lista_espacos" id="lista_espacos">
+            <div class="c1" id="c1"><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+                <div class="dumper_top" id="dumper_top_c1"></div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+                <div class="cabecalio_resultado_busca" id="cabecalio_resultado_busca">Resultados:</div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+                <div class="resultado_busca" id="div_resultado_busca"></div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+                <div class="busca_sem_resultado" id="div_busca_sem_resultado"></div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+                <div class="lista_espacos_container" id="lista_espacos_container"><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
                     <?php
                         // Para guardar o id do último espaço na lista
                         $proximoEspaco = 0;
@@ -82,7 +89,7 @@
                                     // Criando o HTML/CSS para listar os espaços registrados com excessão do que está aberto
                                     if($espaco!=$idEspacoUrl){ // O id do espaço aberto ($idEspacoUrl) é carregado por leitura da URL na etapa de validação acima
                                         
-                                        echo '<a href="home.php?ss=sp&ids=' .$espaco. '" class="c1_lista_espaco_container_individual">'
+                                        echo '<a href="home.php?ss=sp&ids=' .$espaco. '" class="item_lista">'
                                                 .$buscaLista->retornaResultado()[0]['name']
 
                                                 // DIV COM O NÚMERO DE USUÁRIOS
@@ -151,7 +158,8 @@
                 <!-- O campo abaixo é invisível. Criado apenas para servir o AJAX generalCheckout chamado ao sair do sistema-->
                 <input type="text" value="<?php echo $listaEspacos; ?>" id="lista_invisivel_espacos" style="display: none;">
             </div>
-            <div class="coluna_central_c2">
+            <div class="c2" id="c2"><!-- YYYYYYYYYYYYYYYYYYYY NOVO -->
+                <div class="dumper_top"></div><!-- YYYYYYYYYYYYYYYYYYYY NOVO -->
                 <?php
                     $sessao = filter_input(INPUT_GET,'ss',FILTER_DEFAULT);// ss->sessão
                     if(empty($sessao)){
@@ -166,6 +174,9 @@
                         }
                     }
                 ?>
+            </div>
+            <div class="c3" id="c3"><!-- YYYYYYYYYYYYYYYYYYYY NOVO -->
+                <?php include_once 'c3.php';?>
             </div>
         </div>
     </body>

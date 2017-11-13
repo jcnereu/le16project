@@ -11,9 +11,10 @@ body {
 .coluna_superior {
     position: fixed; /* Para não descer com a barra de rolagem*/
     width: 100%;
-    height: 60px;
+    height: 58px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
     z-index: 1; /* Necessário para que os elementos pertencentes a barra do usuário, mas exibidos fora dela (menu e resultado das buscas) fiquem em primeiro plano */
-    background-color: #e5e5e5; /*Cor da barra do usuário*/
+    background: linear-gradient(to right, #e8e8e8, #d7dbe0); /*Cor da barra do usuário*/
+    border-bottom: 1px solid #dedede;
 }
 /* Div para conter os elementos da barra do usuário*/
 .barra_usuario_container {
@@ -26,126 +27,100 @@ body {
 /* Divisão do layout geral para conter o restante do conteúdo da página*/
 .coluna_central {
     position: relative;
-    top: 60px;/*Desconto para não sobrepor a barra do usuário*/
+    /* top: 58px;*/ /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /*Desconto para não sobrepor a barra do usuário*/
     width: 100%;
-    background-color: #ffff80;
+    /*background-color: #ffff80; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
 }
+.dumper_top { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    height: 58px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+}
+/**************************************************************************************************/
+/*                                             C1                                                 */
+/**************************************************************************************************/
 /* Divisão dentro da coluna central para conter a lista de espaços*/
-.coluna_central_c1 {
-    width: 30%;
-    /*display: inline-block;*/
+.coluna_central .c1 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
+    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
+    height: 100vh; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
     float: left;
+    /*background-color: #4387fd;*/ 
 }
-.c1_lista_espacos {
-    width: 100%;
-    /*margin: auto;*/ /* Para centralizar se o width for menor que 100%*/
+/**************************************************************************************************/
+/*                                             C2                                                 */
+/**************************************************************************************************/
+.coluna_central .c2 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    float: left; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
+    height: 100vh; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    /*background-color: #efea88;*/
 }
-/* tasc tasc... */
-.c1_lista_espacos .cabecalio {
-    margin: 31px 0 0 4px;
-    color: #3e4859;
-    font-size: 13px;
+/**************************************************************************************************/
+/*                                             C3                                                 */
+/**************************************************************************************************/
+.coluna_central .c3 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    float: left; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
+    height: 100vh; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
 }
-.c1_lista_espaco_container_individual {
-    /*width: 90%;*/
-    padding: 14px 4px 14px 10px;
-    border-radius: 4px;
-    background-color: #e9e9e9;
-    display: block;
-    margin-top: 2px;
-    color: #3e4859;
-}
-.c1_lista_espaco_container_individual:hover {
-    background-color: #e2e2e2;
-}
-/* NÚMERO DE USUÁRIOS NO ESPAÇO LISTADO*/
-/*.numero_usuarios_espaco_listado {
-    float: right;
-}8/
-/********************************************* NOVO **********************************/ 
-/* NÚMERO DE NOVAS MENSAGENS NO ESPAÇO LISTADO*/
-.numero_msgs_espaco_listado {
-    display: none;
-    float: right;
-    margin: -14px 0 0 8px;
-    /*min-width: 42px;*/
-}
-.numero_msgs_espaco_listado .icone {
-    display: inline-block;
-    background-image: url('backgrounds/message_list.png');
-    background-repeat: no-repeat;
-    width: 12px;
-    height: 12px;
-    background-size: 12px;
-    /*border-radius: 0px;*/
-    margin: 0 2px -2px 0;
-    /*border: 1px solid black;*/
-}
-.numero_msgs_espaco_listado .numero {
-    display: inline-block;
-    /*min-width: 10px;*/
-    font-size: 12px;
-    /*border: 1px solid black;*/
-}
-/* NÚMERO DE NOVOS USUÁRIOS NO ESPAÇO LISTADO*/
-.numero_usuarios_espaco_listado {
-    float: right;
-    margin: -14px 0 0 8px;
-    /*min-width: 42px;*/
-}
-.numero_usuarios_espaco_listado .icone {
-    display: inline-block;
-    background-image: url('backgrounds/user_list.png');
-    background-repeat: no-repeat;
-    width: 11px;
-    height: 11px;
-    background-size: 11px;
-    /*border-radius: 0px;*/
-    margin: 0 2px -1px 0;
-    /*border: 1px solid black;*/
-}
-.numero_usuarios_espaco_listado .numero {
-    display: inline-block;
-    /*min-width: 10px;*/
-    font-size: 12px;
-    /*color: #23c636;*/
-    /*font-weight: bold;*/
-    /*border: 1px solid black;*/
-}
-/********************************************* NOVO **********************************/ 
-/* Divisão dentro da coluna central para conter um espaço ativo*/
-.coluna_central_c2 {
-    float: left;
-    width: 69%;
-    /*display: inline-block;*/
-    /*background-color: #428BDD;*/
-    /*height: 100px;*/
-}
-.c2_msg {
-    /*width: 100%;*/
-    padding: 10px;
-    margin: 2px;
-    border: solid 1px black;
-    border-radius: 4px;
-    /*display: block;*/
+/**************************************************************************************************/
+/*                                      Recuo da bateria                                          */
+/**************************************************************************************************/
+.coluna_central .recuo_c2 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: none; /* LAYOUT RESPONSIVO */
+    width: 0; /* LAYOUT RESPONSIVO */
 }
 /**************************************************************************************************/
 /*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
 /**************************************************************************************************/
-@media screen and (min-width: 580px) {
-
+@media screen and (min-width: 640px) {
+    .coluna_central .c1 {
+        display: block;
+        width: 40%;
+    }
+    .coluna_central .c2 {
+        width: 60%;
+    }
+    .coluna_central .c3 {
+        width: 60%;
+    }
 }
-
-@media screen and (min-width: 768px) {
-    .coluna_central {width: 90%; margin: auto;}
-    .caixa_texto_busca {width: 50%;}
-    /* Altura da barra de busca*/
-    .container_form_busca form {
-        padding-top: 230px;
+@media screen and (min-width: 1024px) {
+    .coluna_central .c1 {
+        width: 30%;
+    }
+    .coluna_central .c2 {
+        width: 70%;
+    }
+    .coluna_central .c3 {
+        width: 30%;
+    }
+    .coluna_central .recuo_c2 {
+        display: block;
+        width: 40%;
     }
 }
 
-@media screen and (min-width: 1140px) {
-    .barra_usuario_container {width: 80%; margin: auto;}
-    .coluna_central{width: 80%; margin: auto;}
+@media screen and (min-width: 1366px) {
+    /* Nível 1 */
+    .barra_usuario_container {
+        width: 90%;
+        margin: auto;
+    }
+    .coluna_central {
+        width: 90%;
+        margin: auto;
+    }
+}
+@media screen and (min-width: 1800px) {
+    /* Nível 1 */
+    .barra_usuario_container {
+        width: 1620px; /* 90% de 1800px*/
+        margin: auto;
+    }
+    .coluna_central {
+        width: 1620px; /* 90% de 1800px*/
+        margin: auto;
+    }
 }

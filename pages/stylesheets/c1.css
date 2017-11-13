@@ -1,0 +1,88 @@
+/* O SIMPLES É O MAIS DIFÍCIL */
+
+/* Sub página contida na Home*/
+
+/**************************************************************************************************/
+/*                          LISTA DE TODOS OS ESPAÇOS (ocupa a coluna c2)                         */
+/**************************************************************************************************/
+.c1 .lista_espacos_container { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    width: 100%;
+    height: calc(100% - 89px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* PROVISÓRIO: Enuanto o cabeçálio está dentro da lista*/
+    width: 100%;
+    overflow-y: auto; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    /*margin: auto;*/ /* Para centralizar se o width for menor que 100%*/
+}
+/* Texto sobre a lista de espaços (tasc tasc...) */
+.lista_espacos_container .cabecalio { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    margin: 31px 0 0 4px; /* CORRIGIR: O cabeçálio deve ficar fora da div da lista */
+    color: #3e4859;
+    font-size: 13px;
+}
+.lista_espacos_container .item_lista { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: block;
+    padding: 18px 4px 10px 10px;
+    background: #efefef;
+    border-bottom: 1px solid #e6e6e6;
+    border-radius: 4px;
+    color: #5d677a;
+}
+.lista_espacos_container .item_lista:hover{ /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    background: #e8e8e8;
+    color: #3e4859;
+}
+/* NÚMERO DE NOVAS MENSAGENS NO ESPAÇO LISTADO*/
+.numero_msgs_espaco_listado {
+    float: right;
+    margin: -18px 0 0 8px;
+    border: 1px solid transparent; /*###################### F5*/ /* Gambi para não sobrepor no chrome */
+}
+.numero_msgs_espaco_listado .icone {
+    display: inline-block;
+    background-image: url('backgrounds/message_list.png');
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 12px;
+    background-size: 12px;
+    margin: 0 2px -2px 0;
+    opacity: 0.8;
+}
+.numero_msgs_espaco_listado .numero {
+    display: inline-block;
+    font-size: 12px;
+    color: #777;
+}
+/* NÚMERO DE NOVOS USUÁRIOS NO ESPAÇO LISTADO*/
+.numero_usuarios_espaco_listado {
+    float: right;
+    margin: -18px 0 0 8px;
+    border: 1px solid transparent; /*###################### F5*/ /* Gambi para não sobrepor no chrome */
+}
+.numero_usuarios_espaco_listado .icone {
+    display: inline-block;
+    background-image: url('backgrounds/user_list.png');
+    background-repeat: no-repeat;
+    width: 11px;
+    height: 11px;
+    background-size: 11px;
+    margin: 0 2px -1px 0;
+    opacity: 0.8;
+}
+.numero_usuarios_espaco_listado .numero {
+    display: inline-block;
+    font-size: 12px;
+    color: #777;
+}
+/**************************************************************************************************/
+/*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
+/**************************************************************************************************/
+@media screen and (min-width: 580px) {
+    
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 1140px) {
+
+}

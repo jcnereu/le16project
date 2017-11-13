@@ -13,7 +13,7 @@
     width: 34px;
     height: 34px;
     background-size: 34px;
-    border-radius: 50%;/*20px;*/
+    border-radius: 50%;
     margin: 1px 4px;
 }
 
@@ -30,7 +30,7 @@
 .barra_usuario_menu_conteudo .box {
     overflow: auto;
     background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    border: 1px solid #d5d5d5;
     border-radius: 4px;
     box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
 }
@@ -39,8 +39,8 @@
     height: 0; 
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid #ccc;
-    margin-left: 163px;
+    border-bottom: 10px solid #d5d5d5;
+    margin-left: 145px;
     margin-bottom: -9px;
 }
 .barra_usuario_menu_conteudo .inner_triangle {
@@ -49,35 +49,24 @@
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-bottom: 10px solid #f9f9f9;
-    margin-left: 163px;
+    margin-left: 145px;
     margin-bottom: -1px;
     position: relative;
     z-index: 2;
 }
 .barra_usuario_menu .item_menu {
-    width: 180px; /* ############### EDIÇÃO DO STATUS ################### */
-    padding: 8px;
-    color: black;
-    text-decoration: none;
+    width: 150px;
+    padding: 12px 14px;
+    color: #353535;
+    font-size: 14px;
 }
 .barra_usuario_menu .item_menu:hover {
-    background: #ddd;
-    cursor: pointer;
+    background: #eee;
 }
 .barra_usuario_menu_mostrar_conteudo {
     display: block;
 }
-/* #################################### EDIÇÃO DO STATUS ######################################## */
-/*
-.status_container .edit_icon {
-    float: right;
-    background-image: url('backgrounds/edit.png');
-    background-repeat: no-repeat;
-    width: 16px;
-    height: 16px;
-    background-size: 16px;
-
-*/
+/* ****************************************** EDIÇÃO DO STATUS ****************************************** */
 .status_edit_container {
     display: none;
     position: absolute; /* Para que seja posicionado em relação a div barra_usuario_container*/
@@ -135,7 +124,6 @@
 }
 .status_edit_container .btn_atualizar {
     float: right;
-    /*width: 100px;*/
     padding: 2px 6px;
     margin: 4px;
     font-size: 13px;
@@ -149,7 +137,6 @@
 }
 .status_edit_container .btn_cancelar {
     float: right;
-    /*width: 100px;*/
     padding: 2px 6px;
     margin: 4px;
     font-size: 13px;
@@ -197,7 +184,7 @@
     position: absolute;
     right: 0;
     top: 20px;
-    background-color: #F2371A;/*#3c78e0;*/
+    background-color: #333;
     color: white;
     font-size: 12px;
     font-weight: bold;
@@ -234,14 +221,11 @@
 }
 /* Convites individuais na lista */
 .lista_convite_container .convite{
-    /*width: 96%;
-    /*margin: auto;*/
     margin: 4px;
     padding: 4px;
     background-color: #ddd;
     border-radius: 2px;
     border-bottom: 1px solid #bbb;
-    
 }
 .lista_convite_container .campo {
    padding: 2px;
@@ -263,17 +247,14 @@
     font-weight: bold;
 }
 .lista_convite_container .nome_espaco {
-    /*width: 100%;*/
     padding: 4px 10px;
     margin: 4px 2px;
     font-size: 13px;
-    /*line-height: 110%;*/
     color: #333;
     background-color: #eee;
     border-radius: 4px;
 }
 .lista_convite_container .nome_espaco:hover{
-    /*text-decoration: underline;*/
     background-color: #e9e9e9;
     color: black;
     cursor: pointer;
@@ -295,8 +276,7 @@
     border-radius: 2px;
     padding: 2px 4px;
     color: white;
-    background-color: #f45c44;/*#f24429;/*#F2371A;*/
-    /*margin-top: -22px;*/
+    background-color: #f45c44;
     margin: 4px 2px;
 }
 .lista_convite_container .descartar_btn:hover {
@@ -307,30 +287,52 @@
 /**************************************************************************************************/
 /* Container da mensagem */
 .barra_usuario_ola_container {
+    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
     float: right;
     margin: 13px 5px 0 0;
+    font-size: 15px;
+    color: #333;
 }
 /**************************************************************************************************/
 /*                                             BUSCA                                              */
 /**************************************************************************************************/
+.botao_pesquisar { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: display; /* LAYOUT RESPONSIVO */
+    float: right;
+    width: 31px;
+    height: 31px;
+    padding: 1px;
+    margin-top: 5px;
+    border-radius: 50%;
+}
+.botao_pesquisar_icone { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    background-image: url('backgrounds/menu_icon.png');
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+}
+.botao_pesquisar:hover { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    background-color: #ccc;
+}
 .barra_usuario_busca_container {
-    /*float: left;*/
-    margin: 8px 10px 0 0;
+    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
+    margin-top: 8px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
 }
 .barra_usuario_busca_container .caixa_texto {
     display: inline-block;
-    width: 180px;
-    margin-right: 20px;
+    width: calc(100% - 10px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* 2px de borda */
+    margin-left: 4px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
 }
-.barra_usuario_busca_container .botao_novo_espaco {
+.barra_usuario_busca_container .botao_novo_espaco { /* ESTÁ SENDO UTILIZADO? */
     display: inline-block;
-    
 }
 .barra_usuario_busca_container input[type=text] {
-    width: 100%;
-    padding: 11px 10px;
+    width: 96%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    padding: 9px 2%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
     border: none;
     margin-bottom: 5px;
+    border: 1px solid #c0c6d1;
     border-radius: 2px;
     font-size: 14px;
     background-color: #c7cdd8;
@@ -343,17 +345,28 @@
 .barra_usuario_busca_container .botao_listar_tudo {
     display: inline-block;
 }
-.barra_usuario_busca_container .botao_listar_tudo button {
+.barra_usuario_busca_container .botao_listar_tudo_mobile { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: none;
+}
+.barra_usuario_busca_container button { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
     border: none;
     border-radius: 2px;
-    padding: 11px 10px;
-    background-color: #4781e5;
+    margin-left: 4px;
+    padding: 9px 10px;
+    background: linear-gradient(#4387fd, #4683ea);
+    border: 1px solid #4285f4;
     color: white;
     font-size: 13px;
     font-weight: bold;
 }
-.barra_usuario_busca_container .botao_listar_tudo button:hover {
+.barra_usuario_busca_container button:hover {
     background-color: #3c78e0;
+}
+.cabecalio_resultado_busca { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: none;
+    padding: 18px 0 10px 4px; /* height total da div: 47px*/ /* TOP 21px*/
+    color: #3e4859;
+    font-size: 13px;
 }
 /* Elementos exibidos quando a busca não retorna resultado */
 .resultado_busca .texto_novo_espaco {
@@ -377,26 +390,29 @@
 /*Div para exibir os resultados da busca. Tem um JS para ser mostrada e escondida e as dimensões são ajustadas para cada tamanho de tela*/
 .resultado_busca {
     display: none;
-    max-height: 300px;
-    padding: 8px;
-    position: absolute;
-    overflow: auto;
+    width: calc(100% - 16px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    height: calc(100% - 105px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    /*margin-top: 38px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* Deve ser preenchido com um cabeçalio "Resultados" */
+    /*height: 300px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* Ocupar todo o espaço vertical da c1*/
+    padding: 0 8px;
+    /*position: absolute;*/ /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    overflow-y: auto; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
     background-color: #f9f9f9;
-    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /*Pra criar a sombra ao redor da caixa de opções do menu*/
-    left: 0; /*Para que abra para a direita*/
-    z-index: 1; /*Para que o contúdo do menu fique em promeiro plano*/
+    /*box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    /*left: 0; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    /*z-index: 1; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
 }
 .resultado_busca_item_container {
     clear: left;
     width: 100%;
     height: 40px;
     box-sizing: border-box;
-    /*margin: auto;*/
     border-bottom: 1px solid #ccc;
 }
 .resultado_busca_item_container:hover{background-color: #eee; cursor: pointer;}
 .resultado_busca_item_bloco_esquerdo {
     float: left;
+    max-width: 80%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* Falta ajustar o heigth se quebrar a linha*/
     padding: 4px;
     color: #333;
 }
@@ -409,12 +425,29 @@
 /**************************************************************************************************/
 /*                                      LAYOUT RESPONSIVO                                         */
 /**************************************************************************************************/
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 640px) {
+    .barra_usuario_ola_container {
+        display: block;
+    }
+    .barra_usuario_busca_container {
+        display: block;
+    }
     .barra_usuario_busca_container .caixa_texto {
-        width: 29%;
+        width: 40%;
+    }
+    .botao_pesquisar {
+        display: none;
     }
 }
 
-@media screen and (min-width: 580px) {
+@media screen and (min-width: 1024px) {
+    .barra_usuario_busca_container .caixa_texto {
+        width: 30%;
+    }
+}
+@media screen and (min-width: 1366px) {
+
+}
+@media screen and (min-width: 1800px) {
 
 }

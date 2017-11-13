@@ -11,82 +11,67 @@
 <!-- Estado da visibilidade do espçao ('yes' ou 'no') -->
 <input type="text" value="<?php echo $visibilidade; ?>" id="estado_visibilidade" style="display: none;">
 <!-- ... -->
-<div class="espaco_container">
+<!--<div class="espaco_container">--><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
     <div class="espaco_cabecalio">
+        
         <div class="espaco_cabecalio_menu">
             <!-- O id do espaço é atribuido ao carregar a home, por leitura direta da URL -->
-            <span onclick="mostrarInfoEspaco();" class="espaco_cabecalio_sair" id="mostrar_info_link">mais</span>
+            <!--<span onclick="mostrarInfoEspaco();" class="espaco_cabecalio_sair" id="mostrar_info_link">mais</span>--><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
             <span onclick="sairEspaco(<?php echo $idEspacoUrl; ?>);" class="espaco_cabecalio_sair">sair</span>
         </div>
         <!-- Nome do espaço, atribuido no script de validação de acesso ao espaço no início da home -->
-        <p class="titulo"><?php echo $nomeEspaco; ?></p>
+        <p class="titulo" id="nome_espaco" onclick="mostrarListaUsuarios();"><?php echo $nomeEspaco; ?></p>
         <?php
             // Verificando o estado de visibilidade do espaço
             $displayIconeEspacoInvisivel = ($visibilidade=='yes') ? 'none' : 'block';
         ?>
-        <div class="icone_espaco_invisivel" style="display: <?php echo $displayIconeEspacoInvisivel; ?>;"></div><!-- F5 -->
+        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+        <div class="icone_espaco_invisivel" style="display: </?php echo $displayIconeEspacoInvisivel; ?>;"></div>
         <div class="espaco_info" id="espaco_info">
             <div class="usuario_criador">
-                <!-- <img class="perfil" src="stylesheets/backgrounds/profile_placeholder.png"> -->
-                <div class="pic" id="user_creator_photo"></div><!-- novo -->
+                <!-- <img class="perfil" src="stylesheets/backgrounds/profile_placeholder.png"> --/>
+                <div class="pic" id="user_creator_photo"></div>
                 <div class="nome" id="user_creator_name"></div>
                 <div class="data" id="data-criacao"></div>
             </div>
             <div class="outros_usuarios" id="div_geral_numero_usuarios" onclick="mostrarListaUsuarios();">
-                <!--<img class="icone" src="stylesheets/backgrounds/people3.png">-->
-                <!--<p class="numero" id="numero_usuarios"><\?php echo $numeroUsuarios; ?></p>-->
+                <!--<img class="icone" src="stylesheets/backgrounds/people3.png">--/>
+                <!--<p class="numero" id="numero_usuarios"><\?php echo $numeroUsuarios; ?></p>--/>
                 <div class="numero" id="numero_usuarios"></div>
                 <div class="texto">ver lista</div>
             </div>
-            <!-- *********************************** CATRACA *************************************** -->
+            <!-- *********************************** CATRACA *************************************** --/>
             <div class="catraca_container" id="catraca_container">
                     <div class="pic" id="catraca_user_pic"></div>
                     <div class="nome" id="catraca_user_name"></div>
                     <div class="sentido" id="catraca_sentido">entrou</div>
             </div>
-            <!-- ################################# OPÇÕES BTN ###################################### -->
+            <!-- ################################# OPÇÕES BTN ###################################### --/>
             <div class="menu_opcoes_container" id="menu_opcoes_container">
                 <label title="Opções" onclick="mostrarOpcoes();">
                     <div class="opcoes_btn"><div class="opcoes_icone">&#8942;</div></div>
                 </label>
             </div>
-        </div>
+        </div>-->
     </div>
-    <div class="espaco_mensagens_container" id="mensagens_container">
-        <div id="messages"></div><!-- *************************** FIREBASE STYLESHEET (codelab.css) -->
+    <div class="espaco_mensagens_container" id="messages">
+        <!--<div id="messages"></div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
     </div>
-    <!-- ############################### Formulário do convite ################################### -->
-    <div class="convite_conatainer" id="convite_container">
-        <div class="campo">
-            <div class="nome_campo">Convidar:</div>
-            <div class="nome_convidado" id="convite_nome_convidado"></div>
-        </div>
-        <div class="campo">
-            <div class="nome_campo">Para:</div>
-            <select id="convite_lista_espacos"></select>
-        </div>
-        <div class="campo">
-            <div class="nome_campo">Mensagem:</div>
-            <textarea id="convite_msg"></textarea>
-        </div>
-        <div class="campo">
-            <button onclick="enviarConvite();">ENVIAR</button>
-            <button onclick="cancelarConvite();">CANCELAR</button>
-        </div>
+
+    <!-- ######################### AREA PARA DIGITAR E ENVIAR MENSAGNES ########################### -->
+    <div class="espaco_area_texto" id="area_input">
+        <form id="message-form" action="#">
+            <input type="text" id="message-text" class="area_texto_item">
+            <input type="submit" id="message-submit" value="Env" class="area_texto_item">
+        </form>
+        <!--
+        <form id="image-form" action="#">
+            <input id="media-capture" type="file" accept="image/*,capture=camera" style="display: none;">
+            <input type="submit" id="image-submit" value="Img" class="area_texto_item">
+        </form>
+        -->
     </div>
-    <!-- ############################## LISTA DE USUÁRIOS NO ESPAÇO ################################ -->
-    <div class="espaco_lista_usuarios" id="lista_usuarios_container">
-        <!-- ######################### IMAGEM DE PERFIL AMPLIADA ########################### -->
-        <div class="img_perfil_ampliada_container" id="img_perfil_ampliada_container">
-            <div class="fechar_img_ampliada" id="fechar_img_ampliada" onclick="fecharImgPerfilAmpliada();">&times;</div>
-            <div class="img_perfil_ampliada" id="img_perfil_ampliada"></div>
-        </div>
-        <div class="cabecalio">
-            <span onclick="ocultarListaUsuarios();" class="voltar_link" id="lista_voltar_link">voltar</span>
-            <p class="titulo">Nesse momento</p>
-        </div>
-        <div id="container_lista_usuarios"></div>  
-    </div>
+    
     <!-- ####################################### OPÇÕES ######################################### -->
     <div class="opcoes_container" id="opcoes_container">
         <div class="cabecalio">
@@ -105,18 +90,7 @@
             <div class="cancelar_btn" onclick="cancelarOpcoes();">Cancelar</div>
         </div>
     </div>
-    <!-- ######################### AREA PARA DIGITAR E ENVIAR MENSAGNES ########################### -->
-    <div class="espaco_area_texto" id="area_input">
-        <form id="message-form" action="#">
-            <input type="text" id="message-text" class="area_texto_item">
-            <input type="submit" id="message-submit" value="Env" class="area_texto_item">
-        </form>
-        <form id="image-form" action="#">
-            <input id="media-capture" type="file" accept="image/*,capture=camera" style="display: none;">
-            <input type="submit" id="image-submit" value="Img" class="area_texto_item">
-        </form>
-    </div>
-</div>
+<!--</div>--><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
 <script>
     // ************************************ INÍCIO: FUNÇÕES FIREBASE *********************************************
     
@@ -143,7 +117,7 @@
          * Acrescentar algoritmo para saber se é 'Hoje', 'Ontém' ou antes (mostrar data normal) 
          */
         var userTimeCreation = day+'/'+month+'/'+year+' às '+hour+':'+min;
-        document.getElementById("data-criacao").innerHTML = userTimeCreation;
+        //document.getElementById("data-criacao").innerHTML = userTimeCreation; YYYYYYYYYYYYYYYYYYYYYY TEMP
         
         // 2) Nome e imagem de perfil do criador do espaço
         
@@ -156,8 +130,9 @@
             var userName = snapshot.val().userName;
             var creatorPhotoUrl = snapshot.val().userPhotoUrl;
             // Preenchendo as divs com Imagem de perfil e nome no usuário criador
-            document.getElementById('user_creator_photo').style.backgroundImage = 'url('+creatorPhotoUrl+')';
-            document.getElementById('user_creator_name').innerHTML = userName;
+            // YYYYYYYYYYYYYYYYYYYYYY TEMP
+            //document.getElementById('user_creator_photo').style.backgroundImage = 'url('+creatorPhotoUrl+')';
+            //document.getElementById('user_creator_name').innerHTML = userName;
         }).catch(function(error) { console.error('Dev Msg: Erro ao carregar as infos de criação', error); }); 
         
         // 3) Quantidade de usuários no espaço (atualizado dinâmicamente)
@@ -165,9 +140,9 @@
         // Pegando o id do espaço aberto em um campo invisível no início do script
         var idEspaco = document.getElementById('id_invisivel_espaco').value;
         // Número de usuários ao carregar a página (servidor)
-        var nUsuarios = document.getElementById('numero_usuarios_inicial').value;
+        //var nUsuarios = document.getElementById('numero_usuarios_inicial').value; YYYYYYYYYYYYYYYYYYYYYY TEMP
         // Inicializando a div com o número de usuários
-        document.getElementById('numero_usuarios').innerHTML = nUsuarios;
+        // document.getElementById('numero_usuarios').innerHTML = nUsuarios; YYYYYYYYYYYYYYYYYYYYYY TEMP
         // Referência com o ID do espaço em um child exclusivo (spaces) para listar os espaços abertos no Firebase DB
         var spaceRef = this.database.ref('spaces/space-'+idEspaco);
         // Para remover qualquer referência anterior
@@ -177,10 +152,11 @@
         // Listener para atualizar (somar 1) o número de usuários se algum usuário ENTRAR do espçao
         spaceRef.on('child_added', function(data) { // Callback simples
             contAdd = contAdd + 1;
+            /* YYYYYYYYYYYYYYYYYYYYYY TEMP
             if (contAdd>nUsuarios) {
                 // Atualizando o contador de usuários
                 nUsuarios = nUsuarios - (-1);
-                document.getElementById('numero_usuarios').innerHTML = nUsuarios;
+                //document.getElementById('numero_usuarios').innerHTML = nUsuarios; YYYYYYYYYYYYYYYYYYYYYY TEMP
                 // Paranauês para mostrar o novo usuário com fade-out
                 document.getElementById("catraca_container").style.display = 'none';
                 document.getElementById("catraca_container").style.opacity = "1";
@@ -190,8 +166,9 @@
                 setTimeout(function(){ 
                     document.getElementById("catraca_container").style.opacity = "0";
                 }, 2000);
-                
             }
+            */
+            
             /* TESTAR COM MAIS DE 2 USUÁRIOS ANTES DE APAGAR
             var numeroUsuariosAtual = document.getElementById('numero_usuarios').innerHTML;
             document.getElementById('numero_usuarios').innerHTML = numeroUsuariosAtual - (-1);
@@ -219,18 +196,18 @@
         // Listener para atualizar (subtrair 1) o número de usuários se algum usuário SAIR do espaço
         spaceRef.on('child_removed', function(data) { // Callback simples
             contAdd = contAdd - 1;
-            nUsuarios = nUsuarios - 1;
+            //nUsuarios = nUsuarios - 1; YYYYYYYYYYYYYYYYYYYYYY TEMP
             //##var numeroUsuariosAtual = document.getElementById('numero_usuarios').innerHTML;
             //##document.getElementById("numero_usuarios").innerHTML = numeroUsuariosAtual - 1;
-            document.getElementById("numero_usuarios").innerHTML = nUsuarios;
+            //document.getElementById("numero_usuarios").innerHTML = nUsuarios; YYYYYYYYYYYYYYYYYYYYYY TEMP
             // Informar quem saiu?
         });// Não há que fazer se der errado
         
         // 4) Exibindo o botão para alterar as opções do espaço, caso o usuário seja o criador
-
+        /* YYYYYYYYYYYYYYYYYYYYYY TEMP
         if (document.getElementById("fbid_invisivel_usuario").value === userCreatorId) {
             document.getElementById("menu_opcoes_container").style.display = 'block';
-        }
+        }*/
         //*******************************************************************************************************************
         
         // Shortcuts to DOM Elements.
@@ -238,22 +215,27 @@
         this.messageForm = document.getElementById('message-form'); // Formulário para escrver e enviar mensagens
         this.messageInput = document.getElementById('message-text'); // Campo de texto onde são escritas as mensagens
         this.submitButton = document.getElementById('message-submit'); // Botão para enviar as mensagens
-        this.submitImageButton = document.getElementById('image-submit'); // Botão para enviar Imagens
-        this.imageForm = document.getElementById('image-form');
-        this.mediaCapture = document.getElementById('media-capture');
-        this.numeroUsuarios = document.getElementById('div_geral_numero_usuarios');
+        //this.submitImageButton = document.getElementById('image-submit'); // Botão para enviar Imagens
+        //this.imageForm = document.getElementById('image-form'); YYYYYYYYYYYYYYYYYYYYYY TEMP
+        //this.mediaCapture = document.getElementById('media-capture'); YYYYYYYYYYYYYYYYYYYYYY TEMP
+        //this.numeroUsuarios = document.getElementById('div_geral_numero_usuarios'); YYYYYYYYYYYYYYYYYYYYYY TEMP
         this.listaUsuarios = document.getElementById('container_lista_usuarios');
+        this.nomeEspaco = document.getElementById('nome_espaco'); // YYYYYYYYYYYYYYYYYYYYYY TEMP
         
         // Eventlisteners
         this.messageForm.addEventListener('submit', this.saveMessage.bind(this));
-        this.numeroUsuarios.addEventListener('click', this.loadUsers.bind(this)); // Sem o ".bind(this)" o this.database e a função displayUserRow() não são reconhecidos
+        //YYYYYYYYYYYYYYYYYYYYYY TEMP
+        //this.numeroUsuarios.addEventListener('click', this.loadUsers.bind(this)); // Sem o ".bind(this)" o this.database e a função displayUserRow() não são reconhecidos
+        this.nomeEspaco.addEventListener('click', this.loadUsers.bind(this));
         
-        // Events for image upload.
+        // Events for image upload. (TEMPORARIAMENTE REMOVIDO)
+        /*
         this.submitImageButton.addEventListener('click', function(e) {
             e.preventDefault();
             this.mediaCapture.click();
         }.bind(this));
         this.mediaCapture.addEventListener('change', this.saveImageMessage.bind(this));
+        */
         
         // Carrega as 12 últimas mensagens que (se) que estiverem registradas na referencia firebase do espaço
         this.loadMessages();
@@ -262,17 +244,21 @@
       
     // Template para as mensagens do usuário
     MESSAGE_TEMPLATE_USER =
-        '<div class="message-container-user">' +
-            '<div class="spacing"><div class="pic"></div></div>' +
-            '<div class="message"></div>' +
-            '<div class="name"></div>' +
-        '</div>';
+        '<div class="user_message_container">' +
+            '<div class="cabecalio">' +
+                '<div class="horario">11:45</div>' +
+            '</div>'+
+            '<div class="texto"></div>' +
+        '</div>';      
     // Template para as mensagens dos outros participantes do grupo
     MESSAGE_TEMPLATE_OTHERS =
-        '<div class="message-container-others">' +
-            '<div class="spacing"><div class="pic"></div></div>' +
-            '<div class="message"></div>' +
-            '<div class="name"></div>' +
+        '<div class="other_user_message_container">' +
+            '<div class="cabecalio">' +
+                '<div class="nome"></div>' +
+                '<div class="separador">&bullet;</div>' +
+                '<div class="horario">11:46</div>' +
+            '</div>' +
+            '<div class="texto"></div>' +
         '</div>';
     // A loading image GIF
     LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif';
@@ -306,11 +292,7 @@
         var msgDiv = document.getElementById(key);
         // If an element for that message does not exists yet we create it.
         if (!msgDiv) {
-            // Criando uma instancia de usuário Firebase para pegar o ID e comparar com ID registrado em cada mensagem
-            /*
-             * PEGAR O fbuid DO CAMPO INVISÍVEL (eficiência)
-             */
-            //if (uid==firebase.auth().currentUser.uid) { // Se o usuário é dono da mensagem
+            // Se o usuário é dono da mensagem
             if (uid===fbidUsuario) {
                 var container = document.createElement("div");
                 container.innerHTML = MESSAGE_TEMPLATE_USER;
@@ -323,16 +305,17 @@
                 msgDiv = container.firstChild;
                 msgDiv.setAttribute("id", key);
                 this.messageList.appendChild(msgDiv);
+                // Adicionando o nome registrado na mensagem
+                msgDiv.querySelector('.nome').textContent = name;
             }
         }
-        // Se a mensagem tem uma imagem de perfil registrada
-        if (picUrl) {
-            msgDiv.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
-        }
-        // Adicionando o nome registrado na mensagem
-        msgDiv.querySelector('.name').textContent = name;
+        // Se a mensagem tem uma imagem de perfil registrada (REMOVIDO)
+        //if (picUrl) {
+            //msgDiv.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
+        //}
+        
         // Adicionando o texto ou a imagem enviada
-        var messageElement = msgDiv.querySelector('.message');
+        var messageElement = msgDiv.querySelector('.texto');
         if (text) { // If the message is text.
             messageElement.textContent = text;
             // Replace all line breaks by <br>.
@@ -350,8 +333,8 @@
             messageElement.innerHTML = '';
             messageElement.appendChild(image);
         }
-        // Show the card fading-in.
-        setTimeout(function() {msgDiv.classList.add('visible');}, 1);
+        // Show the card fading-in. (O timeout aqui parece sem qualquer utilidade)
+        setTimeout(function() { msgDiv.style.opacity = "1"; }, 1);
         this.messageList.scrollTop = this.messageList.scrollHeight;
         this.messageInput.focus();
     };
@@ -365,8 +348,9 @@
             this.messagesRef.push({ // O método push cria uma chave única automaticamente
                 uid: currentUser.uid,
                 name: currentUser.displayName,
-                text: this.messageInput.value,
-                photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png'
+                text: this.messageInput.value
+                //photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png' (REMOVIDO)
+                // Adicionar o horário de envio
             }).then(function() {
                 
                 // TRANSACTION (para contar mensagens)
@@ -383,7 +367,7 @@
         }
     };
     
-    // Função chamada quando o botão enviar Imagem é clicado
+    // Função chamada quando o botão enviar Imagem é clicado (Não utilizada por enquanto)
     // Saves a new message containing an image URI in Firebase. This first saves the image in Firebase storage.
     le16space.prototype.saveImageMessage = function(event) {
         event.preventDefault();
@@ -411,8 +395,9 @@
         this.messagesRef.push({
             uid: currentUser.uid,
             name: currentUser.displayName,
-            imageUrl: LOADING_IMAGE_URL,
-            photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png'
+            imageUrl: LOADING_IMAGE_URL
+            //photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png'
+            // Adicionar a data
         }).then(function(data) {
 
             /*
@@ -504,7 +489,7 @@
         // Adicionando o nome do usuário
         rowDiv.querySelector('.name').textContent = name;
         // Adicionando o texto de status do usuário
-        rowDiv.querySelector('.msgStatus').textContent = msgStatus;//"\"Aqui vai o status...\"";
+        rowDiv.querySelector('.msgStatus').textContent = msgStatus;
         // Show the card fading-in.
         //setTimeout(function() {msgDiv.classList.add('visible');}, 1);
         //this.messageList.scrollTop = this.messageList.scrollHeight;
@@ -579,16 +564,20 @@
     };
     // Função para mostrar a div com a lista de usuários no espaço
     function mostrarListaUsuarios() {
-        document.getElementById("area_input").style.display = 'none';
-        document.getElementById("mensagens_container").style.display = 'none';
-        document.getElementById("opcoes_container").style.display = 'none'; /* #################### NOVO */
-        document.getElementById("lista_usuarios_container").style.display = 'block'; 
+        //document.getElementById("area_input").style.display = 'none';
+        //document.getElementById("mensagens_container").style.display = 'none';
+        //document.getElementById("lista_usuarios_container").style.display = 'block';
+        document.getElementById("c2").classList.add('recuo_c2'); // YYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+        document.getElementById("opcoes_container").style.display = 'none';
+        document.getElementById("c3").style.display = 'block'; // YYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
     };
     // Função para ocultar a lista de usuários e voltar a exibir a conversa
     function ocultarListaUsuarios() {
-        document.getElementById("lista_usuarios_container").style.display = 'none';
-        document.getElementById("mensagens_container").style.display = 'block';
-        document.getElementById("area_input").style.display = 'block';
+        document.getElementById("c3").style.display = 'none'; // YYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+        document.getElementById("c2").classList.remove('recuo_c2'); // YYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+        //document.getElementById("lista_usuarios_container").style.display = 'none';
+        //document.getElementById("mensagens_container").style.display = 'block';
+        //document.getElementById("area_input").style.display = 'block';
     };
     // Mostrar e preencher as infos e opções do convite
     function mostrarConvite(fbuid,nome) {
@@ -679,7 +668,6 @@
         // Resetando a div da imagem ampliada
         document.getElementById("img_perfil_ampliada").style.backgroundImage = 'none';
     };
-    // ########################################################################################################
     // Para mostrar as opçoes de configuração do espaço
     function mostrarOpcoes() {
         // Vai e vem das divs
@@ -750,5 +738,4 @@
     function cancelarOpcoes() {
         window.location.reload(); 
     };
-    // ########################################################################################################
 </script>

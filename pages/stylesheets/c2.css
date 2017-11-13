@@ -6,44 +6,51 @@
 /*                             ESPAÇO ATIVO (ocupa a coluna c2)                                   */
 /**************************************************************************************************/
 /* Container geral*/
-.espaco_container {
+.espaco_container {/* YYYYYYYYYYYYYYYYYYYYY NÃO MAIS UTILIZADO */
     width: 100%;
     /*background-color: #d5d5d5; /*Para ver a área total do espaço*/
 }
 /* Cabeçálio */
 .espaco_cabecalio {
-    width: 96%;
-    padding: 15px 4px 0 4px;
-    margin: auto;
-    margin-top: 2px;
+    width: 99%; /*###################### F5*/
+    height: 46px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    margin-left: 1%; /*###################### F5*/
+    /*margin-top: 2px;*/ /*XXXXXXXXXXXXXXXXXXXXX F5*/
     font-weight: 700;
     color: #3e4859;
 }
-/* ######################################################################## */
 .espaco_cabecalio .titulo {
-    font-size: 24px;
     float: left;
-    max-width: 80%;
+    font-size: 22px; /*XXXXXXXXXXXXXXXXXXXXX F5*/
+    padding: 14px 4px 2px 4px; /*XXXXXXXXXXXXXXXXXXXXX F5*/
+    /* Para que o título não cresça indefinidamente para a direita*/
+    max-width: 80%; 
+    overflow: hidden; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    white-space: nowrap; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    text-overflow: ellipsis; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
 }
 /* Incones para sinalização de configurações */
 .espaco_cabecalio .icone_espaco_invisivel {
-    width: 26px;
-    height: 26px;
-    background-size: 26px;
+    width: 22px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    height: 22px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    background-size: 22px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
     background-image: url('backgrounds/invisible.png');
-    margin-left: 10px;
+    margin: 17px 0 0 10px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
     float: left;
 }
-/* ######################################################################## */
 .espaco_cabecalio_menu {
     float: right;
-    padding-top: 10px;  /*Para descer um pouco a div*/
+    padding-top: 20px;  /*yyyyyyyyyyyyyyyyyyyyy NOVO */
 }
 .espaco_cabecalio_sair {
-    margin-left: 10px; /***** NOVO *****/
+    margin-left: 4px;
+    font-size: 15px;
+    padding: 3px 8px;
+    border-radius: 10px;
 }
 .espaco_cabecalio_sair:hover {
     cursor: pointer;
+    background-color: #e5e5e5;
     font-weight: bold;
 }
 /**************************************************************************************************/
@@ -51,7 +58,7 @@
 /**************************************************************************************************/
 .espaco_info{
     display: none; /* Começa fechado para não mostrar as infos carregando */
-    clear: both; /* ########################################### NOVO */
+    clear: both;
     margin: 4px 0 4px 0;
     min-height: 46px;
 }
@@ -65,7 +72,7 @@
     width: 40px;
     height: 40px;
     background-image: url('backgrounds/profile_placeholder.png');
-    background-size: 40px; /* elipsíde */
+    background-size: 40px;
     border-radius: 50%;
     margin-right: 4px;
     float: left;
@@ -76,6 +83,7 @@
 }
 .espaco_info .usuario_criador .data {
     font-size: 12px;
+    color: #666;
 }
 /* Bloco com número de outros usuários */
 .espaco_info .outros_usuarios {
@@ -106,6 +114,7 @@
     font-size: 13px;
     width: 46px;
     line-height: 70%;
+    color: #666;
 }
 /* Bloco para informar quem entrou no espaço */
 .espaco_info .catraca_container {
@@ -113,18 +122,9 @@
     margin: 5px 0 0 15px;
     font-size: 13px;
     min-width: 100px; /* Pensar em um max-width para o mobile*/
-    
     display: none;
-    /*opacity: 0;*/
     transition: opacity 1s;
 }
-/*
-.espaco_info .catraca_subcontainer {
-    display: none;
-    opacity: 0;
-    transition: opacity 1s;
-}
-*/
 .espaco_info .catraca_container .pic {
     float: left;
     background-image: url('backgrounds/profile_placeholder.png');
@@ -166,166 +166,6 @@
 /* Classe para alternar a visibilidade das infos do espaço */
 .espaco_mostrar_info {
     display: block;
-}
-/**************************************************************************************************/
-/*                        ÁREA DE EXIBIÇAO DA LISTA DE USUÁRIOS NO ESPAÇO                         */
-/**************************************************************************************************/
-.espaco_lista_usuarios {
-    display: none;
-    width: 94%;
-    height: 300px;
-    padding: 12px 2%;
-    margin: auto;
-    margin-top: 4px;
-    border-radius: 4px;
-    background-color: #eee;
-    overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
-    position: relative; /* Para que o container da img de perfil ampliada fique posicionada em relação à essa div*/
-}
-.espaco_lista_usuarios .cabecalio {
-    width: 96%;
-    padding: 2px 2px 10px 2px;
-    margin: auto;
-    font-weight: 700;
-    color: #3e4859;
-}
-.espaco_lista_usuarios .cabecalio .titulo {
-    font-size: 16px;
-}
-.espaco_lista_usuarios .cabecalio .voltar_link {
-    float: right;
-}
-.espaco_lista_usuarios .cabecalio .voltar_link:hover {
-    cursor: pointer;
-    font-weight: bold;
-}
-/*Div individual para cada usuário na lista*/
-.item-lista-usuario {
-    width: 100%;
-    height: 40px;
-    padding: 10px 2px 0 2px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 4px;
-}
-.item-lista-usuario .pic {
-    float: left;
-    background-image: url('backgrounds/profile_placeholder.png');
-    background-repeat: no-repeat;
-    width: 30px;
-    height: 30px;
-    background-size: 30px;
-    border-radius: 50%;
-    margin: 2px 4px 2px 4px;
-}
-.item-lista-usuario .pic:hover {
-    cursor: pointer;
-    margin-top: -2px;
-    width: 36px;
-    height: 36px;
-    background-size: 36px;
-    border-radius: 50%;
-}
-.item-lista-usuario .name {
-    font-size: 13px;
-    color: #3e4859;
-    font-weight: bold;
-}
-.item-lista-usuario .msgStatus {
-    font-size: 13px;
-    color: #586782;
-    font-style: italic;
-}
-.invite_btn {
-    float: right;
-    width: 26px;
-    height: 26px;
-    padding: 6px;
-    margin: -36px 16px 0 0;
-    border: none;
-    border-radius: 50%;
-}
-.invite_btn:hover {
-    background-color: #dedede;
-}
-.invite_icon {
-    background-image: url('backgrounds/envelope.png');
-    background-repeat: no-repeat;
-    width: 26px;
-    height: 26px;
-    background-size: 26px;
-}
-/*######################################## IMAGEM AMPLIADA ##############################################*/
-.img_perfil_ampliada_container {
-    display: none;
-    position: absolute;
-    width: 96%;
-    height: 290px;
-    border-radius: 4px;
-    background-color: rgba(0,0,0,0.3);
-}
-.fechar_img_ampliada {
-    float: right;
-    margin: 6px;
-    padding: 7px 11px 4px 10px;
-    border-radius: 50%;
-    color: #666;
-    background-color: #ddd;
-    font-size: 16px;
-    font-weight: bold;
-}
-.fechar_img_ampliada:hover {
-    cursor: default;
-    color: white;
-    background-color: #ea533c;
-}
-.img_perfil_ampliada{
-    /*background-image: url('backgrounds/profile_placeholder.png');*/
-    background-repeat: no-repeat;
-    width: 200px;
-    height: 200px;
-    margin: 45px auto;
-    background-size: 200px;
-    border-radius: 4px;
-}
-/**************************************************************************************************/
-/*                                      FORMULÁRIO DE CONVITE                                     */
-/**************************************************************************************************/
-.convite_conatainer {
-    display: none;
-    width: 400px;
-    height: 240px;
-    position: absolute; /* Para que seja posicionado em relação a div espaco_lista_usuarios (primeiro parent)*/
-    margin-top: 5px;
-    overflow: auto;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
-    right: 100px; /* Para que a caixa de opções do menu abra para a esquerda */
-    top: 140px;
-    z-index: 1;
-}
-.convite_conatainer .campo {
-    padding: 8px;
-}
-.convite_conatainer .nome_campo {
-    font-size: 13px;
-    color: #3e4859;
-}
-.convite_conatainer .nome_convidado {
-    color: #3e4859;
-}
-.convite_conatainer select {
-    width: 100%;
-}
-.convite_conatainer option {
-    padding: 4px;
-}
-.convite_conatainer textarea {
-    width: 100%;
-}
-.convite_conatainer button {
-    float: right;
-    padding: 4px;
 }
 /**************************************************************************************************/
 /*                                          OPÇÕES DO ESPAÇO                                      */
@@ -410,52 +250,127 @@
 /**************************************************************************************************/
 /*                                    ÁREA DE EXIBIÇAO DA CONVERSA                                */
 /**************************************************************************************************/
+/*#messages { YYYYYYYYYYYYYYYYYYYYYYYYY NÃO MAIS UTILIZADO
+    overflow-y: auto;
+    margin-bottom: 10px;
+    height: 100%;
+}*/
 .espaco_mensagens_container {
-    clear: left;
-    width: 96%;
-    height: 350px;
-    padding: 6px 2px;
-    margin: auto;
-    margin-top: 4px;
-    /*border: 1px solid #666;*/
+    /*clear: left;*/ /*###################### F5*/
+    /*float: left; */ /*###################### F5*/
+    width: 99%; /*YYYYYYYYYYYYYYYYYYYYYY F5*/
+    margin-left: 1%;
+    height: calc(100% - 168px); /*###################### F5*/
+    /*max-height: 500px; /*###################### F5*/
+    /*padding: 12px 0; /*###################### F5*/
     border-radius: 4px;
-    background-color: #eee;
+    /*background: linear-gradient(to bottom right, #d7f2d7, #c3dbc3); /*#d7f2d7, #c3dbc3*/ /*#c9e5c9, #bcd8bc*/
+    background: #d7f2d7 url('backgrounds/noisy_bg1.png'); /*#d7dbe0, #d7f2d7*/
+    overflow-y: auto;
 }
-/* Mensagens individuais exibinas na área da conversa */
-.espaco_moldura_mensagem {
+/* Mensagens do usuário */
+.user_message_container {
+    display: block;
+    clear: both;
     float: right;
-    margin: 1px;
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    background-color: #2554ED;
-    box-shadow: 2px 2px 1px #aaa;
+    max-width: 70%;
+    background: #ffffff;
+    color: #3e4859;
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px #aaa;
+    margin: 2px 4%; /*###################### F5*/
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
-/* Área onde o usuário digita e envia as suas mensagens*/
+.user_message_container .cabecalio {
+    font-size: 13px;
+    padding: 2px 8px;
+}
+.user_message_container .nome {
+    float: left;
+    color: #888;
+}
+.user_message_container .separador { /* NÃO É UTILIZADO */
+    float: left;
+    color: #888;
+    margin: 0 5px 0 5px;
+}
+.user_message_container .horario { /* NÃO É UTILIZADO */
+    float: left;
+    color: #888;
+    font-size: 12px;
+}
+.user_message_container .texto {
+    clear: left;
+    padding: 2px 8px 6px 8px;
+    color: #333;
+    font-size: 14px;
+}
+/* Mensagens de outro usuário */
+.other_user_message_container {
+    display: block;
+    clear: both;
+    float: left;
+    max-width: 70%;
+    background: #f9f4c2;
+    color: #3e4859;
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px #aaa;
+    margin: 2px 4%; /*###################### F5*/
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.other_user_message_container .cabecalio {
+    font-size: 13px;
+    padding: 2px 8px;
+}
+.other_user_message_container .nome {
+    float: left;
+    color: #666;
+}
+.other_user_message_container .separador {
+    float: left;
+    color: #888;
+    margin: 0 5px 0 5px;
+}
+.other_user_message_container .horario {
+    float: left;
+    color: #888;
+    font-size: 12px;
+}
+.other_user_message_container .texto {
+    clear: left;
+    padding: 2px 8px 6px 8px;
+    color: #333;
+    font-size: 14px;
+}
+/**************************************************************************************************/
+/*                                   ÁREA DE DIGITAÇÃO DA MENSAGEM                                */
+/**************************************************************************************************/
 .espaco_area_texto {
-    width: 98%;
-    margin: auto;
-    margin-top: 4px;
-    height: 40px;
-    /*border: 1px solid black;
-    border-radius: 4px;*/
+    width: 99%; /*YYYYYYYYYYYYYYYYYYYYYYY F5*/
+    margin-left: 1%; /*YYYYYYYYYYYYYYYYYYYYYYY F5*/
+    background-color: #eae5e1;
+    height: 46px; /*###########XXXXXXXXXXX F5*/
+    padding: 9px 0; /*###################### F5*/
+    border-radius: 4px;
 }
 .espaco_area_texto input[type=text] {
-    width: 75%;
-    padding: 14px 10px;
-    /*border: none;*/
-    border: solid 1px #ccc;
+    width: calc(100% - 98px); /*###################### F5*/
+    padding: 13px 10px;
+    margin: 0 10px 0 14px; /*###################### F5*/
+    border: none;
     border-radius: 8px;
     background-color: #f5f5f5;
 }
 .espaco_area_texto input[type=submit] {
-    width: 44px;
-    padding: 14px 10px;
+    width: 42px; /*###################### F5*/
+    height: 42px; /*###################### F5*/
+    padding: 10px; /*###################### F5*/
     border: none;
     background-color: #d5d5d5;
-    border-radius:25px;
-    margin-left: 6px; /*Para os botões não encostarem nos seus vizinho a esquerda*/
+    border-radius: 50%; /*###################### F5*/
+    /*margin-left: 6px; /*###################### F5*/
 }
 .espaco_area_texto input[type=submit]:hover {background-color: #c5c5c5;}
 .area_texto_item {
@@ -464,14 +379,3 @@
 /**************************************************************************************************/
 /*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
 /**************************************************************************************************/
-@media screen and (min-width: 580px) {
-    
-}
-
-@media screen and (min-width: 768px) {
-
-}
-
-@media screen and (min-width: 1140px) {
-
-}
