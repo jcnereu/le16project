@@ -1,8 +1,8 @@
 /* O SIMPLES É O MAIS DIFÍCIL */
 
-/**************************************************************************************************/
-/*                                              MENU                                              */
-/**************************************************************************************************/
+/******************************************************************************************************/
+/*                                                MENU                                                */
+/******************************************************************************************************/
 /* Div geral para conter todos elemntos do menu */
 .barra_usuario_menu {
     float: right; margin: 4px;
@@ -16,7 +16,6 @@
     border-radius: 50%;
     margin: 1px 4px;
 }
-
 .barra_usuario_menu_botao:hover {
     background-color: #ccc;
 }
@@ -66,117 +65,36 @@
 .barra_usuario_menu_mostrar_conteudo {
     display: block;
 }
-/* ****************************************** EDIÇÃO DO STATUS ****************************************** */
-.status_edit_container {
-    display: none;
-    position: absolute; /* Para que seja posicionado em relação a div barra_usuario_container*/
-    margin-top: 5px;
-    right: 0; /* Para que a caixa de opções do menu abra para a esquerda */
-    z-index: 2;
-}
-.status_edit_container .box {
-    width: 360px;
-    padding: 4px;
-    overflow: auto;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
-}
-.status_edit_container .triangle {
-    width: 0; 
-    height: 0; 
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #aaa;
-    margin-left: 335px;
-    margin-bottom: -9px;
-}
-.status_edit_container .inner_triangle {
-    width: 0; 
-    height: 0; 
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #f9f9f9;
-    margin-left: 335px;
-    margin-bottom: -1px;
-    position: relative;
-    z-index: 2;
-}
-.status_edit_container textarea {
-    width: 96%;
-    height: 34px;
-    padding: 4px 2%;
-    border: none;
-    background-color: #eee;
-    border-bottom: 1px solid #e5e5e5;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    color: #777;
-    font-weight: bold;
-    font-style: italic;
-}
-.status_edit_container .titulo {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 5px;
-    color: #bbb;
-}
-.status_edit_container .btn_atualizar {
-    float: right;
-    padding: 2px 6px;
-    margin: 4px;
-    font-size: 13px;
-    border-radius: 2px;
-    color: white;
-    background-color: #27c66f;
-}
-.status_edit_container .btn_atualizar:hover {
-    cursor: default;
-    background-color: #21bc68;
-}
-.status_edit_container .btn_cancelar {
-    float: right;
-    padding: 2px 6px;
-    margin: 4px;
-    font-size: 13px;
-    border-radius: 2px;
-    color: #555;
-    background-color: #ddd;
-}
-.status_edit_container .btn_cancelar:hover {
-    cursor: default;
-    background-color: #ccc;
-}
-/**************************************************************************************************/
-/*                                 NOTIFICAÇÃO E LISTA DE CONVITES                                */
-/**************************************************************************************************/
-.lista_convite_container {
+
+/******************************************************************************************************/
+/*                                        NOTIFICAÇÃO DE CONVITES                                     */
+/******************************************************************************************************/
+.notificacao_convites_container {
     float: right; margin: 4px;
     position: relative;
 }
-.lista_convite_container .botao_icone_container { /*Não tem função de estilo. Apenas reune o botão e o contador*/
+.notificacao_convites_container .botao_contador_container { /*Não tem função de estilo. Apenas reune o botão e o contador*/
     display: none;
 }
-.lista_convite_container .botao_lista {
+.notificacao_convites_container .botao_lista {
     width: 29px;
     height: 29px;
     padding: 1px;
     margin-top: 5px;
     border-radius: 50%;
 }
-.lista_convite_container .icone_botao_lista {
+.notificacao_convites_container .icone_botao_lista {
     background-image: url('backgrounds/envelope.png');
     background-repeat: no-repeat;
     width: 28px;
     height: 28px;
     background-size: 28px;
 }
-.lista_convite_container .botao_lista:hover {
+.notificacao_convites_container .botao_lista:hover {
     background-color: #ccc;
 }
-/* Número de convites exibido sobre o icone*/
-.lista_convite_container .contador_convites {
+/* Número de convites exibido sobre o icone (Contador) */
+.notificacao_convites_container .contador_convites {
     min-width: 8px;
     height: 15px;
     padding: 0 4px;
@@ -189,114 +107,25 @@
     font-size: 12px;
     font-weight: bold;
 }
-.lista_convite_container .contador_convites:hover {
+.notificacao_convites_container .contador_convites:hover {
     cursor: default;
 }
-/* Lista de convites */
-.lista_convite_container .lista {
-    display: none;
-    width: 300px;
-    min-height: 200px;
-    position: absolute; /* Para que seja posicionado em relação a div "barra_usuario_container" (primeiro parent com position)*/
-    margin-top: 7px;
-    overflow: auto;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2); /* Pra criar a sombra ao redor da caixa de opções do menu */
-    right: -30px; /* Para que a caixa de opções do menu abra para a esquerda */
-    top: 44px;
-    z-index: 1;
-}
-.lista_convite_container .lista_convites_mostrar_conteudo {
-    display: block;
-}
-.lista_convite_container .cabecalio {
-    width: 60px;
-    margin: auto;
-    padding: 4px 4px 0 4px;
-    color: #333;
-    font-size: 12px;
-    font-weight: bold;
-}
-/* Convites individuais na lista */
-.lista_convite_container .convite{
-    margin: 4px;
-    padding: 4px;
-    background-color: #ddd;
-    border-radius: 2px;
-    border-bottom: 1px solid #bbb;
-}
-.lista_convite_container .campo {
-   padding: 2px;
-}
-.lista_convite_container .pic {
-    float: left;
-    background-image: url('backgrounds/profile_placeholder.png');
-    background-repeat: no-repeat;
-    width: 30px;
-    height: 30px;
-    background-size: 30px;
-    border-radius: 20px;
-    margin: 2px 4px 2px 2px;
-}
-.lista_convite_container .nome {
-    font-size: 13px;
-    height: 26px;
-    padding-top: 8px;
-    font-weight: bold;
-}
-.lista_convite_container .nome_espaco {
-    padding: 4px 10px;
-    margin: 4px 2px;
-    font-size: 13px;
-    color: #333;
-    background-color: #eee;
-    border-radius: 4px;
-}
-.lista_convite_container .nome_espaco:hover{
-    background-color: #e9e9e9;
-    color: black;
-    cursor: pointer;
-}
-.lista_convite_container .mensagem {
-    font-size: 13px;
-    margin-left: 11px;
-    padding: 2px 6px 2px 18px;
-    color: #555;
-    font-style: italic;
-    background-image: url('backgrounds/message_list.png');
-    background-repeat: no-repeat;
-    background-position: left;
-    background-size: 12px;
-}
-.lista_convite_container .descartar_btn {
-    float: right;
-    border: none;
-    border-radius: 2px;
-    padding: 2px 4px;
-    color: white;
-    background-color: #f45c44;
-    margin: 4px 2px;
-}
-.lista_convite_container .descartar_btn:hover {
-    background-color: #F2371A;
-}
-/**************************************************************************************************/
-/*                                      MENSAGEM DE OLÁ                                           */
-/**************************************************************************************************/
-/* Container da mensagem */
+
+/******************************************************************************************************/
+/*                                         MENSAGEM DE OLÁ                                            */
+/******************************************************************************************************/
 .barra_usuario_ola_container {
-    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
+    display: none; /* LAYOUT RESPONSIVO */
     float: right;
     margin: 13px 5px 0 0;
     font-size: 15px;
     color: #333;
 }
-/**************************************************************************************************/
-/*                                             BUSCA                                              */
-/**************************************************************************************************/
-.botao_pesquisar { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+
+/******************************************************************************************************/
+/*                                              BUSCA                                                 */
+/******************************************************************************************************/
+.botao_pesquisar {
     display: display; /* LAYOUT RESPONSIVO */
     float: right;
     width: 31px;
@@ -305,31 +134,28 @@
     margin-top: 5px;
     border-radius: 50%;
 }
-.botao_pesquisar_icone { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.botao_pesquisar_icone {
     background-image: url('backgrounds/menu_icon.png');
     background-repeat: no-repeat;
     width: 30px;
     height: 30px;
     background-size: 30px;
 }
-.botao_pesquisar:hover { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.botao_pesquisar:hover {
     background-color: #ccc;
 }
 .barra_usuario_busca_container {
-    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
-    margin-top: 8px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    display: none; /* LAYOUT RESPONSIVO */
+    margin-top: 8px;
 }
 .barra_usuario_busca_container .caixa_texto {
     display: inline-block;
-    width: calc(100% - 10px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* 2px de borda */
-    margin-left: 4px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-}
-.barra_usuario_busca_container .botao_novo_espaco { /* ESTÁ SENDO UTILIZADO? */
-    display: inline-block;
+    width: calc(100% - 10px); /* 2px de borda */
+    margin-left: 4px;
 }
 .barra_usuario_busca_container input[type=text] {
-    width: 96%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    padding: 9px 2%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    width: 96%;
+    padding: 9px 2%;
     border: none;
     margin-bottom: 5px;
     border: 1px solid #c0c6d1;
@@ -345,10 +171,10 @@
 .barra_usuario_busca_container .botao_listar_tudo {
     display: inline-block;
 }
-.barra_usuario_busca_container .botao_listar_tudo_mobile { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.barra_usuario_busca_container .botao_listar_tudo_mobile {
     display: none;
 }
-.barra_usuario_busca_container button { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.barra_usuario_busca_container button {
     border: none;
     border-radius: 2px;
     margin-left: 4px;
@@ -362,9 +188,9 @@
 .barra_usuario_busca_container button:hover {
     background-color: #3c78e0;
 }
-.cabecalio_resultado_busca { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.cabecalio_resultado_busca {
     display: none;
-    padding: 18px 0 10px 4px; /* height total da div: 47px*/ /* TOP 21px*/
+    padding: 18px 0 10px 4px; /* height total da div: 44px*/ /* TOP 21px*/
     color: #3e4859;
     font-size: 13px;
 }
@@ -387,20 +213,14 @@
 .resultado_busca .botao_novo_espaco:hover {
     background-color: #21bc68;
 }
-/*Div para exibir os resultados da busca. Tem um JS para ser mostrada e escondida e as dimensões são ajustadas para cada tamanho de tela*/
+/*Div para exibir os resultados da busca. Tem um JS para ser mostrada e escondida */
 .resultado_busca {
     display: none;
-    width: calc(100% - 16px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    height: calc(100% - 105px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    /*margin-top: 38px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* Deve ser preenchido com um cabeçalio "Resultados" */
-    /*height: 300px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* Ocupar todo o espaço vertical da c1*/
+    width: calc(100% - 16px);
+    height: calc(100% - 105px);
     padding: 0 8px;
-    /*position: absolute;*/ /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    overflow-y: auto; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    overflow-y: auto;
     background-color: #f9f9f9;
-    /*box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    /*left: 0; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    /*z-index: 1; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
 }
 .resultado_busca_item_container {
     clear: left;
@@ -412,7 +232,7 @@
 .resultado_busca_item_container:hover{background-color: #eee; cursor: pointer;}
 .resultado_busca_item_bloco_esquerdo {
     float: left;
-    max-width: 80%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* Falta ajustar o heigth se quebrar a linha*/
+    max-width: 80%; /* Falta ajustar o heigth se quebrar a linha*/
     padding: 4px;
     color: #333;
 }
@@ -422,9 +242,10 @@
     color: #555;
     font-size: 22px;
 }
-/**************************************************************************************************/
-/*                                      LAYOUT RESPONSIVO                                         */
-/**************************************************************************************************/
+
+/******************************************************************************************************/
+/*                                       LAYOUT RESPONSIVO                                            */
+/******************************************************************************************************/
 @media screen and (min-width: 640px) {
     .barra_usuario_ola_container {
         display: block;

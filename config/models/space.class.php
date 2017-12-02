@@ -226,7 +226,7 @@ class space {
     private function limparEspaco() {
         $zero = 0;
         $atualizacao3 = new update();
-        $atualizacao3->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'null','creation_date'=>0,'status'=>'dummy'),"id={$this->id}","name=null&nusers={$zero}&status=off");
+        $atualizacao3->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'dummy','creation_date'=>'dummy','status'=>'dummy','visible'=>'dummy'),"id={$this->id}","name=null&nusers={$zero}&creator_fbuid=null&creation_date={$zero}&visible=yes&status=off");
         if($atualizacao3->retornaResultado()){
             return true;
         } else {

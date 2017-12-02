@@ -1,24 +1,23 @@
 /* O SIMPLES É O MAIS DIFÍCIL */
 
-/* Sub página contida na Home*/
+/* Subpágina contida na Home*/
 
-/**************************************************************************************************/
-/*                          LISTA DE TODOS OS ESPAÇOS (ocupa a coluna c2)                         */
-/**************************************************************************************************/
-.c1 .lista_espacos_container { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+/*******************************************************************************************************/
+/*                          LISTA DE OUTRAS CONVERSAS (exibida na coluna c1)                           */
+/*******************************************************************************************************/
+.c1 .lista_espacos_container {
     width: 100%;
-    height: calc(100% - 89px); /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* PROVISÓRIO: Enuanto o cabeçálio está dentro da lista*/
+    height: calc(100% - 89px); /* PROVISÓRIO: Enquanto o cabeçálio está dentro da lista*/
     width: 100%;
-    overflow-y: auto; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    /*margin: auto;*/ /* Para centralizar se o width for menor que 100%*/
+    overflow-y: auto;
 }
 /* Texto sobre a lista de espaços (tasc tasc...) */
-.lista_espacos_container .cabecalio { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.lista_espacos_container .cabecalio {
     margin: 31px 0 0 4px; /* CORRIGIR: O cabeçálio deve ficar fora da div da lista */
-    color: #3e4859;
+    color: #999;
     font-size: 13px;
 }
-.lista_espacos_container .item_lista { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.lista_espacos_container .item_lista {
     display: block;
     padding: 18px 4px 10px 10px;
     background: #efefef;
@@ -26,15 +25,15 @@
     border-radius: 4px;
     color: #5d677a;
 }
-.lista_espacos_container .item_lista:hover{ /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.lista_espacos_container .item_lista:hover{
     background: #e8e8e8;
     color: #3e4859;
 }
-/* NÚMERO DE NOVAS MENSAGENS NO ESPAÇO LISTADO*/
+/* Número de novas mensagens nas conversas listadas */
 .numero_msgs_espaco_listado {
     float: right;
     margin: -18px 0 0 8px;
-    border: 1px solid transparent; /*###################### F5*/ /* Gambi para não sobrepor no chrome */
+    border: 1px solid transparent; /* Gambi para não sobrepor no chrome */
 }
 .numero_msgs_espaco_listado .icone {
     display: inline-block;
@@ -51,11 +50,11 @@
     font-size: 12px;
     color: #777;
 }
-/* NÚMERO DE NOVOS USUÁRIOS NO ESPAÇO LISTADO*/
+/* Número de outros usuários nas conversas listadas */
 .numero_usuarios_espaco_listado {
     float: right;
     margin: -18px 0 0 8px;
-    border: 1px solid transparent; /*###################### F5*/ /* Gambi para não sobrepor no chrome */
+    border: 1px solid transparent; /* Gambi para não sobrepor no chrome */
 }
 .numero_usuarios_espaco_listado .icone {
     display: inline-block;
@@ -72,17 +71,7 @@
     font-size: 12px;
     color: #777;
 }
-/**************************************************************************************************/
-/*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
-/**************************************************************************************************/
-@media screen and (min-width: 580px) {
-    
-}
 
-@media screen and (min-width: 768px) {
-
-}
-
-@media screen and (min-width: 1140px) {
-
-}
+/*******************************************************************************************************/
+/*                                   AJUSTES DO LAYOUT RESPONSIVO                                      */
+/*******************************************************************************************************/

@@ -9,7 +9,8 @@
     Atualizar o perfil de um usuário
     -->
     <div class="barra_usuario_container">
-        <!-- ##################################### MENU ####################################### -->
+        
+        <!-- ######################################## MENU ######################################### -->
         <div class="barra_usuario_menu">
             <div class="barra_usuario_menu_botao" id="menu_botao" onclick="mostrarMenu();"></div>
             <div class="barra_usuario_menu_conteudo" id="barra_usuario_menu_conteudo">
@@ -21,33 +22,21 @@
                     <div class="item_menu" id="sign_out">Sair</div>
                 </div>
             </div>
-            <!-- ################################# EDIÇÃO DE STATUS ################################### -->
-            <div class="status_edit_container" id="status_edit_container">
-                <div class="triangle"></div><div class="inner_triangle"></div>
-                <div class="box">
-                    <textarea id="user_msg_status_textarea"></textarea>
-                    <div class="rodape">
-                        <div class="btn_atualizar" onclick="atualizarMsgStatus();">Atualizar</div>
-                        <div class="btn_cancelar" onclick="cancelarEdicaoStatus();">Cancelar</div>
-                        <div class="titulo">Status</div>
-                    </div>
-                </div>
-            </div>
         </div>
-        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+        
+        <!-- ########################### BOTÃO PESQUISAR NO MODO MOBILE ############################ -->
         <div class="botao_pesquisar" id="botao_pesquisar" onclick="mostrarEspacosListadosMobile();"><div class="botao_pesquisar_icone"></div></div>
-        <!-- ##################### NOTIFICAÇÃO E LISTA DE CONVITES ########################## -->
-        <div class="lista_convite_container">
-            <div class="botao_icone_container" id="convite_botao_icone_container">
-                <!-- A classe "flag_lista" NÃO tem função de estilo. Serve apenas para marcar quais divs NÃO devem ativar ocultar a lista ao serem clicadas (ver a função window.onclick() no fim do script) -->
-                <div class="botao_lista flag_lista" onclick="mostrarConvites();"><div class="icone_botao_lista flag_lista"></div></div>
+        
+        <!-- ######################### NOTIFICAÇÃO DE CONVITES RECEBIDOS ########################### -->
+        <div class="notificacao_convites_container">
+            <div class="botao_contador_container" id="convite_botao_contador_container">
+                <div class="botao_lista" onclick="mostrarConvites();"><div class="icone_botao_lista"></div></div>
                 <div class="contador_convites" id="contador_convites">0</div>
             </div>
-            <div class="lista" id="lista_convites">
-                <div class="cabecalio">CONVITES</div>
-            </div>
+            <!-- A lista é exibida na C3-->
         </div>
-        <!-- ############################### OLÁ USUÁRIO #################################### -->
+        
+        <!-- #################################### OLÁ USUÁRIO ###################################### -->
         <div class="barra_usuario_ola_container">
             <div>Olá <b id="ola_usuario"></b></div>
             <!-- O campo abaixo é invisível. Criado apenas para serivir quelaquer JS que precise do ID do usuário-->
@@ -56,20 +45,16 @@
             <input type="text" value="<?php echo $dadosUsuario['fb_uid']; ?>" id="fbid_invisivel_usuario" style="display: none;">
             <!-- O campo abaixo é invisível. Criado apenas para serivir o covite e economizar uma consulta no Firebase -->
             <input type="text" value="Bug" id="nome_invisivel_usuario" style="display: none;">
-            <!-- O campo abaixo é invisível. Criado apenas para serivir o covite e economizar uma consulta no Firebase -->
+            <!-- NÃO UTILIZADO --><!-- O campo abaixo é invisível. Criado apenas para serivir o covite e economizar uma consulta no Firebase -->
             <input type="text" value="backgrounds/profile_placeholder.png" id="pic_invisivel_usuario" style="display: none;">      
         </div>
-        <!-- ############################### BUSCA #################################### -->
-        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY -->
+        
+        <!-- ####################################### BUSCA ######################################### -->
         <div class="barra_usuario_busca_container" id="barra_usuario_busca_container">
-            <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY -->
             <div class="botao_listar_tudo_mobile" id="botao_listar_tudo_mobile"><button onclick="redirecionarListaTudo();">Ver tudo</button></div>
             <div class="caixa_texto"><input id="nome_novo_espaco" type="text" placeholder="buscar ou criar..." onkeyup="buscarSugestao(this.value);"></div>
             <div class="botao_listar_tudo" id="botao_listar_tudo"><button onclick="redirecionarListaTudo();">Ver tudo</button></div>
         </div>
-        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-        <div class="resultado_busca" id="div_resultado_busca"></div>
-        <div class="resultado_novo_espaco" id="div_resultado_novo_espaco"></div>-->
     </div>
 </div>
 <!-- ********************************** Carregando o Firebase ************************************ -->
@@ -81,6 +66,11 @@
     var config = {
         /* ESCONDER AS CHAVES PARA OS BACKUPS NO GITHUB */
         apiKey: "Ops! You fail...";
+        authDomain: "le16project.firebaseapp.com",
+        databaseURL: "https://le16project.firebaseio.com",
+        projectId: "le16project",
+        storageBucket: "le16project.appspot.com",
+        messagingSenderId: "288102999150"
     };
     firebase.initializeApp(config);
     // Função geral, cahamada ao carregar a página para gerenciar as funções específicas
@@ -153,12 +143,12 @@
     // Template para cada convite listado
     INVITE_TEMPLATE =
             // A classe "flag_lista" NÃO tem função de estilo. Serve apenas para marcar quais divs NÃO devem ocultar a lista ao serem clicadas (ver a função window.onclick() no fim do script)        
-            '<div class="convite flag_lista">' +
-                '<div class="pic flag_lista"></div>' +
+            '<div class="convite">' +
+                '<div class="pic"></div>' +
                 // Aqui é acrescentada a função para descartar o convite
-                '<button class="descartar_btn flag_lista">Descartar</button>' +
+                '<button class="descartar_btn">Descartar</button>' +
                 '<div class="nome"></div>' +
-                '<div class="mensagem flag_lista"></div>' +
+                '<div class="mensagem"></div>' +
                 // Aqui é acrescentada a função para registrar a entrada do usuário (tbm remove o convite)
                 '<div class="nome_espaco">&#9656</div>' +
             '</div>';
@@ -197,7 +187,7 @@
         document.getElementById('contador_convites').innerHTML = nConvites - (-1);
         // Mostrando o ícone da lista de convites se existir pelo menos um convite
         if (document.getElementById('contador_convites').innerHTML>0) {
-            document.getElementById('convite_botao_icone_container').style.display = 'block';
+            document.getElementById('convite_botao_contador_container').style.display = 'block';
         }
         
     };
@@ -284,15 +274,15 @@
     
     // Função chamada quando o usuário digita no campo de pesquisa da barra do usuário
     function buscarSugestao(str) {
-        // Condição para abrir e fechar a div de exibição dos resultados
+        // Condição para exibir e seconder a div de exibição dos resultados
         if(str.length > 1){
-            document.getElementById("lista_espacos_container").style.display = 'none'; //YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
-            document.getElementById("cabecalio_resultado_busca").style.display = 'block';//YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+            document.getElementById("lista_espacos_container").style.display = 'none';
+            document.getElementById("cabecalio_resultado_busca").style.display = 'block';
             document.getElementById("div_resultado_busca").style.display = 'block';
         } else {
             document.getElementById("div_resultado_busca").style.display = 'none';
-            document.getElementById("cabecalio_resultado_busca").style.display = 'none'; //YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
-            document.getElementById("lista_espacos_container").style.display = 'block'; //YYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO
+            document.getElementById("cabecalio_resultado_busca").style.display = 'none';
+            document.getElementById("lista_espacos_container").style.display = 'block';
         }
         // AJAX PARA FAZER A BUSCA ENQUANTO O USUÁRIO DIGITA
         if (str.length > 0) {
@@ -301,19 +291,12 @@
                 if (this.readyState === 4 && this.status === 200) {
                     // Se a busca não tem resultados exibe o botão para criar um novo espaço
                     if (this.responseText==='noresult') {
-                        // Ajustando a largura da div para exibir o botão
-                        /*
-                         * PENSAR EM OUTRA FORMA DE AJUSTE, PQ COM 'width' FIXO NÃO SERÁ POSSÍVEL IMPLEMENTAR O MOBILE FIRST
-                         */
-                        //document.getElementById("div_resultado_busca").style.width = '29%'; yyyyyyyyyyyyyyyyyyyyyyyyyy
-                        // Crinado o HTML/CSS do botão
+                        // Crinando o HTML/CSS do botão
                         var botaoNovoEspaco = '<p class="texto_novo_espaco">Nenhum espaço encontrado.</p>' +
                                               '<button class="botao_novo_espaco" onclick="criarNovoEspaco();">Criar novo</button>';
                         // Exibindo o botão
                         document.getElementById("div_resultado_busca").innerHTML = botaoNovoEspaco;
                     } else { // Se a busca encontrou resultados
-                        // Ajustando a largura da div para exibir o resultado
-                        // document.getElementById("div_resultado_busca").style.width = '40%'; yyyyyyyyyyyyyyyyyyyyyyyyyy
                         // Recebe a string de resultados do servidor (já com html/css) e joga na div 'div_resultado_busca'
                         document.getElementById("div_resultado_busca").innerHTML = this.responseText;
                     }
@@ -433,7 +416,12 @@
     };
     // Mostrar/ocultar a lista de convites
     function mostrarConvites() {
-        document.getElementById("lista_convites").classList.toggle("lista_convites_mostrar_conteudo");
+        document.getElementById("c2").classList.add('recuo_c2');
+        document.getElementById("c3").style.display = 'block';
+        document.getElementById("info_espaco_container").style.display = 'none';
+        document.getElementById("status_edit_container").style.display = 'none';
+        document.getElementById("opcoes_container").style.display = 'none';
+        document.getElementById("lista_convites").style.display = 'block';
     };
     // Descartar convites
     function discardInvitation(key) {
@@ -449,9 +437,9 @@
         document.getElementById('contador_convites').innerHTML = nConvites - 1;
         // Escondendo o icone de convites se NÃO existir nenhum convite
         if (document.getElementById('contador_convites').innerHTML < 1) {
-            document.getElementById('convite_botao_icone_container').style.display = 'none';
+            document.getElementById('convite_botao_contador_container').style.display = 'none';
         }    
-    }
+    };
     // Mostrar e tratar edição do status
     function mostrarEdicaoStatus() {
         // Pegando o fbid do usuário no campo invisível
@@ -461,9 +449,14 @@
             var userMsgStatus = snapshot.val().userMsgStatus;
             document.getElementById("user_msg_status_textarea").value = userMsgStatus;
             // Mostrando a área de edição (se a promise for realizada)
+            document.getElementById("c2").classList.add('recuo_c2');
+            document.getElementById("c3").style.display = 'block';
+            document.getElementById("info_espaco_container").style.display = 'none';
+            document.getElementById("lista_convites").style.display = 'none';
+            document.getElementById("opcoes_container").style.display = 'none';
             document.getElementById("status_edit_container").style.display = 'block';
         });
-    }
+    };
     // Atualizar a mensagem de status do usuário
     function atualizarMsgStatus() {
         // Pegando o fbid do usuário no campo invisível
@@ -475,7 +468,10 @@
             userMsgStatus: strNovoStatus
         }).then( function() {
             // Escondendo a área de edição
+            document.getElementById("c3").style.display = 'none';
+            document.getElementById("c2").classList.remove('recuo_c2');
             document.getElementById("status_edit_container").style.display = 'none';
+            
             // Mensagem de confimação
             window.alert('Sua mensagem de status foi atualizada com sucesso!');
         }).catch( function(error) {
@@ -483,13 +479,15 @@
             console.error('Dev Msg: Erro ao atualizar a msg de status.',error);
             window.alert('Ops! Ocorreu um erro ao atualizar o seu status. Por favor tente novamente.');
         });
-    }    
+    }; 
     // Cancelar edição do status
     function cancelarEdicaoStatus() {
         // Escondendo a área de edição
+        document.getElementById("c3").style.display = 'none';
+        document.getElementById("c2").classList.remove('recuo_c2');
         document.getElementById("status_edit_container").style.display = 'none';
-    }
-    // YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+    };
+    // Para alternar a tela para a lista de espaços no modo mobile
     function mostrarEspacosListadosMobile() {
         // Escondendo
         document.getElementById("c2").style.display = 'none';
@@ -502,8 +500,7 @@
         document.getElementById("botao_listar_tudo").style.display = 'none';
         document.getElementById("botao_listar_tudo_mobile").style.display = 'inline-block';
         document.getElementById("cabecalio_lista_espacos").innerHTML = 'Conversas';
-    }
-    // YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+    };
     // Para ocultar elementos ao clicar fora deles
     window.onclick = function(event) {
         // Escondendo o menu
@@ -514,6 +511,7 @@
             }
         }
         // Escondendo a lista de convites
+        /* Deixado com exemplo JS (as divs não devem reagir tem que ter a classe flag_lista)
         if (!event.target.matches(".flag_lista")) {
             var listaDisplay = document.getElementById("lista_convites");
             if (listaDisplay.classList.contains('lista_convites_mostrar_conteudo')) {
@@ -522,5 +520,6 @@
             }
             
         }
+        */
     };
 </script>

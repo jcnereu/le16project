@@ -43,14 +43,12 @@
         <link type="text/css" rel="stylesheet" href="stylesheets/reset.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/home.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/userBar.css">
-        <!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
         <link type="text/css" rel="stylesheet" href="stylesheets/c1.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/c2.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/c3.css">
         <link type="text/css" rel="stylesheet" href="stylesheets/list.css">
         <!-- Firebase codelab web CSS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-        <link type="text/css" rel="stylesheet" href="stylesheets/codelab.css">
         <!-- Material Design Lite -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
@@ -58,12 +56,13 @@
     <body>
         <?php include_once 'userBar.php';?>
         <div class="coluna_central">
-            <div class="c1" id="c1"><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
-                <div class="dumper_top" id="dumper_top_c1"></div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
-                <div class="cabecalio_resultado_busca" id="cabecalio_resultado_busca">Resultados:</div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
-                <div class="resultado_busca" id="div_resultado_busca"></div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
-                <div class="busca_sem_resultado" id="div_busca_sem_resultado"></div><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
-                <div class="lista_espacos_container" id="lista_espacos_container"><!-- YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY NOVO -->
+            <!--  ################################## COLUNA C1 ######################################-->
+            <div class="c1" id="c1">
+                <div class="dumper_top" id="dumper_top_c1"></div>
+                <div class="cabecalio_resultado_busca" id="cabecalio_resultado_busca">Resultados:</div>
+                <div class="resultado_busca" id="div_resultado_busca"></div>
+                <div class="busca_sem_resultado" id="div_busca_sem_resultado"></div>
+                <div class="lista_espacos_container" id="lista_espacos_container">
                     <?php
                         // Para guardar o id do último espaço na lista
                         $proximoEspaco = 0;
@@ -75,7 +74,7 @@
                         $buscaLista->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$dadosUsuario['id']}");
                         if($buscaLista->retornaResultado()>0){
                             // Criando uma div para conter o cabeçálio dos espaços listados
-                            echo '<div class="cabecalio" id="tasc-tasc"></div>';
+                            echo '<div class="cabecalio" id="cabecalio_lista_espacos">Outras conversas</div>';
                             // Listando os espaços em que o usuário está registrado
                             foreach($buscaLista->retornaResultado()[0] as $coluna => $espaco){
                                 // Em cada campo de espaço não vazio da linha do usuário na tabela userspaces
@@ -158,8 +157,9 @@
                 <!-- O campo abaixo é invisível. Criado apenas para servir o AJAX generalCheckout chamado ao sair do sistema-->
                 <input type="text" value="<?php echo $listaEspacos; ?>" id="lista_invisivel_espacos" style="display: none;">
             </div>
-            <div class="c2" id="c2"><!-- YYYYYYYYYYYYYYYYYYYY NOVO -->
-                <div class="dumper_top"></div><!-- YYYYYYYYYYYYYYYYYYYY NOVO -->
+            <!--  ################################### COLUNA C2 #####################################-->
+            <div class="c2" id="c2">
+                <div class="dumper_top"></div>
                 <?php
                     $sessao = filter_input(INPUT_GET,'ss',FILTER_DEFAULT);// ss->sessão
                     if(empty($sessao)){
@@ -175,7 +175,8 @@
                     }
                 ?>
             </div>
-            <div class="c3" id="c3"><!-- YYYYYYYYYYYYYYYYYYYY NOVO -->
+            <!--  ################################### COLUNA C3 #####################################-->
+            <div class="c3" id="c3">
                 <?php include_once 'c3.php';?>
             </div>
         </div>

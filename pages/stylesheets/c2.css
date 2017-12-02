@@ -2,47 +2,46 @@
 
 /* Sub página contida na Home*/
 
-/**************************************************************************************************/
-/*                             ESPAÇO ATIVO (ocupa a coluna c2)                                   */
-/**************************************************************************************************/
-/* Container geral*/
-.espaco_container {/* YYYYYYYYYYYYYYYYYYYYY NÃO MAIS UTILIZADO */
-    width: 100%;
-    /*background-color: #d5d5d5; /*Para ver a área total do espaço*/
-}
-/* Cabeçálio */
+/******************************************************************************************************/
+/*                          CABEÇÁLIO DO  ESPAÇO ATIVO (exibido na coluna c2)                         */
+/******************************************************************************************************/
 .espaco_cabecalio {
-    width: 99%; /*###################### F5*/
-    height: 46px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
-    margin-left: 1%; /*###################### F5*/
-    /*margin-top: 2px;*/ /*XXXXXXXXXXXXXXXXXXXXX F5*/
+    width: 99%;
+    height: 46px;
+    margin-left: 1%;
     font-weight: 700;
     color: #3e4859;
+    position: relative; /* Para posicionar a catraca */
 }
+/* Nome do espaço */
 .espaco_cabecalio .titulo {
     float: left;
-    font-size: 22px; /*XXXXXXXXXXXXXXXXXXXXX F5*/
-    padding: 14px 4px 2px 4px; /*XXXXXXXXXXXXXXXXXXXXX F5*/
+    font-size: 22px;
+    padding: 14px 4px 2px 4px;
     /* Para que o título não cresça indefinidamente para a direita*/
-    max-width: 80%; 
-    overflow: hidden; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
-    white-space: nowrap; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
-    text-overflow: ellipsis; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    max-width: 60%; /* LAYOUT RESPONSIVO */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.espaco_cabecalio .titulo:hover {
+    cursor: pointer;
 }
 /* Incones para sinalização de configurações */
 .espaco_cabecalio .icone_espaco_invisivel {
-    width: 22px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
-    height: 22px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
-    background-size: 22px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    width: 20px;
+    height: 20px;
+    background-size: 20px;
     background-image: url('backgrounds/invisible.png');
-    margin: 17px 0 0 10px; /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    margin: 17px 0 0 4px;
     float: left;
 }
 .espaco_cabecalio_menu {
     float: right;
-    padding-top: 20px;  /*yyyyyyyyyyyyyyyyyyyyy NOVO */
+    padding-top: 20px;
 }
 .espaco_cabecalio_sair {
+    float: left;
     margin-left: 4px;
     font-size: 15px;
     padding: 3px 8px;
@@ -53,79 +52,42 @@
     background-color: #e5e5e5;
     font-weight: bold;
 }
-/**************************************************************************************************/
-/*                             INFO SOBRE O ESPAÇO (no cabeçalio)                                 */
-/**************************************************************************************************/
-.espaco_info{
-    display: none; /* Começa fechado para não mostrar as infos carregando */
-    clear: both;
-    margin: 4px 0 4px 0;
-    min-height: 46px;
-}
-/* Bloco com as informações de origem do espaço */
-.espaco_info .usuario_criador {
+/* Botão das opções (...)*/
+.espaco_cabecalio .opcoes_btn {
+    display: none;
     float: left;
-    min-width: 100px;
-    margin-top: 4px;
-}
-.espaco_info .usuario_criador .pic {
-    width: 40px;
-    height: 40px;
-    background-image: url('backgrounds/profile_placeholder.png');
-    background-size: 40px;
-    border-radius: 50%;
-    margin-right: 4px;
-    float: left;
-}
-.espaco_info .usuario_criador .nome {
+    padding: 0 8px;
+    border-radius: 10px;
+    margin-left: 4px;
+    font-size: 18px;
     font-weight: bold;
-    display: inline-block; /* Para que o texto não quebre */
 }
-.espaco_info .usuario_criador .data {
-    font-size: 12px;
-    color: #666;
-}
-/* Bloco com número de outros usuários */
-.espaco_info .outros_usuarios {
-    float: left;
-    min-width: 50px;
-    border-radius: 8px;
-    margin-left: 15px;
-    padding: 0 4px 6px 4px;
-    text-align: center; /* Truque para centralizar uma div comm texto variável (Parte 1)*/
-}
-.espaco_info .outros_usuarios:hover {
-    background-color: #e9e9e9;
+.espaco_cabecalio .opcoes_btn:hover {
+    background-color: #e5e5e5;
     cursor: pointer;
 }
-.espaco_info .outros_usuarios .numero{
-    display: inline-block;
-    text-align: left; /* Truque para centralizar uma div comm texto variável (Parte 2)*/
-    font-size: 24px;
-    font-weight: bold;
-}
-.espaco_info .outros_usuarios .icone {
-    display: inline-block;
-    margin: 0 -3px -2px 0;
-    width: 20px;
-}
-.espaco_info .outros_usuarios .texto{
-    margin: auto;
-    font-size: 13px;
-    width: 46px;
-    line-height: 70%;
-    color: #666;
-}
-/* Bloco para informar quem entrou no espaço */
-.espaco_info .catraca_container {
-    float: left;
-    margin: 5px 0 0 15px;
-    font-size: 13px;
-    min-width: 100px; /* Pensar em um max-width para o mobile*/
+
+/******************************************************************************************************/
+/*                        CATRACA (Notificação de entrada no topo da conversa)                        */
+/******************************************************************************************************/
+.espaco_cabecalio .catraca_container {
     display: none;
-    transition: opacity 1s;
+    position: absolute;
+    margin: 48px 2px 0 2px; /* LAYOUT RESPONSIVO */
+    z-index: 2;
+    width: calc(96% - 4px); /* LAYOUT RESPONSIVO */
 }
-.espaco_info .catraca_container .pic {
+.espaco_cabecalio .catraca_subcontainer {
+    float: left;
+    padding: 4px 2%; /* LAYOUT RESPONSIVO */
+    border-radius: 0; /* LAYOUT RESPONSIVO */
+    margin-left: 0; /* LAYOUT RESPONSIVO */
+    font-size: 13px;
+    width: 100%; /* LAYOUT RESPONSIVO */
+    background-color: #f2f2f2;
+    box-shadow: 1px 1px 2px #aaa;
+}
+.espaco_cabecalio .catraca_subcontainer .pic {
     float: left;
     background-image: url('backgrounds/profile_placeholder.png');
     background-repeat: no-repeat;
@@ -135,134 +97,22 @@
     border-radius: 50%;
     margin: 2px 4px 2px 4px;
 }
-.espaco_info .catraca_container .nome {
+.espaco_cabecalio .catraca_subcontainer .nome {
     display: inline-block; /* Para que o texto não quebre */
     font-weight: bold;
     padding-top: 2px;
 }
-.espaco_info .catraca_container .sentido {
+.espaco_cabecalio .catraca_subcontainer .sentido {
     color: #888;
 }
-/* Menu com as opçoes de configuração do espçao (Por equanto apenas "tornar invisível") */
-.espaco_info .menu_opcoes_container {
-    display: none; /* Só é exibido para o criador do espaço */
-    float: right;
-}
-.espaco_info .menu_opcoes_container .opcoes_btn {
-    width: 14px;
-    height: 18px;
-    padding: 6px;
-    border-radius: 8px;
-    margin: 12px 0 0 4px;
-}
-.espaco_info .menu_opcoes_container .opcoes_btn:hover {
-    background-color: #e5e5e5;
-    cursor: pointer;
-}
-.espaco_info .menu_opcoes_container .opcoes_icone {
-    margin: -8px 0 0 2px;
-    font-size: 24px;
-}
-/* Classe para alternar a visibilidade das infos do espaço */
-.espaco_mostrar_info {
-    display: block;
-}
-/**************************************************************************************************/
-/*                                          OPÇÕES DO ESPAÇO                                      */
-/**************************************************************************************************/
-.opcoes_container {
-    display: none;
-    width: 94%;
-    height: 300px;
-    padding: 12px 2%;
-    margin: auto;
-    margin-top: 4px;
-    border-radius: 4px;
-    background-color: #eee;
-    /*overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
-}
-.opcoes_container .cabecalio {
-    width: 100%;
-    padding: 2px 2px 10px 2px;
-    margin: auto;
-    font-weight: 700;
-    color: #3e4859;
-}
-.opcoes_container .cabecalio .titulo {
-    font-size: 16px;
-}
-.opcoes_container .cabecalio .voltar_link {
-    float: right;
-}
-.opcoes_container .cabecalio .voltar_link:hover {
-    cursor: pointer;
-    font-weight: bold;
-}
-/* Itens da lista de opções (Por enquanto só um) */
-.opcoes_container .item_opcoes {
-    width: 100%;
-    height: 30px;
-    padding: 10px 2px 0 2px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 4px;
-}
-.opcoes_container .item_opcoes .texto {
-    float: left;
-    color: #3e4859;
-}
-.opcoes_container .item_opcoes .radios {
-    float: right;
-    padding: 4px;
-    color: #3e4859;
-}
-/* Div com os botões para cancelar ou confirmar uma alteração de opção*/
-.opcoes_container .confirma_opcao_container {
-    display: none;
-    height: 30px;
-    margin-top: 200px;
-}
-.opcoes_container .confirma_opcao_container .cancelar_btn {
-    float: right;
-    padding: 6px 10px;
-    margin-left: 4px;
-    border-radius: 2px;
-    font-size: 13px;
-    background-color: #ddd;
-    color: #555;
-}
-.opcoes_container .confirma_opcao_container .cancelar_btn:hover {
-    cursor: default;
-    background-color: #ccc;
-}
-.opcoes_container .confirma_opcao_container .confirmar_btn {
-    float: right;
-    padding: 6px 10px;
-    margin-left: 4px;
-    border-radius: 2px;
-    font-size: 13px;
-    background-color: #27c66f;
-    color: white;
-}
-.opcoes_container .confirma_opcao_container .confirmar_btn:hover {
-    cursor: default;
-    background-color: #21bc68;
-}
-/**************************************************************************************************/
-/*                                    ÁREA DE EXIBIÇAO DA CONVERSA                                */
-/**************************************************************************************************/
-/*#messages { YYYYYYYYYYYYYYYYYYYYYYYYY NÃO MAIS UTILIZADO
-    overflow-y: auto;
-    margin-bottom: 10px;
-    height: 100%;
-}*/
+
+/******************************************************************************************************/
+/*                                      ÁREA DE EXIBIÇAO DA CONVERSA                                  */
+/******************************************************************************************************/
 .espaco_mensagens_container {
-    /*clear: left;*/ /*###################### F5*/
-    /*float: left; */ /*###################### F5*/
-    width: 99%; /*YYYYYYYYYYYYYYYYYYYYYY F5*/
+    width: 99%;
     margin-left: 1%;
-    height: calc(100% - 168px); /*###################### F5*/
-    /*max-height: 500px; /*###################### F5*/
-    /*padding: 12px 0; /*###################### F5*/
+    height: calc(100% - 168px);
     border-radius: 4px;
     /*background: linear-gradient(to bottom right, #d7f2d7, #c3dbc3); /*#d7f2d7, #c3dbc3*/ /*#c9e5c9, #bcd8bc*/
     background: #d7f2d7 url('backgrounds/noisy_bg1.png'); /*#d7dbe0, #d7f2d7*/
@@ -278,7 +128,7 @@
     color: #3e4859;
     border-radius: 4px;
     box-shadow: 1px 1px 2px #aaa;
-    margin: 2px 4%; /*###################### F5*/
+    margin: 2px 4%;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
@@ -306,7 +156,7 @@
     color: #333;
     font-size: 14px;
 }
-/* Mensagens de outro usuário */
+/* Mensagens de outros usuários */
 .other_user_message_container {
     display: block;
     clear: both;
@@ -316,7 +166,7 @@
     color: #3e4859;
     border-radius: 4px;
     box-shadow: 1px 1px 2px #aaa;
-    margin: 2px 4%; /*###################### F5*/
+    margin: 2px 4%;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
@@ -344,38 +194,55 @@
     color: #333;
     font-size: 14px;
 }
-/**************************************************************************************************/
-/*                                   ÁREA DE DIGITAÇÃO DA MENSAGEM                                */
-/**************************************************************************************************/
+
+/******************************************************************************************************/
+/*                                 ÁREA DE DIGITAÇÃO E ENVIO DE MENSAGENS                             */
+/******************************************************************************************************/
 .espaco_area_texto {
-    width: 99%; /*YYYYYYYYYYYYYYYYYYYYYYY F5*/
-    margin-left: 1%; /*YYYYYYYYYYYYYYYYYYYYYYY F5*/
+    width: 99%;
+    margin-left: 1%;
     background-color: #eae5e1;
-    height: 46px; /*###########XXXXXXXXXXX F5*/
-    padding: 9px 0; /*###################### F5*/
+    height: 46px;
+    padding: 9px 0;
     border-radius: 4px;
 }
 .espaco_area_texto input[type=text] {
-    width: calc(100% - 98px); /*###################### F5*/
+    width: calc(100% - 98px);
     padding: 13px 10px;
-    margin: 0 10px 0 14px; /*###################### F5*/
+    margin: 0 10px 0 14px;
     border: none;
     border-radius: 8px;
     background-color: #f5f5f5;
 }
 .espaco_area_texto input[type=submit] {
-    width: 42px; /*###################### F5*/
-    height: 42px; /*###################### F5*/
-    padding: 10px; /*###################### F5*/
+    width: 42px;
+    height: 42px;
+    padding: 10px;
     border: none;
     background-color: #d5d5d5;
-    border-radius: 50%; /*###################### F5*/
-    /*margin-left: 6px; /*###################### F5*/
+    border-radius: 50%;
 }
 .espaco_area_texto input[type=submit]:hover {background-color: #c5c5c5;}
 .area_texto_item {
     float: left;
 }
-/**************************************************************************************************/
-/*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
-/**************************************************************************************************/
+
+/******************************************************************************************************/
+/*                                   AJUSTES DO LAYOUT RESPONSIVO                                     */
+/******************************************************************************************************/
+@media screen and (min-width: 1024px) {
+    .espaco_cabecalio .titulo {
+        max-width: 70%;
+    }
+    .espaco_cabecalio .catraca_container {
+        width: auto;
+        margin: 50px 0 0 50%;
+    }
+    .espaco_cabecalio .catraca_subcontainer {
+        margin-left: -50%;
+        width: auto;
+        min-width: 100px;
+        padding: 4px 10px 4px 4px;
+        border-radius: 4px;
+    }
+}

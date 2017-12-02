@@ -4,14 +4,14 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f9f9f9;
 }
-/**************************************************************************************************/
-/*                                       BARRA DO USUÁRIO                                         */
-/**************************************************************************************************/
+/******************************************************************************************************/
+/*                                         BARRA DO USUÁRIO                                           */
+/******************************************************************************************************/
 /* Divisão do layout geral para conter a barra do usuário */
 .coluna_superior {
     position: fixed; /* Para não descer com a barra de rolagem*/
     width: 100%;
-    height: 58px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    height: 58px;
     z-index: 1; /* Necessário para que os elementos pertencentes a barra do usuário, mas exibidos fora dela (menu e resultado das buscas) fiquem em primeiro plano */
     background: linear-gradient(to right, #e8e8e8, #d7dbe0); /*Cor da barra do usuário*/
     border-bottom: 1px solid #dedede;
@@ -21,59 +21,64 @@ body {
     position: relative; /*Para que a div com o conteúdo do menu seja peosicionada em relação a essa div*/
     width: 100%;
 }
-/**************************************************************************************************/
-/*                                        CORPO DA PÁGINA                                         */
-/**************************************************************************************************/
+
+/******************************************************************************************************/
+/*                                           CORPO DA PÁGINA                                          */
+/******************************************************************************************************/
 /* Divisão do layout geral para conter o restante do conteúdo da página*/
 .coluna_central {
     position: relative;
-    /* top: 58px;*/ /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /*Desconto para não sobrepor a barra do usuário*/
     width: 100%;
-    /*background-color: #ffff80; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+    /*background-color: #ffff80; */
 }
-.dumper_top { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    height: 58px; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.dumper_top {
+    width: 100%;
+    height: 58px;
 }
-/**************************************************************************************************/
-/*                                             C1                                                 */
-/**************************************************************************************************/
+
+/******************************************************************************************************/
+/*                                                C1                                                  */
+/******************************************************************************************************/
 /* Divisão dentro da coluna central para conter a lista de espaços*/
-.coluna_central .c1 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
-    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
-    height: 100vh; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+.coluna_central .c1 {
+    display: none; /* LAYOUT RESPONSIVO */
+    width: 100%; /* LAYOUT RESPONSIVO */
+    height: 100vh;
     float: left;
     /*background-color: #4387fd;*/ 
 }
-/**************************************************************************************************/
-/*                                             C2                                                 */
-/**************************************************************************************************/
-.coluna_central .c2 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    float: left; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
-    height: 100vh; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+
+/******************************************************************************************************/
+/*                                                C2                                                  */
+/******************************************************************************************************/
+.coluna_central .c2 {
+    float: left;
+    width: 100%; /* LAYOUT RESPONSIVO */
+    height: 100vh;
     /*background-color: #efea88;*/
 }
-/**************************************************************************************************/
-/*                                             C3                                                 */
-/**************************************************************************************************/
-.coluna_central .c3 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    display: none; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    float: left; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
-    width: 100%; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */ /* LAYOUT RESPONSIVO */
-    height: 100vh; /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+
+/******************************************************************************************************/
+/*                                                C3                                                  */
+/******************************************************************************************************/
+.coluna_central .c3 {
+    display: none;
+    float: left;
+    width: 100%; /* LAYOUT RESPONSIVO */
+    height: 100vh;
 }
-/**************************************************************************************************/
-/*                                      Recuo da bateria                                          */
-/**************************************************************************************************/
-.coluna_central .recuo_c2 { /* YYYYYYYYYYYYYYYYYYYYYYYY NOVO */
+
+/******************************************************************************************************/
+/*                                          Recuo da bateria                                          */
+/******************************************************************************************************/
+.coluna_central .recuo_c2 {
     display: none; /* LAYOUT RESPONSIVO */
     width: 0; /* LAYOUT RESPONSIVO */
 }
-/**************************************************************************************************/
-/*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
-/**************************************************************************************************/
+
+/******************************************************************************************************/
+/*                                  AJUSTES DO LAYOUT RESPONSIVO                                      */
+/******************************************************************************************************/
 @media screen and (min-width: 640px) {
     .coluna_central .c1 {
         display: block;
@@ -103,7 +108,6 @@ body {
 }
 
 @media screen and (min-width: 1366px) {
-    /* Nível 1 */
     .barra_usuario_container {
         width: 90%;
         margin: auto;
@@ -114,7 +118,6 @@ body {
     }
 }
 @media screen and (min-width: 1800px) {
-    /* Nível 1 */
     .barra_usuario_container {
         width: 1620px; /* 90% de 1800px*/
         margin: auto;
