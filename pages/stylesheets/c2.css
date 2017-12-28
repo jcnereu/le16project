@@ -2,16 +2,21 @@
 
 /* Sub página contida na Home*/
 
+/* Mensagem exibida quando não tem nenhum espaço aberto */
+.c2_msg_nenhum_espaco {
+    margin: 25px 0 0 15px;
+    color: #586782;
+}
 /******************************************************************************************************/
 /*                          CABEÇÁLIO DO  ESPAÇO ATIVO (exibido na coluna c2)                         */
 /******************************************************************************************************/
 .espaco_cabecalio {
-    width: 99%;
+    width: 100%; /* LLLLLLLLLLLLLLLLL F5 */
     height: 46px;
-    margin-left: 1%;
+    margin-left: 0; /* LLLLLLLLLLLLLLLLLL F5 */
     font-weight: 700;
     color: #3e4859;
-    position: relative; /* Para posicionar a catraca */
+    position: relative; /* Para posicionar a catraca*/
 }
 /* Nome do espaço */
 .espaco_cabecalio .titulo {
@@ -29,11 +34,11 @@
 }
 /* Incones para sinalização de configurações */
 .espaco_cabecalio .icone_espaco_invisivel {
-    width: 20px;
-    height: 20px;
-    background-size: 20px;
-    background-image: url('backgrounds/invisible.png');
-    margin: 17px 0 0 4px;
+    width: 24px;
+    height: 24px;
+    background-size: 24px;
+    background-image: url('backgrounds/invisible2.png');
+    margin: 15px 0 0 4px;
     float: left;
 }
 .espaco_cabecalio_menu {
@@ -70,15 +75,17 @@
 /******************************************************************************************************/
 /*                        CATRACA (Notificação de entrada no topo da conversa)                        */
 /******************************************************************************************************/
-.espaco_cabecalio .catraca_container {
-    display: none;
+.espaco_cabecalio .catraca_container_geral {
     position: absolute;
-    margin: 48px 2px 0 2px; /* LAYOUT RESPONSIVO */
-    z-index: 2;
+    margin: 46px 2px 0 2px; /* LAYOUT RESPONSIVO */
     width: calc(96% - 4px); /* LAYOUT RESPONSIVO */
 }
+.espaco_cabecalio .catraca_container {
+    display: none;
+    margin-top: 4px;
+    transition: opacity 1s; /* Para o efeito fade-out */
+}
 .espaco_cabecalio .catraca_subcontainer {
-    float: left;
     padding: 4px 2%; /* LAYOUT RESPONSIVO */
     border-radius: 0; /* LAYOUT RESPONSIVO */
     margin-left: 0; /* LAYOUT RESPONSIVO */
@@ -110,12 +117,13 @@
 /*                                      ÁREA DE EXIBIÇAO DA CONVERSA                                  */
 /******************************************************************************************************/
 .espaco_mensagens_container {
-    width: 99%;
-    margin-left: 1%;
-    height: calc(100% - 168px);
+    width: 100%; /* LLLLLLLLLLLLL F5 */ /* Layou responsivo */
+    margin-left: 0; /* LLLLLLLLLLLLL F5 */ /* Layou responsivo */
+    padding-top: 10px;
+    height: calc(100% - 178px);
     border-radius: 4px;
     /*background: linear-gradient(to bottom right, #d7f2d7, #c3dbc3); /*#d7f2d7, #c3dbc3*/ /*#c9e5c9, #bcd8bc*/
-    background: #d7f2d7 url('backgrounds/noisy_bg1.png'); /*#d7dbe0, #d7f2d7*/
+    background: url('backgrounds/polygon2.png'); /* LLLLLLLLLLLLLLLLL F5*/
     overflow-y: auto;
 }
 /* Mensagens do usuário */
@@ -124,13 +132,14 @@
     clear: both;
     float: right;
     max-width: 70%;
-    background: #ffffff;
-    color: #3e4859;
-    border-radius: 4px;
+    background: #673ab7;/*#e91e63; ringo #673ab7; perple #00acc1; ciano #fbc02d; amarelo #607d8b; bgrey /* LLLLLLLLLLLLLLLLLLLLLL F5 */
+    /*color: #fff;/* LLLLLLLLLLLLLLLLLLLLLLL OUT */
+    border-radius: 12px; /* LLLLLLLLLLLLLLLLLLLL F5 */
     box-shadow: 1px 1px 2px #aaa;
     margin: 2px 4%;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+    overflow: hidden;
 }
 .user_message_container .cabecalio {
     font-size: 13px;
@@ -145,15 +154,15 @@
     color: #888;
     margin: 0 5px 0 5px;
 }
-.user_message_container .horario { /* NÃO É UTILIZADO */
+.user_message_container .horario {
     float: left;
-    color: #888;
+    color: #ffee99;/* LLLLLLLLLLLLLLLLLLL F5*//*#888*/
     font-size: 12px;
 }
 .user_message_container .texto {
     clear: left;
     padding: 2px 8px 6px 8px;
-    color: #333;
+    color: #fff;/* LLLLLLLLLLLLLLLLLLLLLL F5*//*#333;*/
     font-size: 14px;
 }
 /* Mensagens de outros usuários */
@@ -162,13 +171,14 @@
     clear: both;
     float: left;
     max-width: 70%;
-    background: #f9f4c2;
-    color: #3e4859;
-    border-radius: 4px;
+    background: rgba(255,255,255,1); /* LLLLLLLLLLLLLLLL F5 *//*#f9f4c2*/
+    /*color: #3e4859;*/ /* LLLLLLLLLLLLLLLLLLLL OUT */
+    border-radius: 12px; /* LLLLLLLLLLLLLLLLLLLL F5 */
     box-shadow: 1px 1px 2px #aaa;
     margin: 2px 4%;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
+    overflow: hidden;
 }
 .other_user_message_container .cabecalio {
     font-size: 13px;
@@ -191,7 +201,7 @@
 .other_user_message_container .texto {
     clear: left;
     padding: 2px 8px 6px 8px;
-    color: #333;
+    color: #353535; /* LLLLLLLLLLLLLLLLLL F5 */
     font-size: 14px;
 }
 
@@ -199,8 +209,8 @@
 /*                                 ÁREA DE DIGITAÇÃO E ENVIO DE MENSAGENS                             */
 /******************************************************************************************************/
 .espaco_area_texto {
-    width: 99%;
-    margin-left: 1%;
+    width: 100%; /* LLLLLLLLLLLLL F5 */ /* Layou responsivo */
+    margin-left: 0; /* LLLLLLLLLLLLL F5 */ /* Layou responsivo */
     background-color: #eae5e1;
     height: 46px;
     padding: 9px 0;
@@ -214,15 +224,19 @@
     border-radius: 8px;
     background-color: #f5f5f5;
 }
-.espaco_area_texto input[type=submit] {
+.espaco_area_texto input[type=submit] { /* LLLLLLLLLLLLLLLLL F5 */
+    background: #673ab7 url('backgrounds/send4.png');
+    background-repeat: no-repeat;
     width: 42px;
     height: 42px;
-    padding: 10px;
+    background-size:42px;
     border: none;
-    background-color: #d5d5d5;
     border-radius: 50%;
+    padding: 10px 0 0 4px;
 }
-.espaco_area_texto input[type=submit]:hover {background-color: #c5c5c5;}
+.espaco_area_texto input[type=submit]:hover {
+    background-color: #4527a0; /* LLLLLLLLLLLLLLLLLLLLL F5 */
+}
 .area_texto_item {
     float: left;
 }
@@ -230,18 +244,32 @@
 /******************************************************************************************************/
 /*                                   AJUSTES DO LAYOUT RESPONSIVO                                     */
 /******************************************************************************************************/
+
+@media screen and (min-width: 640px) { /* LLLLLLLLLLLLLLLLLLLL NOVO */
+    .espaco_cabecalio {
+        width: 99%;
+        margin-left: 1%;
+    }
+    .espaco_mensagens_container {
+        width: 99%;
+        margin-left: 1%;
+    }
+    .espaco_area_texto {
+        width: 99%;
+        margin-left: 1%;
+    }
+}
+
 @media screen and (min-width: 1024px) {
     .espaco_cabecalio .titulo {
         max-width: 70%;
     }
-    .espaco_cabecalio .catraca_container {
+    .espaco_cabecalio .catraca_container_geral {
+        margin: 46px 0 0 50%;
         width: auto;
-        margin: 50px 0 0 50%;
     }
     .espaco_cabecalio .catraca_subcontainer {
         margin-left: -50%;
-        width: auto;
-        min-width: 100px;
         padding: 4px 10px 4px 4px;
         border-radius: 4px;
     }

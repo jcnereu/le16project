@@ -74,7 +74,7 @@
                         $buscaLista->fazerBusca('SELECT * FROM userspaces WHERE id = :bv',"bv={$dadosUsuario['id']}");
                         if($buscaLista->retornaResultado()>0){
                             // Criando uma div para conter o cabeçálio dos espaços listados
-                            echo '<div class="cabecalio" id="cabecalio_lista_espacos">Outras conversas</div>';
+                            echo '<div class="cabecalio" id="cabecalio_lista_espacos"></div>';
                             // Listando os espaços em que o usuário está registrado
                             foreach($buscaLista->retornaResultado()[0] as $coluna => $espaco){
                                 // Em cada campo de espaço não vazio da linha do usuário na tabela userspaces
@@ -89,7 +89,7 @@
                                     if($espaco!=$idEspacoUrl){ // O id do espaço aberto ($idEspacoUrl) é carregado por leitura da URL na etapa de validação acima
                                         
                                         echo '<a href="home.php?ss=sp&ids=' .$espaco. '" class="item_lista">'
-                                                .$buscaLista->retornaResultado()[0]['name']
+                                                .'<div class="titulo">'.$buscaLista->retornaResultado()[0]['name'].'</div>'
 
                                                 // DIV COM O NÚMERO DE USUÁRIOS
                                                 .'<div class="numero_usuarios_espaco_listado">'
@@ -108,7 +108,7 @@
                                             // Sem os espaços no fim de cada linha o código não funciona
                                             .'<script> '
                                                 // CABEÇALIO
-                                                .'document.getElementById("tasc-tasc").innerHTML = "tasc tasc..."; '
+                                                .'document.getElementById("cabecalio_lista_espacos").innerHTML = "Outras conversas"; '
 
                                                 // NÚMERO DE USUÁRIOS
                                                 .'var userListRef' .$espaco. ' = firebase.database().ref(\'spaces/space-' .$espaco. '\'); '
@@ -163,10 +163,10 @@
                 <?php
                     $sessao = filter_input(INPUT_GET,'ss',FILTER_DEFAULT);// ss->sessão
                     if(empty($sessao)){
-                        echo '<div class="c2_msg">Nenhum espaço aberto.</div>';
+                        echo '<div class="c2_msg_nenhum_espaco">Você pode buscar ou criar um tópico a qualquer momento.</div>';
                     } else {
                         if($sessao=='ns'){
-                            echo '<div class="c2_msg">Nenhum espaço aberto.</div>';
+                            echo '<div class="c2_msg_nenhum_espaco">Você pode buscar ou criar um tópico a qualquer momento.</div>';
                         }elseif($sessao=='sp'){
                             include_once 'space.php';
                         }elseif($sessao=='lt'){

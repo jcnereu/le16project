@@ -9,10 +9,12 @@ $idEspaco = $dadosFormulario['idEspaco'];
 require_once '../models/space.class.php'; //  Sindo da pasta ajax
 
 $spaceIn = new space();
-if($spaceIn->registrarEntradaUsuario($idUsuario,$idEspaco)){
+if($spaceIn->registrarEntradaUsuario($idUsuario,$idEspaco)=='ok'){ // DDDDDDDDDDDDDDDDD F5
     $resposta = 'true';
-} else {
-    $resposta = 'false';
+} else if ($spaceIn->registrarEntradaUsuario($idUsuario,$idEspaco)=='limite') { // DDDDDDDDDDDDDDDD NOVO
+    $resposta = 'limite';
+} else { // DDDDDDDDDDDDDDDDDD F5
+    $resposta = 'erro';
 }
 // Resposta para o ClientSide 
 echo $resposta;

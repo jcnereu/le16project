@@ -65,7 +65,8 @@
     // Iniciando o SDK do Firebase
     var config = {
         /* ESCONDER AS CHAVES PARA OS BACKUPS NO GITHUB */
-        apiKey: "Ops! You fail...";
+        //apiKey: "Ops! You fail...",
+        apiKey: "AIzaSyCMgLyuJrzW_mFobJR8Vy-yYcMi6i4n0hA",
         authDomain: "le16project.firebaseapp.com",
         databaseURL: "https://le16project.firebaseio.com",
         projectId: "le16project",
@@ -292,8 +293,8 @@
                     // Se a busca não tem resultados exibe o botão para criar um novo espaço
                     if (this.responseText==='noresult') {
                         // Crinando o HTML/CSS do botão
-                        var botaoNovoEspaco = '<p class="texto_novo_espaco">Nenhum espaço encontrado.</p>' +
-                                              '<button class="botao_novo_espaco" onclick="criarNovoEspaco();">Criar novo</button>';
+                        var botaoNovoEspaco = '<p class="texto_novo_espaco">Nenhum resultado encontrado.</p>' +
+                                              '<button class="botao_novo_espaco" onclick="criarNovoEspaco();">Criar novo tópico</button>';
                         // Exibindo o botão
                         document.getElementById("div_resultado_busca").innerHTML = botaoNovoEspaco;
                     } else { // Se a busca encontrou resultados
@@ -325,8 +326,12 @@
                     // Registro de entrada do usuário no Firebase (Em JS não é permitido declarar uma função dentro de uma condição)
                     userSnapshotAndRegister(fbidUsuario, idEspaco, inviteKey, false);
                     // ***********************************************************************************
+                } else if ((this.responseText==='limite')) { // DDDDDDDDDDDDDDDDDDDDD NOVO
+                    window.alert('Ops! Você está no limite de 10 espaços ao mesmo tempo.');
+                } else { // DDDDDDDDDDDDDDDDDDD NOVO
+                    // Se o registro não foi bem sucedido ou o usuário já está no espaço: Não faz nada, ignora silenciosamente
+                    console.log('Erro ao registrar entrada ou o usuário já está no espaço.');
                 }
-                // Se o registro não foi bem sucedido ou o usuário já está no espaço: Não faz nada, ignora silenciosamente
             }
         };
         formCheckIn = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
@@ -355,7 +360,7 @@
                     userSnapshotAndRegister(fbidUsuario, this.responseText, null, true);
                     // ***********************************************************************************
                 } else { // Se o espaço não pôde ser criado (Exibir msg explicando o motivo)
-                    window.alert('Mensagem provisória: Problema no banco de dados ou limite de espaços atingido (10)');
+                    window.alert('Desculpe, ocorreu algum erro ao tentar criar o novo espaço ou você já está no limite de 10 espaços.');
                 }
             }
         };
@@ -459,19 +464,24 @@
     };
     // Atualizar a mensagem de status do usuário
     function atualizarMsgStatus() {
+        // Pegando o id do espaço
+        // DDDDDDDDDDDDDDDDDDDDD var idEspaco = document.getElementById("id_invisivel_espaco").value;
         // Pegando o fbid do usuário no campo invisível
         var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value;
         // Pegando o conteúdo da área de texto na da edição do status
         var strNovoStatus = document.getElementById("user_msg_status_textarea").value;
-        // Atualizando
+        // Atualizando em dois childs
+        // DDDDDDDDDDDDDDDDDDDDD var updatesMsgStatus = {};
+        // DDDDDDDDDDDDDDDDDDDDD updatesMsgStatus['users/'+fbidUsuario+'/userMsgStatus'] = strNovoStatus;
+        // DDDDDDDDDDDDDDDDDDDDD updatesMsgStatus['spaces/space-'+idEspaco+'/'+fbidUsuario] = null;
+        
         firebase.database().ref('users/'+fbidUsuario).update({
             userMsgStatus: strNovoStatus
         }).then( function() {
             // Escondendo a área de edição
+            document.getElementById("status_edit_container").style.display = 'none';
             document.getElementById("c3").style.display = 'none';
             document.getElementById("c2").classList.remove('recuo_c2');
-            document.getElementById("status_edit_container").style.display = 'none';
-            
             // Mensagem de confimação
             window.alert('Sua mensagem de status foi atualizada com sucesso!');
         }).catch( function(error) {

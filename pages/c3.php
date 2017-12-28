@@ -12,26 +12,26 @@
         </div>
         <div class="img_perfil_ampliada" id="img_perfil_ampliada"></div>
         <div class="textos_container">
-            <div class="nome">Nome Usuário</div>
-            <div class="msg_status">You won't see me.. Time after time you refuse to even listen</div>
+            <div class="nome" id="nome_perfil">Nome Usuário</div>
+            <div class="msg_status" id="msg_status_perfil">You won't see me.. Time after time you refuse to even listen</div>
         </div>
     </div>
     
     <!-- ################################# FORMULÁRIO DE CONVITE ################################### -->
-    <div class="convite_conatainer" id="convite_container">
+    <div class="convite_container" id="convite_container">
         <div class="cabecalio">
-            <div class="titulo">Sem título</div>
+            <div class="titulo">Convite</div>
         </div>
         <div class="campo">
-            <div class="nome_campo">Convidar:</div>
+            <div class="nome_campo">Convidar</div>
             <div class="nome_convidado" id="convite_nome_convidado"></div>
         </div>
         <div class="campo">
-            <div class="nome_campo">Para:</div>
+            <div class="nome_campo">Para</div>
             <select id="convite_lista_espacos"></select>
         </div>
         <div class="campo">
-            <div class="nome_campo">Mensagem:</div>
+            <div class="nome_campo">Mensagem</div>
             <textarea id="convite_msg"></textarea>
         </div>
         <div class="campo">
@@ -56,7 +56,7 @@
                 <div class="data" id="data-criacao"></div>
             </div>
             <div class="outros_usuarios">
-                <div class="numero" id="numero_usuarios">26</div>
+                <div class="numero" id="numero_usuarios"></div>
             </div>
         </div>
     </div>
@@ -96,7 +96,7 @@
 <div class="opcoes_container" id="opcoes_container">
     <div class="cabecalio">
         <span class="voltar_link" onclick="esconderOpcoes();">&times;</span>
-        <div class="titulo">Opções:</div>
+        <div class="titulo">Opções</div>
     </div>
     <div class="item_opcoes">
         <div class="texto">Espaço visível?</div>

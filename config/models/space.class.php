@@ -21,7 +21,7 @@ class space {
         $this->name = (String) strip_tags(trim($name));
         $this->userID = $idUsuario;
         require_once '../loadConn.inc.php';// Saindo do createNewSpace na pasta ajax
-        if($this->procurarVagaUsuario()){
+        if($this->procurarVagaUsuario()=='ok'){ // DDDDDDDDDDDDDDD F5
             if($this->reciclarOuCriarVaga()) {// Gera o id do espaço, atua na tabela spaces
                    $atualizacao = new update();
                    $atualizacao->fazerAtualizacao('userspaces',array("{$this->userAvailableColumn}"=>'dummy'),"id={$this->userID}","{$this->userAvailableColumn}"."={$this->id}");
@@ -39,15 +39,17 @@ class space {
         $this->userID = $idUsuario;
         $this->id = $idEspaco;
         require_once '../loadConn.inc.php';// Saindo do userSpaceCheckin na pasta ajax
-        if($this->procurarVagaUsuario()){
+        if($this->procurarVagaUsuario()=='ok'){// DDDDDDDDDDDDDDDDDDDDD F5
             $atualizacao = new update();
             $atualizacao->fazerAtualizacao('userspaces',array("{$this->userAvailableColumn}"=>'dummy'),"id={$this->userID}","{$this->userAvailableColumn}"."={$this->id}");
             if($this->atualizarNumeroUsuarios('mais')){
-               return true; 
+               return 'ok';//true; 
             } 
-        } else {
+        } elseif ($this->procurarVagaUsuario()=='limite') { // DDDDDDDDDDDDDDDDDDDD F5
             // Msg: Usuário já está no limite de espaços (10). Deve sair de um para entrar em outro
-            return false;
+            return 'limite';//false;
+        } else { // DDDDDDDDDDDDDDDDDDDDD NOVO
+            return 'erro'; 
         }
     }
     
@@ -193,9 +195,11 @@ class space {
             }
         }
         if($vaga && !$repeticao){ // Se encontrou alguma vaga e o usuário não está nesse espaço
-            return true;
-        } else { // Se não encontrou
-            return false;
+            return 'ok';//true;
+        } else if (!$vaga && !$repeticao) { // DDDDDDDDDDDDDDDDDDDD 
+            return 'limite';//false; // Não encontrou vaga
+        } else { // DDDDDDDDDDDDDDDDDDD
+            return 'erro'; // As outras duas possibilidades
         }
     }
     
@@ -226,7 +230,7 @@ class space {
     private function limparEspaco() {
         $zero = 0;
         $atualizacao3 = new update();
-        $atualizacao3->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'dummy','creation_date'=>'dummy','status'=>'dummy','visible'=>'dummy'),"id={$this->id}","name=null&nusers={$zero}&creator_fbuid=null&creation_date={$zero}&visible=yes&status=off");
+        $atualizacao3->fazerAtualizacao('spaces',array('name'=>'dummy','nusers'=>'dummy','creator_fbuid'=>'dummy','creator_name'=>'dummy','creation_date'=>'dummy','status'=>'dummy','visible'=>'dummy'),"id={$this->id}","name=null&nusers={$zero}&creator_fbuid=null&creator_name=null&creation_date={$zero}&visible=yes&status=off");
         if($atualizacao3->retornaResultado()){
             return true;
         } else {

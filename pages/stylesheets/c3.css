@@ -4,20 +4,22 @@
 
 /* Espaço vazio sobre a coluna c3, apenas para nivelar com o início da área de conversa exibida na c2 */
 .cabecalio_c3 {
+    display: none; /* LLLLLLLLLLLLLLL NOVO *//* LAYOUT RESPONSIVO */
     width: 100%;
     height: 47px; /* LAYOUT RESPONSIVO */
     /*background-color: #efea88;*/
 }
+
 /******************************************************************************************************/
 /*                                INFOS SOBRE O ESPAÇO E LISTA DE USUÁRIOS                            */
 /******************************************************************************************************/
 .info_espaco_container {
     display: none;
-    width: 99%; /* LAYOUT RESPONSIVO */
-    height: calc(100% - 105px); /* LAYOUT RESPONSIVO? */
-    margin-left: 1%;
+    width: 100%; /* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
+    height: calc(100% - 58px); /* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
+    margin-left: 0; /* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
     border-radius: 4px;
-    background-color: #eee;
+    background-color: #f9f9f9; /* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
     overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
     position: relative; /* Para que o container da img de perfil ampliada fique posicionada em relação à essa div*/
 }
@@ -26,12 +28,12 @@
     padding: 10px 3% 10px 3%;
     margin: auto;
     font-weight: 700;
-    background-color: #d7dbe0;
-    border-bottom: 1px solid #d2d6db;
+    background: #f9f9f9; /* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
+    border-bottom: 1px solid #f9f9f9; /* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
 .info_espaco_container .cabecalio .titulo {
     font-size: 15px;
-    color: #838da0;
+    color: #039be5;/* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
     font-weight: bold;
 }
 .info_espaco_container .cabecalio .voltar_link {
@@ -39,7 +41,7 @@
     font-size: 26px;
     margin-top: -10px;
     padding: 4px;
-    color: #838da0;
+    color: #039be5;/* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
 .info_espaco_container .cabecalio .voltar_link:hover {
     cursor: default;
@@ -208,6 +210,7 @@
     display: none;
     position: absolute;
     width: 100%;
+    height: 100%; /* LLLLLLLLLLLLLLLLLL NOVO */
     border-radius: 4px;
     background-color: rgba(238,238,238,0.85);
 }
@@ -216,12 +219,14 @@
     font-size: 20px;
     margin-top: -10px;
     padding: 4px;
-    color: #838da0;
+    color: #039be5;/* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
-.perfil_usuario_listado_container .cabecalio .voltar_link:hover {
+/*
+.perfil_usuario_listado_container .cabecalio .voltar_link:hover { LLLLLLLLLLLLLLLLLLLL OUT
     cursor: default;
     color: #333;
 }
+*/
 .perfil_usuario_listado_container .img_perfil_ampliada {
     background-image: url('backgrounds/profile_placeholder.png');
     background-repeat: no-repeat;
@@ -250,75 +255,78 @@
 /******************************************************************************************************/
 /*                                       FORMULÁRIO DE CONVITE                                        */
 /******************************************************************************************************/
-.convite_conatainer {
+.convite_container {
     display: none;
     position: absolute;
     width: 100%;
+    height: 100%; /* LLLLLLLLLLLLLLLLLL NOVO */
     border-radius: 4px;
-    background-color: #eee;
+    background-color: #f9f9f9; /* LLLLLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
-.convite_conatainer .cabecalio {
+/* ********************************************** LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL OUT
+.convite_container .cabecalio {
     width: 94%;
     padding: 10px 3% 10px 3%;
     margin: auto;
     font-weight: 700;
-    background-color: #d7dbe0;
+    background: linear-gradient(to right, #03a9f4, #039be5);/* LLLLLLLLLLLLLLLL F5 *//*
     border-bottom: 1px solid #d2d6db;
 }
-.convite_conatainer .cabecalio .titulo {
+.convite_container .cabecalio .titulo {
     font-size: 15px;
-    color: #838da0;
+    color: #fff; /* LLLLLLLLLLLLLLLL F5 *//*
     font-weight: bold;
 }
-.convite_conatainer .campo {
+*/
+.convite_container .campo {
     padding: 8px;
 }
-.convite_conatainer .nome_campo {
+.convite_container .nome_campo {
     font-size: 13px;
+    color: #757575;/*#3e4859;*/ /* LLLLLLLLLLLLLLLLLLLL F5 */
+}
+.convite_container .nome_convidado {
     color: #3e4859;
 }
-.convite_conatainer .nome_convidado {
-    color: #3e4859;
-}
-.convite_conatainer select {
+.convite_container select {
     width: 100%;
     border: 1px solid #ddd;
-    border-radius: 2px;
+    border-radius: 4px; /* LLLLLLLLLLLLLLLLLLLL F5 */
 }
-.convite_conatainer option {
+.convite_container option {
     padding: 6px;
 }
-.convite_conatainer textarea {
+.convite_container textarea {
     width: 100%;
     border: 1px solid #ddd;
-    border-radius: 2px;
+    border-radius: 4px; /* LLLLLLLLLLLLLLLLLLLLL F5 */
     resize: none;
 }
-.convite_conatainer .cancelar_btn {
+.convite_container .cancelar_btn {
     float: right;
     padding: 6px 10px;
     margin-left: 4px;
-    border-radius: 2px;
+    border-radius: 10px; /* LLLLLLLLLLLLLLLLLLLLLLL F5 */
     font-size: 13px;
     background-color: #ddd;
     color: #555;
 }
-.convite_conatainer .cancelar_btn:hover {
+.convite_container .cancelar_btn:hover {
     cursor: default;
-    background-color: #ccc;
+    background-color: #d5d5d5;
 }
-.convite_conatainer .enviar_btn {
+.convite_container .enviar_btn {
     float: right;
     padding: 6px 10px;
     margin-left: 4px;
-    border-radius: 2px;
+    border-radius: 10px; /* LLLLLLLLLLLLLLLLLLLLL F5 */
     font-size: 13px;
-    background-color: #27c66f;
+    background-color: #21bc68;
     color: white;
 }
-.convite_conatainer .enviar_btn:hover {
+.convite_container .enviar_btn:hover {
     cursor: default;
-    background-color: #21bc68;
+    background-color: #22cc70;/* LLLLLLLLLLLLLLLLLLLL F5*/
 }
 
 /******************************************************************************************************/
@@ -326,11 +334,11 @@
 /******************************************************************************************************/
 .status_edit_container {
     display: none;
-    width: 99%; /* LAYOUT RESPONSIVO */
-    height: calc(100% - 105px);
-    margin-left: 1%;
+    width: 100%; /* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
+    height: calc(100% - 58px); /* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
+    margin-left: 0; /* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
     border-radius: 4px;
-    background-color: #eee;
+    background-color: #f9f9f9;/* LLLLLLLLLLLLLLLLL F5 *//* LAYOUT RESPONSIVO */
     overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
     position: relative; /* Para que o container da img de perfil ampliada fique posicionada em relação à essa div*/
 }
@@ -339,12 +347,12 @@
     padding: 10px 3% 10px 3%;
     margin: auto;
     font-weight: 700;
-    background-color: #d7dbe0;
-    border-bottom: 1px solid #d2d6db;
+    background: #f9f9f9;/* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
+    border-bottom: 1px solid #f9f9f9; /* LLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
 .status_edit_container .cabecalio .titulo {
     font-size: 15px;
-    color: #838da0;
+    color: #039be5; /* LLLLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
     font-weight: bold;
 }
 .status_edit_container textarea {
@@ -355,6 +363,7 @@
     border: none;
     background-color: #fff;
     border-bottom: 1px solid #e5e5e5;
+    border-radius: 4px; /* LLLLLLLLLLLLLLLLLLLL NOVO */
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     color: #777;
@@ -364,29 +373,29 @@
 }
 .status_edit_container .btn_atualizar {
     float: right;
-    padding: 4px 8px;
+    padding: 6px 10px;
     margin: 4px 2% 4px 4px;
     font-size: 13px;
-    border-radius: 2px;
+    border-radius: 10px; /* LLLLLLLLLLLLLLLLLLLL F5 */
     color: white;
-    background-color: #27c66f;
+    background-color: #21bc68;
 }
 .status_edit_container .btn_atualizar:hover {
     cursor: default;
-    background-color: #21bc68;
+    background-color: #22cc70;
 }
 .status_edit_container .btn_cancelar {
     float: right;
-    padding: 4px 8px;
+    padding: 6px 10px;
     margin: 4px;
     font-size: 13px;
-    border-radius: 2px;
+    border-radius: 10px; /* LLLLLLLLLLLLLLLLLLLL F5 */
     color: #555;
     background-color: #ddd;
 }
 .status_edit_container .btn_cancelar:hover {
     cursor: default;
-    background-color: #ccc;
+    background-color: #d5d5d5;
 }
 
 /******************************************************************************************************/
@@ -394,9 +403,9 @@
 /******************************************************************************************************/
 .lista_convites_container {
     display: none;
-    width: 99%; /* LAYOUT RESPONSIVO */
-    height: calc(100% - 105px);
-    margin-left: 1%;
+    width: 100%; /* LLLLLLLLLLLLLLLLL F5*//* LAYOUT RESPONSIVO */
+    height: calc(100% - 58px); /* LLLLLLLLLLLLLLLLL F5*//* LAYOUT RESPONSIVO */
+    margin-left: 0; /* LLLLLLLLLLLLLLLLL F5*//* LAYOUT RESPONSIVO */
     border-radius: 4px;
     overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
 }
@@ -405,12 +414,12 @@
     padding: 10px 3% 10px 3%;
     margin: auto;
     font-weight: 700;
-    background-color: #d7dbe0;
-    border-bottom: 1px solid #d2d6db;
+    background: #f9f9f9; /* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
+    border-bottom: 1px solid #f9f9f9; /* LLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
 .lista_convites_container .cabecalio .titulo {
     font-size: 15px;
-    color: #838da0;
+    color: #039be5; /* LLLLLLLLLLLLLLLLLLLLL F5*//* Layout responsivo */
     font-weight: bold;
 }
 .lista_convites_container .cabecalio .voltar_link {
@@ -418,7 +427,7 @@
     font-size: 26px;
     margin-top: -10px;
     padding: 4px;
-    color: #838da0;
+    color: #039be5; /* LLLLLLLLLLLLLLLLLLLLL F5*//* Layout responsivo */
 }
 .lista_convites_container .cabecalio .voltar_link:hover {
     cursor: default;
@@ -428,9 +437,9 @@
 .lista_convites_container .convite{
     margin: 4px 0 0 0;
     padding: 4px;
-    background-color: #ddd;
+    background-color: #e2e2e2; /* LLLLLLLLLLLLLLLLL F5 */
     border-radius: 2px;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #c2c2c2; /* LLLLLLLLLLLLLLLLL F5 */
 }
 .lista_convites_container .pic {
     float: left;
@@ -475,14 +484,14 @@
 .lista_convites_container .descartar_btn {
     float: right;
     border: none;
-    border-radius: 2px;
+    border-radius: 6px; /* LLLLLLLLLLLLLLLLLL F5 */
     padding: 2px 4px;
     color: white;
-    background-color: #f45c44;
+    background-color: #f2371a; /* LLLLLLLLLLLLLLLLLL F5 */
     margin: 4px 2px;
 }
 .lista_convites_container .descartar_btn:hover {
-    background-color: #F2371A;
+    background-color: #f45c44; /* LLLLLLLLLLLLLLLLLL F5 */
 }
 
 /******************************************************************************************************/
@@ -490,23 +499,23 @@
 /******************************************************************************************************/
 .opcoes_container {
     display: none;
-    width: 99%; /* LAYOUT RESPONSIVO */
-    height: calc(100% - 105px);
-    margin-left: 1%;
+    width: 100%; /* LLLLLLLLLLLLLLLLL F5*//* LAYOUT RESPONSIVO */
+    height: calc(100% - 58px); /* LLLLLLLLLLLLLLLLL F5*//* LAYOUT RESPONSIVO */
+    margin-left: 0; /* LLLLLLLLLLLLLLLLL F5*//* LAYOUT RESPONSIVO */
     border-radius: 4px;
-    background-color: #eee;
+    background-color: #f9f9f9; /* LLLLLLLLLLLLLLLLL F5*//* LAYOUT RESPONSIVO */
     overflow-y: auto; /* Para criar a barra de rolagem quando a lista exceder a div (eu acho)*/
 }
 .opcoes_container .cabecalio {
     width: 94%;
     padding: 10px 3% 10px 3%;
     font-weight: 700;
-    background-color: #d7dbe0;
-    border-bottom: 1px solid #d2d6db;
+    background: #f9f9f9; /* LLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
+    border-bottom: 1px solid #f9f9f9; /* LLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
 .opcoes_container .cabecalio .titulo {
     font-size: 15px;
-    color: #838da0;
+    color: #039be5; /* LLLLLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
     font-weight: bold;
 }
 .opcoes_container .cabecalio .voltar_link {
@@ -514,7 +523,7 @@
     font-size: 26px;
     margin-top: -10px;
     padding: 4px;
-    color: #838da0;
+    color: #039be5; /* LLLLLLLLLLLLLLLLLLL F5 *//* Layout responsivo */
 }
 .opcoes_container .cabecalio .voltar_link:hover {
     cursor: default;
@@ -544,29 +553,109 @@
     float: right;
     padding: 6px 10px;
     margin-left: 4px;
-    border-radius: 2px;
+    border-radius: 10px; /* LLLLLLLLLLLLLLLLLLL F5 */
     font-size: 13px;
     background-color: #ddd;
     color: #555;
 }
 .opcoes_container .confirma_opcao_container .cancelar_btn:hover {
     cursor: default;
-    background-color: #ccc;
+    background-color: #d5d5d5;
 }
 .opcoes_container .confirma_opcao_container .confirmar_btn {
     float: right;
     padding: 6px 10px;
     margin-left: 4px;
-    border-radius: 2px;
+    border-radius: 10px; /* LLLLLLLLLLLLLLLLLLLLL F5 */
     font-size: 13px;
-    background-color: #27c66f;
+    background-color: #21bc68;
     color: white;
 }
 .opcoes_container .confirma_opcao_container .confirmar_btn:hover {
     cursor: default;
-    background-color: #21bc68;
+    background-color: #22cc70; /* DDDDDDDDDDDDDDDDDDDDDD F5*/
 }
 
 /******************************************************************************************************/
 /*                                  AJUSTES DO LAYOUT RESPONSIVO                                      */
 /******************************************************************************************************/
+
+@media screen and (min-width: 640px) { /* LLLLLLLLLLLLLLLLLLLL NOVO */
+    .cabecalio_c3 {
+        display: block;
+    }
+    /* Info espaço */
+    .info_espaco_container {
+        width: 99%;
+        margin-left: 1%;
+        height: calc(100% - 105px);
+        background-color: #eee;
+    }
+    .info_espaco_container .cabecalio {
+        background: linear-gradient(to right, #03a9f4, #039be5);
+        border-bottom: 1px solid #03a9f4;
+    }
+    .info_espaco_container .cabecalio .titulo {
+        color: #fff;
+    }
+    .info_espaco_container .cabecalio .voltar_link {
+        color: #fff;
+    }
+    .perfil_usuario_listado_container .cabecalio .voltar_link {
+        color: #fff;
+    }
+    .convite_container {
+        background-color: #eee;
+    }
+    
+    /* Edição da msg de status */
+    .status_edit_container {
+        width: 99%;
+        margin-left: 1%;
+        height: calc(100% - 105px);
+        background-color: #eee;
+    }
+    .status_edit_container .cabecalio {
+        background: linear-gradient(to right, #03a9f4, #039be5);
+        border-bottom: 1px solid #03a9f4;
+    }
+    .status_edit_container .cabecalio .titulo {
+        color: #fff;
+    }
+    
+    /* Lista de convites recebidos */
+    .lista_convites_container {
+        width: 99%;
+        margin-left: 1%;
+        height: calc(100% - 105px);
+    }
+    .lista_convites_container .cabecalio {
+        background: linear-gradient(to right, #03a9f4, #039be5);
+        border-bottom: 1px solid #03a9f4;
+    }
+    .lista_convites_container .cabecalio .titulo {
+        color: #fff;
+    }
+    .lista_convites_container .cabecalio .voltar_link {
+        color: #fff;
+    }
+    
+    /* Opções do espaço */
+    .opcoes_container {
+        width: 99%;
+        margin-left: 1%;
+        height: calc(100% - 105px);
+        background-color: #eee;
+    }
+    .opcoes_container .cabecalio {
+        background: linear-gradient(to right, #03a9f4, #039be5);
+        border-bottom: 1px solid #03a9f4;
+    }
+    .opcoes_container .cabecalio .titulo {
+        color: #fff;
+    }
+    .opcoes_container .cabecalio .voltar_link {
+        color: #fff;
+    }
+    
+}

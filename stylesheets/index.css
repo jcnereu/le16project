@@ -67,7 +67,12 @@ body {
 }
 /*Rodapé com o nome do projeto*/
 .rodape{
-    width: 100%; color: #333; text-align: center; font-size: 13px;
+    padding-top: 40vh;
+    width: 100%;
+    color: #333;
+    text-align: center;
+    color: #586782;
+    font-size: 4vh;
 }
 /* Div modal, baseado em: https://www.w3schools.com/howto/howto_css_modals.asp */
 .modal_background {

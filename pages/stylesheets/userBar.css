@@ -14,7 +14,7 @@
     height: 34px;
     background-size: 34px;
     border-radius: 50%;
-    margin: 1px 4px;
+    margin: 8px 4px;/* LLLLLLLLLLLLLLLLLLLL F5*/
 }
 .barra_usuario_menu_botao:hover {
     background-color: #ccc;
@@ -80,18 +80,18 @@
     width: 29px;
     height: 29px;
     padding: 1px;
-    margin-top: 5px;
+    margin-top: 10px; /* LLLLLLLLLLLLLLLLLLLL F5*/
     border-radius: 50%;
 }
 .notificacao_convites_container .icone_botao_lista {
-    background-image: url('backgrounds/envelope.png');
+    background-image: url('backgrounds/envelope2.png');
     background-repeat: no-repeat;
     width: 28px;
     height: 28px;
     background-size: 28px;
 }
 .notificacao_convites_container .botao_lista:hover {
-    background-color: #ccc;
+    background-color: #1565c0; /* LLLLLLLLLLLLLLLLLLLL F5*/
 }
 /* Número de convites exibido sobre o icone (Contador) */
 .notificacao_convites_container .contador_convites {
@@ -117,38 +117,39 @@
 .barra_usuario_ola_container {
     display: none; /* LAYOUT RESPONSIVO */
     float: right;
-    margin: 13px 5px 0 0;
+    margin: 19px 5px 0 0; /* LLLLLLLLLLLLLLLLLLL F5*/
     font-size: 15px;
-    color: #333;
+    color: #fff;
 }
 
 /******************************************************************************************************/
 /*                                              BUSCA                                                 */
 /******************************************************************************************************/
 .botao_pesquisar {
-    display: display; /* LAYOUT RESPONSIVO */
+    display: block; /* LAYOUT RESPONSIVO */
     float: right;
-    width: 31px;
-    height: 31px;
-    padding: 1px;
-    margin-top: 5px;
+    width: 30px; /* LLLLLLLLLLLLLLLLLLL F5*/
+    height: 30px; /* LLLLLLLLLLLLLLLLLLL F5 */
+    /*padding: 1px;*/ /* LLLLLLLLLLLLLLLLLLL OUT */
+    margin: 14px 0 0 4px; /* LLLLLLLLLLLLLLLLLLL F5 */
     border-radius: 50%;
 }
 .botao_pesquisar_icone {
-    background-image: url('backgrounds/menu_icon.png');
+    background-image: url('backgrounds/alternate4.png'); /* LLLLLLLLLLLLLLLLLLL F5 */
     background-repeat: no-repeat;
     width: 30px;
     height: 30px;
     background-size: 30px;
 }
 .botao_pesquisar:hover {
-    background-color: #ccc;
+    background-color: #1565c0; /* LLLLLLLLLLLLLLLLLLLL F5*/
 }
 .barra_usuario_busca_container {
     display: none; /* LAYOUT RESPONSIVO */
-    margin-top: 8px;
+    /*margin-top: 8px;*/ /* LLLLLLLLLLLLLLLLLLLL OUT */
 }
 .barra_usuario_busca_container .caixa_texto {
+    margin-top: 5px; /* LLLLLLLLLLLLLLLLLLLL NOVO */ /* Layout responsivo */
     display: inline-block;
     width: calc(100% - 10px); /* 2px de borda */
     margin-left: 4px;
@@ -158,11 +159,11 @@
     padding: 9px 2%;
     border: none;
     margin-bottom: 5px;
-    border: 1px solid #c0c6d1;
-    border-radius: 2px;
+    border: 1px solid #81d4fa; /* LLLLLLLLLLLLLLLLLLLLL F5 */
+    border-radius: 14px; /* LLLLLLLLLLLLLLLLLLLLL F5 */
     font-size: 14px;
-    background-color: #c7cdd8;
-    background-image: url('backgrounds/search_icon.png');
+    background-color: #fff;
+    background-image: url('backgrounds/search_icon.png'); /* LLLLLLLLLLLLLLLLLLLLL F5 */
     background-repeat: no-repeat;
     background-position: right;
     background-size: 26px;
@@ -172,25 +173,28 @@
     display: inline-block;
 }
 .barra_usuario_busca_container .botao_listar_tudo_mobile {
+    margin-top: 10px; /* LLLLLLLLLLLLLLLLLLLL NOVO */
     display: none;
 }
 .barra_usuario_busca_container button {
     border: none;
-    border-radius: 2px;
+    border-radius: 14px; /* LLLLLLLLLLLLLLLLLLLL F5 */
     margin-left: 4px;
     padding: 9px 10px;
-    background: linear-gradient(#4387fd, #4683ea);
-    border: 1px solid #4285f4;
+    background: linear-gradient(#1565c0, #1976d2); /* LLLLLLLLLLLLLLLLLLLL F5 */
+    border: 1px solid #1976d2;/* LLLLLLLLLLLLLLLLLLLL F5 */
     color: white;
     font-size: 13px;
     font-weight: bold;
 }
 .barra_usuario_busca_container button:hover {
-    background-color: #3c78e0;
+    background: linear-gradient(#1976d2, #1e88e5); /* LLLLLLLLLLLLLLLLLLLL F5 */
+    border: 1px solid #1e88e5; /* LLLLLLLLLLLLLLLLLLLL NOVO */
 }
+/* Cabeçálio dos resultados da busca */
 .cabecalio_resultado_busca {
     display: none;
-    padding: 18px 0 10px 4px; /* height total da div: 44px*/ /* TOP 21px*/
+    padding: 19px 0 10px 4px; /* height otal da div: 47px*//* DIFERENÇA EM RELAÇÃO AO CSS DUMMY, DEVE SER MANTIDA (Algu bug na interpretação do servidor)*/
     color: #3e4859;
     font-size: 13px;
 }
@@ -198,26 +202,28 @@
 .resultado_busca .texto_novo_espaco {
     display: inline-block;
     padding: 10px;
-    font-size: 13px; /* Reavaliar */
+    color: #555;
+    font-size: 13px;
 }
 .resultado_busca .botao_novo_espaco {
     display: inline-block;
     border: none;
     padding: 8px;
     margin-left: 15px;
-    border-radius: 2px;
+    border-radius: 10px; /* LLLLLLLLLLLLLLLLLLL F5 */
     font-weight: bold;
     color: white;
-    background-color: #27c66f;
+    background-color: #21bc68;
+    box-shadow: 1px 1px 2px #ccc;
 }
 .resultado_busca .botao_novo_espaco:hover {
-    background-color: #21bc68;
+    background-color: #22cc70;
 }
 /*Div para exibir os resultados da busca. Tem um JS para ser mostrada e escondida */
 .resultado_busca {
     display: none;
     width: calc(100% - 16px);
-    height: calc(100% - 105px);
+    height: calc(100% - 106px);/* DIFERENÇA EM RELAÇÃO AO CSS DUMMY, DEVE SER MANTIDA (Algu bug na interpretação do servidor)*/
     padding: 0 8px;
     overflow-y: auto;
     background-color: #f9f9f9;
@@ -232,15 +238,15 @@
 .resultado_busca_item_container:hover{background-color: #eee; cursor: pointer;}
 .resultado_busca_item_bloco_esquerdo {
     float: left;
-    max-width: 80%; /* Falta ajustar o heigth se quebrar a linha*/
+    max-width: 80%;/* Falta ajustar o heigth se quebrar a linha*/
     padding: 4px;
-    color: #333;
+    color: #353535; /* DDDDDDDDDDDDDDDDDDDDD F5 */
 }
 .resultado_busca_item_bloco_direito {
     float: right;
     padding: 4px;
-    color: #555;
-    font-size: 22px;
+    color: #586782;
+    font-size: 18px;
 }
 
 /******************************************************************************************************/
@@ -255,6 +261,7 @@
     }
     .barra_usuario_busca_container .caixa_texto {
         width: 40%;
+        margin-top: 10px; /* LLLLLLLLLLLLLLLLLLLL NOVO */
     }
     .botao_pesquisar {
         display: none;

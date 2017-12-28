@@ -13,6 +13,7 @@
                     <button id="sign-in">Entrar com o Google</button>
                 </div>
             </div>
+            <!--
             <div class="container_form_busca">
                 <form method="post">
                     <div class="caixa_texto_busca"><input type="text" name="content"></div>
@@ -21,7 +22,8 @@
                 <br>
                 <a href="pages/teste.php">Página de teste</a>
             </div>
-            <p class="rodape">LE16 project. Dia 74, 14 skips, working...</p>
+            -->
+            <p class="rodape">le16 project, working...</p>
         </div>
         <!-- ********************************** Carregando o Firebase ************************************ -->
         <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
@@ -82,7 +84,7 @@
                             // Se o usuário foi encontrado e a sessão foi criada
                             if (this.responseText==='true') {
                                 //redireciona para a home
-                                window.location.assign("pages/home.php");
+                                window.location.assign("pages/home.php?ss=lt");
                             // Se o usuário foi cadastrado e sessão criada (PRIMEIRO ACESSO DO USUÁRIO)
                             } else if (this.responseText==='firstTrue') {
                                 window.alert('Primeiro acesso');

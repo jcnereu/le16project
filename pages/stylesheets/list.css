@@ -6,28 +6,40 @@
 /*                          LISTA DE TODOS OS ESPAÇOS (ocupa a coluna c2)                         */
 /**************************************************************************************************/
 /* Container geral */
-.lista_container {
+/*.lista_container { LLLLLLLLLLLLLLLLLLL OUT 
     width: 100%;
     color: #586782;
-}
+}*/
 /* Cabeçálio */
-.lista_container .cabecalio {
-    width: 96%;
-    padding: 15px 0 5px 15px;
+.lista_tudo_cabecalio { /* LLLLLLLLLLLLLLLLLLL F5 */
+    width: 100%;
+    height: 48px;
+    /*padding: 15px; LLLLLLLLLLLLLLLLL OUT
     margin: auto;
-    margin-top: 2px;
+    margin-top: 2px;*/
+}
+.lista_tudo_cabecalio .texto { /* LLLLLLLLLLLLLLLLL NOVO */
+    padding: 16px 0 0 10px;
+    color: #586782; 
     font-weight: 700;
     font-size: 18px;
 }
 /* Corpo da lista*/
-.lista_container .corpo {
-    width: 96%;
-    padding: 4px;
-    margin: auto;
-    margin-top: 2px;
+.lista_tudo_corpo { /* LLLLLLLLLLLLLLLLLLL F5 */
+    width: 100%;
+    margin-left: 0;
+    /*padding: 4px;*/
+    /*margin: auto;
+    margin-top: 2px;*/
+    overflow-y: auto;
+}
+/* Nenhum tópico encontrado */
+.lista_tudo_corpo .nehum_resultado {
+    padding: 36px 20px;
+    color: #586782; 
 }
 /* Itens listados */
-.lista_container .item_resultado_busca {
+.lista_tudo_corpo .item_resultado_busca { /* LLLLLLLLLLLLLLLLLLL F5 */
     clear: left;
     width: 100%;
     height: 56px;
@@ -35,42 +47,46 @@
     margin: auto;
     border-bottom: 1px solid #ddd;
 }
-.lista_container .item_resultado_busca:hover {
+.lista_tudo_corpo .item_resultado_busca:hover { /* LLLLLLLLLLLLLLLLLLL F5 */
     background-color: #f2f2f2;
 }
-.lista_container .item_bloco_esquerdo {
+.lista_tudo_corpo .item_bloco_esquerdo { /* LLLLLLLLLLLLLLLLLLL F5 */
     float: left;
     padding: 16px 6px 6px 6px;
-    
+    max-width: 85%; /* LLLLLLLLLLLLLLLLLLL NOVO */
 }
-.lista_container .item_bloco_esquerdo:hover {
+.lista_tudo_corpo .item_bloco_esquerdo:hover { /* LLLLLLLLLLLLLLLLLLL F5 */
     cursor: pointer;
 }
-.lista_container .nome_espaco {
-    color: blue;
+.lista_tudo_corpo .nome_espaco { /* LLLLLLLLLLLLLLLLLLL F5 */
+    color: #4285f5; /* DDDDDDDDDDDDDDDDDD F5 */
+    /* Para que o título não cresça indefinidamente para a direita*/
+    overflow: hidden; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    white-space: nowrap; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    text-overflow: ellipsis; /* LLLLLLLLLLLLLLLLLLL NOVO */
 }
-.lista_container .info_criador {
+.lista_tudo_corpo .info_criador { /* LLLLLLLLLLLLLLLLLLL F5 */
     font-size: 12px;
-    color: #586782;
+    color: #118938;/*#14913c;/*#10702f;/*#586782;*/ /* DDDDDDDDDDDDDDDDDD F5 */
+    /* Para que o título não cresça indefinidamente para a direita*/
+    overflow: hidden; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    white-space: nowrap; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    text-overflow: ellipsis; /* LLLLLLLLLLLLLLLLLLL NOVO */
 }
-.lista_container .item_bloco_direito {
+.lista_tudo_corpo .item_bloco_direito { /* LLLLLLLLLLLLLLLLLLL F5 */
     float: right;
     padding: 16px 6px 6px 6px;
     color: #586782;
     font-size: 18px;
-    font-weight: bold;
+    /*font-weight: bold;*/ /* DDDDDDDDDDDDDDDDDD OUT */
 }
 /**************************************************************************************************/
 /*                                AJUSTES DO LAYOUT RESPONSIVO                                    */
 /**************************************************************************************************/
-@media screen and (min-width: 580px) {
-    
-}
 
-@media screen and (min-width: 768px) {
-
-}
-
-@media screen and (min-width: 1140px) {
-
+@media screen and (min-width: 640px) { /* LLLLLLLLLLLLLLLLLLL NOVO */
+    .lista_tudo_corpo { 
+        width: 99%;
+        margin-left: 1%;
+    }
 }

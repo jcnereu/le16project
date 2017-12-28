@@ -38,14 +38,24 @@
     <div class="icone_espaco_invisivel" style="display: <?php echo $displayIconeEspacoInvisivel; ?>;"></div>
     
     <!-- ######################################## CATRACA ########################################## -->
-    <div class="catraca_container" id="catraca_container">
-        <div class="catraca_subcontainer">
-            <div class="pic" id="catraca_user_pic"></div>
-            <div class="nome" id="catraca_user_name"></div>
-            <div class="sentido" id="catraca_sentido">entrou</div>
+    <div class="catraca_container_geral">
+        <!-- ENTRADA -->
+        <div class="catraca_container" id="catraca_container">
+            <div class="catraca_subcontainer">
+                <div class="pic" id="catraca_user_pic"></div>
+                <div class="nome" id="catraca_user_name"></div>
+                <div class="sentido" style="color: #11c140;">entrou</div>
+            </div>
+        </div>
+        <!-- SAÍDA -->
+        <div class="catraca_container" id="catraca_saida_container">
+            <div class="catraca_subcontainer">
+                <div class="pic" id="catraca_saida_user_pic"></div>
+                <div class="nome" id="catraca_saida_user_name"></div>
+                <div class="sentido">saiu</div>
+            </div>
         </div>
     </div>
-    
 </div>
 
 <!-- ############################## ÁREA DE EXIBIÇÃO DA CONVERSA ################################### -->
@@ -55,7 +65,7 @@
 <div class="espaco_area_texto" id="area_input">
     <form id="message-form" action="#">
         <input type="text" id="message-text" class="area_texto_item">
-        <input type="submit" id="message-submit" value="Env" class="area_texto_item">
+        <input type="submit" id="message-submit" value="" class="area_texto_item">
     </form>
     <!-- Envio de imagens (temporáriamente removido)
     <form id="image-form" action="#">
@@ -79,19 +89,8 @@
         //***************************** CARREGANDO INFORMAÇÕES NO CABEÇALIO DO ESPAÇO ***********************************
         
         // 1) Data de criação do espaço (No fusorário do usuário/browser)
-
-        //var userTimeOffset = new Date().getTimezoneOffset(); NÃO É PRECISO, POIS OS MÉTODOS getDate()... DESCONTAM O OFFSET DA TIMEZONE DO USUÁRIO AUTOMATICAMENTE
-        var utcTimeCreation = new Date(1000*(document.getElementById("data_criacao-invisivel").value));
-        var year = utcTimeCreation.getFullYear();
-        var month = utcTimeCreation.getMonth() + 1;
-        var day = utcTimeCreation.getDate();
-        var hour = utcTimeCreation.getHours();
-        var min = utcTimeCreation.getMinutes();
-        /*
-         * Acrescentar algoritmo para saber se é 'Hoje', 'Ontém' ou antes (mostrar data normal) 
-         */
-        var userTimeCreation = day+'/'+month+'/'+year+' às '+hour+':'+min;
-        document.getElementById("data-criacao").innerHTML = userTimeCreation;
+        
+        // Transferido para o método mostarInfoEspaco()
         
         // 2) Nome e imagem de perfil do criador do espaço
         
@@ -111,36 +110,38 @@
         // 3) Quantidade de usuários no espaço (atualizado dinâmicamente)
 
         // Pegando o id do espaço aberto em um campo invisível no início do script
-        var idEspaco = document.getElementById('id_invisivel_espaco').value;
+        // DDDDDDDDDD var idEspaco = document.getElementById('id_invisivel_espaco').value;
         // Número de usuários ao carregar a página (servidor)
-        var nUsuarios = document.getElementById('numero_usuarios_inicial').value;
+        // DDDDDDDDDD var nUsuarios = document.getElementById('numero_usuarios_inicial').value;
         // Inicializando a div com o número de usuários
-        document.getElementById('numero_usuarios').innerHTML = nUsuarios;
+        // DDDDDDDDDD document.getElementById('numero_usuarios').innerHTML = nUsuarios;
         // Referência com o ID do espaço em um child exclusivo (spaces) para listar os espaços abertos no Firebase DB
-        var spaceRef = this.database.ref('spaces/space-'+idEspaco);
+        // DDDDDDDDDD var spaceRef = this.database.ref('spaces/space-'+idEspaco);
         // Para remover qualquer referência anterior
-        spaceRef.off();
+        // DDDDDDDDDD spaceRef.off();
         // Contador do listener de adição (Variável adotada para que o número de usuários mostrado não dependa do listener ao recarregar a página)
-        var contAdd = 0;
-        // Listener para atualizar (somar 1) o número de usuários se algum usuário ENTRAR do espçao
-        spaceRef.on('child_added', function(data) { // Callback simples
+        // DDDDDDDDDD var contAdd = 0;
+        // Listener para atualizar (somar 1) o número de usuários se algum usuário ENTRAR no espaço
+        // DDDDDDDDDD spaceRef.on('child_added', function(data) { // Callback simples
+            /*
             contAdd = contAdd + 1;
             if (contAdd>nUsuarios) {
                 // Atualizando o contador de usuários
                 nUsuarios = nUsuarios - (-1);
                 document.getElementById('numero_usuarios').innerHTML = nUsuarios;
-                // Paranauês para mostrar o novo usuário com fade-out
+                console.log('nUsuarios in = '+nUsuarios);
+                // Paranauês para mostrar o novo usuário com fade-out (Catraca)
                 document.getElementById("catraca_container").style.display = 'none';
                 document.getElementById("catraca_container").style.opacity = "1";
                 document.getElementById("catraca_user_pic").style.backgroundImage = 'url(' + data.val().userPhotoUrl + ')';
                 document.getElementById("catraca_user_name").innerHTML = data.val().userName;
                 document.getElementById("catraca_container").style.display = 'block';
-                setTimeout(function(){ 
+                setTimeout(function(){
                     document.getElementById("catraca_container").style.opacity = "0";
                 }, 2000); // Tempo de exbição da notificação de entrada
+                
             }
-            
-            
+            */
             /* TESTAR COM MAIS DE 2 USUÁRIOS ANTES DE APAGAR
             var numeroUsuariosAtual = document.getElementById('numero_usuarios').innerHTML;
             document.getElementById('numero_usuarios').innerHTML = numeroUsuariosAtual - (-1);
@@ -162,18 +163,19 @@
                     //document.getElementById("catraca_user_name").innerHTML = "";
                 }, 2000);
             }
-            */
-            
-        });// Não há que fazer se der errado
+            */  
+        //});// Não há que fazer se der errado
         // Listener para atualizar (subtrair 1) o número de usuários se algum usuário SAIR do espaço
+        /*
         spaceRef.on('child_removed', function(data) { // Callback simples
+            console.log('child_removed OK');
             contAdd = contAdd - 1;
             nUsuarios = nUsuarios - 1;
-            //##var numeroUsuariosAtual = document.getElementById('numero_usuarios').innerHTML;
-            //##document.getElementById("numero_usuarios").innerHTML = numeroUsuariosAtual - 1;
             document.getElementById("numero_usuarios").innerHTML = nUsuarios;
+            console.log('nUsuarios out = '+nUsuarios);
             // Informar quem saiu? (usar as informações da variável "data" passada no callBack)
         });// Não há que fazer se der errado
+        */
         
         // 4) Exibindo o botão para alterar as opções do espaço, caso o usuário seja o criador
         if (document.getElementById("fbid_invisivel_usuario").value === userCreatorId) {
@@ -215,7 +217,7 @@
     MESSAGE_TEMPLATE_USER =
         '<div class="user_message_container">' +
             '<div class="cabecalio">' +
-                '<div class="horario">11:45</div>' +
+                '<div class="horario"></div>' +
             '</div>'+
             '<div class="texto"></div>' +
         '</div>';      
@@ -225,7 +227,7 @@
             '<div class="cabecalio">' +
                 '<div class="nome"></div>' +
                 '<div class="separador">&bullet;</div>' +
-                '<div class="horario">11:46</div>' +
+                '<div class="horario"></div>' +
             '</div>' +
             '<div class="texto"></div>' +
         '</div>';
@@ -248,13 +250,13 @@
         var setMessage = function(data) {
             var val = data.val();
             // Chamando a função para exibir as mensagens carrregadas
-            this.displayMessage(data.key, val.uid, val.name, val.text, val.photoUrl, val.imageUrl);
+            this.displayMessage(data.key, val.uid, val.name, val.text, val.time, val.photoUrl, val.imageUrl);
         }.bind(this);
         this.messagesRef.limitToLast(20).on('child_added', setMessage); // Não há que fazer se der errado (enviar de novo)
         this.messagesRef.limitToLast(20).on('child_changed', setMessage); // Não há que fazer se der errado (enviar de novo)
     };
     // Displays a Message in the UI.
-    le16space.prototype.displayMessage = function(key, uid, name, text, picUrl, imageUri) {
+    le16space.prototype.displayMessage = function(key, uid, name, text, time, picUrl, imageUri) {
         // Pegando o fbid do usuário num campo invisível na userBar()
         var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value; 
         // Pegando o elemento da mensagem (cada mensagme tem uma chave única) se ela já existir
@@ -282,7 +284,14 @@
         //if (picUrl) {
             //msgDiv.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
         //}
-        
+        // Adicionando o horário de envio da mensagem
+        if (time) { // Apenas por precaução, pois o horário sempre é salvo
+            var dataEnvio = new Date(time);
+            var horas = dataEnvio.getHours();
+            var minutos = dataEnvio.getMinutes();
+            var strHorario = horas + ':' + minutos;
+            msgDiv.querySelector('.horario').textContent = strHorario;
+        }
         // Adicionando o texto ou a imagem enviada
         var messageElement = msgDiv.querySelector('.texto');
         if (text) { // If the message is text.
@@ -292,6 +301,10 @@
             /*
              * Acrescentar algoritmo para quebrar palavras (qualquer conjunto de letras) grandes 
              * que possam ultrapassar o conatiner da mensagem (100 letras escritas juntas são exibidas juntas)
+             * SOLUÇÃO PROVISÓRIA:
+             * Foi acrescentado o css-overflow: hidden; nas divs das mensagens, para esconder a parte da string
+             * que escede o max-width. Não palavras com mais de 22 letras em português, portanto isso não afeta a comunicação
+             * Essa é uma medida exemplar: Maximizar os bons usuários e minimizar o porcos
              */
         } else if (imageUri) { // If the message is an image.
             var image = document.createElement('img');
@@ -313,11 +326,15 @@
         // Check that the user entered a message.
         if (this.messageInput.value) {
             var currentUser = firebase.auth().currentUser;
+            // Pegando o timeStamp no instante
+            var date = new Date();
+            var ts = date.getTime();
             // Add a new message entry to the Firebase Database.
             this.messagesRef.push({ // O método push cria uma chave única automaticamente
                 uid: currentUser.uid,
                 name: currentUser.displayName,
-                text: this.messageInput.value
+                text: this.messageInput.value,
+                time: ts
                 //photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png' (REMOVIDO)
                 /*
                  * Adicionar o horário de envio
@@ -407,22 +424,103 @@
         }
     };
     
-    // Função chamada ao criar/entrar em um espaço
+    // Função chamada ao clicar no nome do espaço ativo
     le16space.prototype.loadUsers = function() {
         // Pegando o id do espçao em um campo invível no ínico da página, criado ao exibir o espaço
         var spaceId = document.getElementById('id_invisivel_espaco').value;
         // Pegando referência do espaço no firebase DB
         this.userListRef = this.database.ref('spaces/space-'+spaceId);
         // Make sure we remove all previous listeners.
-        this.userListRef.off();
+        //this.userListRef.off(); // spaceRef DDDDDDDDDDDDDDDDDDDD TEMP
+        // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+        // Número de usuários ao carregar a página (servidor)
+        var nUsuarios = document.getElementById('numero_usuarios_inicial').value;
+        // Inicializando a div com o número de usuários
+        document.getElementById('numero_usuarios').innerHTML = nUsuarios;
+        // spaceRef = this.userListRef;
+        // Contador do listener de adição (Variável adotada para que o número de usuários mostrado não dependa do listener ao recarregar a página)
+        var contAdd = 0;
+        // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
         // Carregando todos os usuários registrados no espaço
         var setUserRow = function(data) {
-            var val = data.val();
-            // Chamando a função para exibir as informações do usuário
-            this.displayUserRow(data.key, val.userName, val.userPhotoUrl, val.userMsgStatus);
+            // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+            contAdd = contAdd + 1;
+            if (contAdd>nUsuarios) {
+                // Atualizando o contador de usuários
+                nUsuarios = nUsuarios - (-1);
+                document.getElementById('numero_usuarios').innerHTML = nUsuarios;
+                // Paranauês para mostrar o novo usuário com fade-out (Catraca)
+                //document.getElementById("catraca_container").style.display = 'none';
+                document.getElementById("catraca_container").style.opacity = "1";
+                document.getElementById("catraca_user_pic").style.backgroundImage = 'url(' + data.val().userPhotoUrl + ')';
+                document.getElementById("catraca_user_name").innerHTML = data.val().userName;
+                document.getElementById("catraca_container").style.display = 'block';
+                setTimeout(function(){
+                    document.getElementById("catraca_container").style.opacity = "0";
+                    document.getElementById("catraca_container").style.display = 'none';
+                }, 2000); // Tempo de exbição da notificação de entrada
+                
+            }
+            // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+            // DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+            this.database.ref('users/'+data.key).once('value').then( function(snapshot) {
+                var userData = snapshot.val();
+                // Pegando o elemento da mensagem (cada mensagem tem uma chave única) se ela já existir
+                var rowDiv = document.getElementById(snapshot.key);
+                // If an element for that message does not exists yet we create it.
+                if (!rowDiv) {
+                    var container = document.createElement("div");
+                    container.innerHTML = USER_ROW_TEMPLATE;
+                    rowDiv = container.firstChild;
+                    rowDiv.setAttribute("id", snapshot.key);
+                    // Acrescentando a função para mostrar e preencher as infos do convite no botão (icone) do convite
+                    rowDiv.querySelector('.invite_btn').setAttribute("onclick", 'mostrarConvite("'+snapshot.key+'","'+userData.userName+'");');
+                    // key = fbuid, name = name
+                    // Acrescentando a função para mostrar a imagem de perfil, o nome e a msg de status
+                    rowDiv.querySelector('.label_pic').setAttribute("onclick", 'ampliarImgPerfil("'+userData.userPhotoUrl+'","'+userData.userName+'","'+userData.userMsgStatus+'");');
+                    var listaContainer = document.getElementById('container_lista_usuarios');
+                    listaContainer.appendChild(rowDiv);
+                }
+                // Se o usuário tem uma imagem de perfil
+                if (userData.userPhotoUrl) {
+                    rowDiv.querySelector('.pic').style.backgroundImage = 'url(' + userData.userPhotoUrl + ')';
+                }
+                // Adicionando o nome do usuário
+                rowDiv.querySelector('.name').textContent = userData.userName;
+                // Adicionando o texto de status do usuário
+                rowDiv.querySelector('.msgStatus').textContent = userData.userMsgStatus;
+            }).catch( function(error) { console.error('Dev Msg: Erro ao ler os dados do usuário.',error); });
+            // DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
         }.bind(this);
         this.userListRef.on('child_added', setUserRow); // Não há o que fazer se der errado (F5)
-    };  
+        // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+        // Carregando todos os usuários registrados no espaço
+        var removeUserRow = function(data) {
+            // Atualizando o número de usuários
+            contAdd = contAdd - 1;
+            nUsuarios = nUsuarios - 1;
+            document.getElementById("numero_usuarios").innerHTML = nUsuarios;
+            
+            // Paranauês para informar o usuário que saiu com fade-out (Catraca)
+            // document.getElementById("catraca_saida_container").style.display = 'none';
+            document.getElementById("catraca_saida_container").style.opacity = "1";
+            document.getElementById("catraca_saida_user_pic").style.backgroundImage = 'url(' + data.val().userPhotoUrl + ')';
+            document.getElementById("catraca_saida_user_name").innerHTML = data.val().userName;
+            document.getElementById("catraca_saida_container").style.display = 'block';
+            setTimeout(function(){
+                document.getElementById("catraca_saida_container").style.opacity = "0";
+                document.getElementById("catraca_saida_container").style.display = 'none';
+            }, 2000); // Tempo de exbição da notificação de entrada
+            
+            // Removendo a linha do usuário na lista
+            var divToRemove = document.getElementById(data.key);
+            divToRemove.parentNode.removeChild(divToRemove); // Long live W3 school
+            
+        }.bind(this);
+        this.userListRef.on('child_removed', removeUserRow);
+        // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+        // INCLUIR O LISTENER DE REMOVE AQUI, COM A ATUALIZAÇÃO DO NÚMERO DE USUÁRIOS E A CATRACA DE SAÍDA
+    };
     // Template para a linha do usuário na lista
     USER_ROW_TEMPLATE =
         '<div class="item_lista_usuario">' +
@@ -435,7 +533,7 @@
             '<div class="invite_btn"><div class="invite_icon"></div></div>' +
         '</div>';
     
-    // Mostra a linha com as informações básicas do usuário.
+    // Mostra a linha com as informações básicas do usuário. (NÃO UTILIZADA)
     le16space.prototype.displayUserRow = function(key, name, picUrl, msgStatus) {
         
         // Pegando o elemento da mensagem (cada mensagem tem uma chave única) se ela já existir
@@ -449,8 +547,8 @@
             // Acrescentando a função para mostrar e preencher as infos do convite no botão (icone) do convite
             rowDiv.querySelector('.invite_btn').setAttribute("onclick", 'mostrarConvite("'+key+'","'+name+'");');
             // key = fbuid, name = name
-            // Acrescentando a função para mostrar a imagem de perfil em um tamanho maior
-            rowDiv.querySelector('.label_pic').setAttribute("onclick", 'ampliarImgPerfil("'+picUrl+'");');
+            // Acrescentando a função para mostrar a imagem de perfil, o nome e a msg de status
+            rowDiv.querySelector('.label_pic').setAttribute("onclick", 'ampliarImgPerfil("'+picUrl+'","'+name+'","'+msgStatus+'");');
             this.listaUsuarios.appendChild(rowDiv);            
         }
         // Se o usuário tem uma imagem de perfil
@@ -461,10 +559,6 @@
         rowDiv.querySelector('.name').textContent = name;
         // Adicionando o texto de status do usuário
         rowDiv.querySelector('.msgStatus').textContent = msgStatus;
-        // Show the card fading-in.
-        //setTimeout(function() {msgDiv.classList.add('visible');}, 1);
-        //this.messageList.scrollTop = this.messageList.scrollHeight;
-        //this.messageInput.focus();
     };
     
     // Chamando a função geral (que gerencia as específicas) ao carregar a página (subpágina space.php)
@@ -526,6 +620,47 @@
     };
     // Função para mostrar a div com a lista de usuários no espaço
     function mostrarInfoEspaco() {
+        // DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+        
+        // Mostrando a quanto tempo o espaço foi criado
+
+        //var userTimeOffset = new Date().getTimezoneOffset(); NÃO É PRECISO, POIS OS MÉTODOS getDate()... DESCONTAM O OFFSET DA TIMEZONE DO USUÁRIO AUTOMATICAMENTE
+        var utcTimeCreation = new Date(1000*(document.getElementById("data_criacao-invisivel").value));
+        // Multiplica-se por 1000, pois o timeStamp do PHP é em segundos e do JS é em mili segundos
+        var year = utcTimeCreation.getFullYear();
+        var month = utcTimeCreation.getMonth() + 1; // ?
+        var day = utcTimeCreation.getDate();
+        var hour = utcTimeCreation.getHours();
+        var min = utcTimeCreation.getMinutes();
+        min = (min<10) ? '0'+min : min; // ... às 10:08
+        // Formatando a data de criação
+        var timeStampCreation = document.getElementById("data_criacao-invisivel").value;
+        var dummyDate = new Date(); // Não pode ser mais utilizado depois do setHours()
+        var msDesdeMeiaNoite = dummyDate.getTime() - dummyDate.setHours(0,0,0,0); // JS em milisegundos / PHP em segundos
+        var msDesdeMeiaNoiteOntem = msDesdeMeiaNoite + 86400000;
+        var dateNow = new Date();
+        var difTimeStamp = dateNow.getTime() - (timeStampCreation*1000); // 
+        //console.log('timeStamp agora JS = ' + dateNow.getTime());
+        //console.log('timeStamp criação PHP*1000 = ' + timeStampCreation*1000);
+        var dataCriacao = 'à um tempo atrás...';
+        if (difTimeStamp<60000) {
+            dataCriacao = 'Agora mesmo';
+        } else if (difTimeStamp<3600000) {
+            var minutosInt = Math.floor(difTimeStamp/60000);
+            var minutosStr = minutosInt.toString();
+            dataCriacao = 'à ' + minutosStr + 'min';
+        } else if (difTimeStamp<msDesdeMeiaNoite) {
+            dataCriacao = 'Hoje às ' + hour + ':' + min;
+        } else if (difTimeStamp<msDesdeMeiaNoiteOntem) {
+            dataCriacao = 'Ontém às ' + hour + ':' + min;
+        } else {
+            dataCriacao = 'Em ' + day + '/' + month + '/' + year + ' às ' + hour + ':' + min;
+        }
+        //var dataCriacao = day+'/'+month+'/'+year+' às '+hour+':'+min; (Forma básica, não apagar)
+        document.getElementById("data-criacao").innerHTML = dataCriacao;
+        
+        // DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+        
         document.getElementById("c2").classList.add('recuo_c2');
         document.getElementById("c3").style.display = 'block';
         document.getElementById("status_edit_container").style.display = 'none';
@@ -604,7 +739,7 @@
             document.getElementById("convite_nome_convidado").innerHTML = '';
             document.getElementById("convite_msg").value = '';
             //#################################################################################
-            // ACRESCENTAR MENSAGEM DE CONFIRMAÇÃO (SNACKBAR?) .. PESQUISAR
+            window.alert('O seu convite foi enviado com sucesso.'); // DDDDDDDDDDDDDDDDDDD NOVO
             //#################################################################################
         }).catch(function(error) {
             console.error('Dev Msg: Erro ao enviar o convite', error);
@@ -621,9 +756,13 @@
         document.getElementById("convite_msg").value = '';
     };
     // Função para mostrar a foto de perfil em uma div separada com tamanho maior
-    function ampliarImgPerfil(picUrl) {
+    function ampliarImgPerfil(picUrl, name, msgStatus) {
         // Acrescentando a imagem na div
         document.getElementById("img_perfil_ampliada").style.backgroundImage = 'url(' + picUrl + ')';
+        // Acrescentando o nome
+        document.getElementById("nome_perfil").innerHTML = name;
+        // Acrescentando a msg de status
+        document.getElementById("msg_status_perfil").innerHTML = msgStatus;
         // mostrando a div container
         document.getElementById("img_perfil_ampliada_container").style.display = 'block';
     };

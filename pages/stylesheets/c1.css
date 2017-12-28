@@ -7,32 +7,42 @@
 /*******************************************************************************************************/
 .c1 .lista_espacos_container {
     width: 100%;
-    height: calc(100% - 89px); /* PROVISÓRIO: Enquanto o cabeçálio está dentro da lista*/
+    height: calc(100% - 89px);
     width: 100%;
     overflow-y: auto;
 }
 /* Texto sobre a lista de espaços (tasc tasc...) */
 .lista_espacos_container .cabecalio {
-    margin: 31px 0 0 4px; /* CORRIGIR: O cabeçálio deve ficar fora da div da lista */
-    color: #999;
+    margin: 31px 0 0 4px; /* LLLLLLLLLLLLLLL F5 Retirar o comentário *//* CORRIGIR: O cabeçálio deve ficar fora da div da lista */
     font-size: 13px;
+    color: #f9f9f9; /* LLLLLLLLLLLLLLLLLL F5 */ /* Layout responsivo */
 }
 .lista_espacos_container .item_lista {
     display: block;
-    padding: 18px 4px 10px 10px;
-    background: #efefef;
+    padding: 18px 4px 18px 10px; /* LLLLLLLLLLLLLLLLLLL F5 */
+    /*background: #efefef;*/ /* LLLLLLLLLLLLLLLLLLL OUT */
     border-bottom: 1px solid #e6e6e6;
-    border-radius: 4px;
-    color: #5d677a;
+    /*border-radius: 4px; /* LLLLLLLLLLLLLLLLLLL OUT */
 }
 .lista_espacos_container .item_lista:hover{
-    background: #e8e8e8;
+    background: #efefef;
     color: #3e4859;
+}
+.lista_espacos_container .item_lista .titulo { /* LLLLLLLLLLLLLLLLLLL NOVO */
+    color: #757575;/*#5d677a;*/ /* LLLLLLLLLLLLLLLLLLL F5 */
+    font-size: 16px; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    font-weight: bold; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    /* Para que o título não cresça indefinidamente para a direita*/
+    max-width: 70%; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    overflow: hidden; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    white-space: nowrap; /* LLLLLLLLLLLLLLLLLLL NOVO */
+    text-overflow: ellipsis; /* LLLLLLLLLLLLLLLLLLL NOVO */
 }
 /* Número de novas mensagens nas conversas listadas */
 .numero_msgs_espaco_listado {
+    display: none;
     float: right;
-    margin: -18px 0 0 8px;
+    margin: -22px 34px 0 8px; /* LLLLLLLLLLLLLLLLLLL F5 */
     border: 1px solid transparent; /* Gambi para não sobrepor no chrome */
 }
 .numero_msgs_espaco_listado .icone {
@@ -53,7 +63,7 @@
 /* Número de outros usuários nas conversas listadas */
 .numero_usuarios_espaco_listado {
     float: right;
-    margin: -18px 0 0 8px;
+    margin: -22px 0 0 8px; /* LLLLLLLLLLLLLLLLLLL F5 */
     border: 1px solid transparent; /* Gambi para não sobrepor no chrome */
 }
 .numero_usuarios_espaco_listado .icone {
@@ -75,3 +85,9 @@
 /*******************************************************************************************************/
 /*                                   AJUSTES DO LAYOUT RESPONSIVO                                      */
 /*******************************************************************************************************/
+
+@media screen and (min-width: 640px) { /* LLLLLLLLLLLLLLLLL NOVO */
+    .lista_espacos_container .cabecalio {
+        color: #999; /* LLLLLLLLLLLLLLLLLL F5 */ /* Layout responsivo */
+    }
+}
