@@ -65,8 +65,7 @@
     // Iniciando o SDK do Firebase
     var config = {
         /* ESCONDER AS CHAVES PARA OS BACKUPS NO GITHUB */
-        //apiKey: "Ops! You fail...",
-        apiKey: "AIzaSyCMgLyuJrzW_mFobJR8Vy-yYcMi6i4n0hA",
+        apiKey: "Ops! You fail...",
         authDomain: "le16project.firebaseapp.com",
         databaseURL: "https://le16project.firebaseio.com",
         projectId: "le16project",

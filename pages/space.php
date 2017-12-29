@@ -197,7 +197,7 @@
         
         // Eventlisteners
         this.messageForm.addEventListener('submit', this.saveMessage.bind(this));
-        this.nomeEspaco.addEventListener('click', this.loadUsers.bind(this)); // Sem o ".bind(this)" o this.database e a função displayUserRow() não são reconhecidos
+        // MMMMMMMMMMMM this.nomeEspaco.addEventListener('click', this.loadUsers.bind(this)); // Sem o ".bind(this)" o this.database e a função displayUserRow() não são reconhecidos
         
         // Events for image upload. (TEMPORARIAMENTE REMOVIDO)
         /*
@@ -211,6 +211,8 @@
         // Carrega as 20 últimas mensagens que (se) que estiverem registradas na referencia firebase do espaço
         this.loadMessages();
         
+        this.loadUsers(); // MMMMMMMMMMM
+        
     }
       
     // Template para as mensagens do usuário
@@ -223,13 +225,16 @@
         '</div>';      
     // Template para as mensagens dos outros participantes do grupo
     MESSAGE_TEMPLATE_OTHERS =
-        '<div class="other_user_message_container">' +
-            '<div class="cabecalio">' +
-                '<div class="nome"></div>' +
-                '<div class="separador">&bullet;</div>' +
-                '<div class="horario"></div>' +
+        '<div class="other_user_general_container">' +
+            '<div class="other_user_pic_container"></div>' +
+            '<div class="other_user_message_container">' +
+                '<div class="cabecalio">' +
+                    '<div class="nome"></div>' +
+                    '<div class="separador">&bullet;</div>' +
+                    '<div class="horario"></div>' +
+                '</div>' +
+                '<div class="texto"></div>' +
             '</div>' +
-            '<div class="texto"></div>' +
         '</div>';
     // A loading image GIF
     LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif';
@@ -259,7 +264,7 @@
     le16space.prototype.displayMessage = function(key, uid, name, text, time, picUrl, imageUri) {
         // Pegando o fbid do usuário num campo invisível na userBar()
         var fbidUsuario = document.getElementById("fbid_invisivel_usuario").value; 
-        // Pegando o elemento da mensagem (cada mensagme tem uma chave única) se ela já existir
+        // Pegando o elemento da mensagem (cada mensagem tem uma chave única) se ela já existir (como?)
         var msgDiv = document.getElementById(key);
         // If an element for that message does not exists yet we create it.
         if (!msgDiv) {
@@ -270,17 +275,22 @@
                 msgDiv = container.firstChild;
                 msgDiv.setAttribute("id", key);
                 this.messageList.appendChild(msgDiv);
-            } else { // Se não é
+            } else { // Se não é (outros participantes da conversa)
                 var container = document.createElement("div");
                 container.innerHTML = MESSAGE_TEMPLATE_OTHERS;
                 msgDiv = container.firstChild;
                 msgDiv.setAttribute("id", key);
                 this.messageList.appendChild(msgDiv);
                 // Adicionando o nome registrado na mensagem
-                msgDiv.querySelector('.nome').textContent = name;
+                var otherUserFirebaseName = name;
+                var nFirstBlank = otherUserFirebaseName.search(" ");// Ver no sof: "Get substring before and after second space in a string via JavaScript?"
+                var otherUserFirstName = otherUserFirebaseName.substr(0,nFirstBlank);
+                msgDiv.querySelector('.nome').textContent = otherUserFirstName;
+                // Adicionando a imagem de perfil
+                msgDiv.querySelector('.other_user_pic_container').style.backgroundImage = 'url(' + picUrl + ')';
             }
         }
-        // Se a mensagem tem uma imagem de perfil registrada (REMOVIDO)
+        // Se a mensagem tem uma imagem de perfil registrada (REMOVIDO: Apenas as msgs de outros usuários tem img de perfil)
         //if (picUrl) {
             //msgDiv.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
         //}
@@ -334,11 +344,8 @@
                 uid: currentUser.uid,
                 name: currentUser.displayName,
                 text: this.messageInput.value,
+                photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png',
                 time: ts
-                //photoUrl: currentUser.photoURL || 'backgrounds/profile_placeholder.png' (REMOVIDO)
-                /*
-                 * Adicionar o horário de envio
-                 */
             }).then(function() {
                 
                 // TRANSACTION (para contar mensagens)
@@ -431,7 +438,7 @@
         // Pegando referência do espaço no firebase DB
         this.userListRef = this.database.ref('spaces/space-'+spaceId);
         // Make sure we remove all previous listeners.
-        //this.userListRef.off(); // spaceRef DDDDDDDDDDDDDDDDDDDD TEMP
+        this.userListRef.off(); // spaceRef DDDDDDDDDDDDDDDDDDDD TEMP
         // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
         // Número de usuários ao carregar a página (servidor)
         var nUsuarios = document.getElementById('numero_usuarios_inicial').value;
@@ -457,8 +464,13 @@
                 document.getElementById("catraca_container").style.display = 'block';
                 setTimeout(function(){
                     document.getElementById("catraca_container").style.opacity = "0";
+                    //document.getElementById("catraca_container").style.display = 'none'; Aqui sobrepõe o fade out
+                }, 2000); // Tempo de exbição da notificação de entrada SEM O FADE OUT
+                // MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+                setTimeout(function(){
+                    //document.getElementById("catraca_container").style.opacity = "0";
                     document.getElementById("catraca_container").style.display = 'none';
-                }, 2000); // Tempo de exbição da notificação de entrada
+                }, 3000); // Tempo de exbição da notificação de entrada COM O FADE OUT
                 
             }
             // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
@@ -519,7 +531,6 @@
         }.bind(this);
         this.userListRef.on('child_removed', removeUserRow);
         // LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
-        // INCLUIR O LISTENER DE REMOVE AQUI, COM A ATUALIZAÇÃO DO NÚMERO DE USUÁRIOS E A CATRACA DE SAÍDA
     };
     // Template para a linha do usuário na lista
     USER_ROW_TEMPLATE =
@@ -642,13 +653,13 @@
         var difTimeStamp = dateNow.getTime() - (timeStampCreation*1000); // 
         //console.log('timeStamp agora JS = ' + dateNow.getTime());
         //console.log('timeStamp criação PHP*1000 = ' + timeStampCreation*1000);
-        var dataCriacao = 'à um tempo atrás...';
+        var dataCriacao = 'há um tempo atrás...';
         if (difTimeStamp<60000) {
             dataCriacao = 'Agora mesmo';
         } else if (difTimeStamp<3600000) {
             var minutosInt = Math.floor(difTimeStamp/60000);
             var minutosStr = minutosInt.toString();
-            dataCriacao = 'à ' + minutosStr + 'min';
+            dataCriacao = 'há ' + minutosStr + 'min';
         } else if (difTimeStamp<msDesdeMeiaNoite) {
             dataCriacao = 'Hoje às ' + hour + ':' + min;
         } else if (difTimeStamp<msDesdeMeiaNoiteOntem) {

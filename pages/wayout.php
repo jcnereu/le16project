@@ -8,7 +8,9 @@
         <link type="text/css" rel="stylesheet" href="stylesheets/home.css">
     </head>
     <body>
-        <h2>Ops! Sua sessão expirou...</h2>
+        <h2>Ops! Sua sessão expirou. Estamos providenciando outra.</h2>
+        <br>
+        <p>Enquanto isso, complete a frase: All you need is ...</p>
         <!-- ********************************** Carregando o Firebase ************************************ -->
         <script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
         <script>
@@ -40,9 +42,39 @@
             le16wayout.prototype.onAuthStateChanged = function(user) { 
                 if (user) { // User is signed in!
                     // Sign out of Firebase.
-                    this.auth.signOut();
-                    //redireciona para a home
-                    window.location.assign("../index.php");
+                    // MMMMMMMM this.auth.signOut();
+                    //redireciona para a index
+                    // MMMMMMMM window.location.assign("../index.php");
+                    
+                    // MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+                    
+                    // Fluxo de Login
+                    var userFirebaseName = user.displayName;
+                    var userFirebaseId = user.uid;
+                    // AJAX para verificar se o usuário já é cadastrado (se não é faz o cadastro), criar a sessão (com o identificador do firebase) e redirecionar para a home
+                    var loginPostman = new XMLHttpRequest();
+                    loginPostman.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            // Se o usuário foi encontrado e a sessão foi criada
+                            if (this.responseText==='true') {
+                                //redireciona para a home
+                                window.location.assign("home.php");
+                            // Se o usuário foi cadastrado e sessão criada (PRIMEIRO ACESSO DO USUÁRIO)
+                            } else if (this.responseText==='firstTrue') {
+                                // Na wayout essa condição nunca vai acontecer
+                            } else {
+                                // Recarregando a página para tentar de novo
+                                window.location.reload(); // Muito simples
+                            }
+                        }
+                    };
+                    form = new FormData(); // Cria um objeto do tipo formulário com codificação multipart/form-data (permite enviar arquivos)
+                    form.append('userFirebaseName',userFirebaseName);// Adiciona a variável 'userFirebaseName' como se um campo type=text (nesse caso) tivesse sido preenchido com a variável
+                    form.append('userFirebaseId',userFirebaseId);
+                    loginPostman.open("POST", '../config/ajax/registerAndSession.php', true); // Chama o script para tratar os dados do formulário
+                    loginPostman.send(form); // Equivalente a clicar em um submit e enviar o formulário
+                    
+                    // MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
                 } else { // User is signed out!
                     //redireciona para a home
                     window.location.assign("../index.php");

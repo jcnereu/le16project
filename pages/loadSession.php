@@ -22,7 +22,7 @@ if(!empty($_SESSION['dadosUsuario'])){//Se chegou na home através de login (Por
      * o mesmo está logado no Firebase. Nessa página intermediária, que será exibida por uma fração de segundos
      * podemos aproveitar e por uma mensagem bem humorada, pq não dá pra evitar esse passo mesmo.
      */
-    header('Location: wayout.php');//Redireciona para uam página intermediária que faz signout do Firebase e redireciona para a index ao carregar
+    header('Location: wayout.php');//Redireciona para uam página intermediária que (faz signout do Firebase e redireciona para a index ao carregar) cria outra sessão e redireciona para a home
     //header('Location: ../index.php?exe=noSession');//Volta para a index com um flag para fazer singout do Firebase (Não dá certo)
 }
 //Verifica a url e se estiver escrito 'logout' armazena o conteúdo (booleano) na variável logout
